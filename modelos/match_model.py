@@ -23,10 +23,16 @@ FEATURE_COLS = [
     "home_form_pts_10", "home_avg_gf_10", "home_avg_ga_10", "home_win_rate_10",
     "away_form_pts_10", "away_avg_gf_10", "away_avg_ga_10", "away_win_rate_10",
     "h2h_home_wins", "h2h_away_wins", "h2h_draws",
-    # ── Odds de mercado ──
+    # Odds de mercado
     "prob_h_mkt", "prob_d_mkt", "prob_a_mkt",
     "odds_draw_factor", "odds_home_away_ratio", "market_entropy",
 ]
+
+SEASON_WEIGHTS = {
+    2024: 4.0, 2023: 3.5, 2022: 3.0, 2021: 2.5, 2020: 2.0,
+    2019: 1.5, 2018: 1.2, 2017: 1.0, 2016: 0.8, 2015: 0.7,
+    2014: 0.5, 2013: 0.4, 2012: 0.3,
+}
 
 
 def add_derived(X_):
@@ -58,14 +64,19 @@ def add_derived(X_):
     X_["h2h_draw_rate"]       = X_["h2h_draws"] / total_h2h
     X_["h2h_decisividade"]    = (X_["h2h_home_wins"] + X_["h2h_away_wins"]) / total_h2h
     X_["position_similarity"] = 1 / (1 + np.abs(X_["position_diff"]))
-    # Diferença entre modelo e mercado
-    X_["elo_vs_mkt_h"]    = X_["elo_similarity"] - X_["prob_h_mkt"]
-    X_["elo_vs_mkt_a"]    = (1 - X_["elo_similarity"]) - X_["prob_a_mkt"]
+    X_["elo_vs_mkt_h"]        = X_["elo_similarity"] - X_["prob_h_mkt"]
+    X_["elo_vs_mkt_a"]        = (1 - X_["elo_similarity"]) - X_["prob_a_mkt"]
     return X_
 
 
-def train_binary(X_tr, y_tr, X_te, y_te, label, pos_weight=1.0):
-    sw = np.where(y_tr == 1, pos_weight, 1.0)
+def get_temporal_weights(seasons: pd.Series) -> np.ndarray:
+    return seasons.map(SEASON_WEIGHTS).fillna(0.3).values
+
+
+def train_binary(X_tr, y_tr, X_te, y_te, temporal_w, label, pos_weight=1.0):
+    class_w = np.where(y_tr == 1, pos_weight, 1.0)
+    sw      = class_w * temporal_w
+    sw      = sw / sw.mean()  # normalizar para média 1
 
     model = lgb.LGBMClassifier(
         n_estimators=300,
@@ -84,7 +95,7 @@ def train_binary(X_tr, y_tr, X_te, y_te, label, pos_weight=1.0):
     model.fit(X_tr, y_tr, sample_weight=sw)
 
     probs_raw = model.predict_proba(X_te)[:, 1]
-    iso = IsotonicRegression(out_of_bounds="clip")
+    iso       = IsotonicRegression(out_of_bounds="clip")
     iso.fit(probs_raw, y_te)
     probs_cal = iso.predict(probs_raw)
 
@@ -103,13 +114,12 @@ def train():
     if "result_x" in df.columns:
         df = df.rename(columns={"result_x": "result"})
 
-    # Jogos sem odds: preencher com medianas para não perder dados no treino
+    # Preencher odds ausentes com mediana (jogos sem odds ainda entram)
     odds_cols = ["prob_h_mkt", "prob_d_mkt", "prob_a_mkt",
                  "odds_draw_factor", "odds_home_away_ratio", "market_entropy"]
     for col in odds_cols:
         if col in df.columns:
-            median_val = df[col].median()
-            df[col] = df[col].fillna(median_val)
+            df[col] = df[col].fillna(df[col].median())
 
     df = df.dropna(subset=FEATURE_COLS)
     df = df.sort_values("date").reset_index(drop=True)
@@ -121,54 +131,55 @@ def train():
     all_cols = list(X.columns)
     print(f"   Total features: {len(all_cols)}")
 
-    # ── Split temporal — treino 2023-2024, teste 2025-2026 ──
-    train_mask = df["season"].isin(range(2012, 2024))
+    # ── Split temporal — treino 2012-2024, teste 2025-2026 ──
+    train_mask = df["season"].isin(range(2012, 2025))
     test_mask  = df["season"].isin([2025, 2026])
 
-    X_train, X_test = X[train_mask], X[test_mask]
-    y_train_raw     = df["result"][train_mask]
-    y_test_raw      = df["result"][test_mask].values
+    X_train, X_test  = X[train_mask], X[test_mask]
+    y_train_raw      = df["result"][train_mask]
+    y_test_raw       = df["result"][test_mask].values
+    seasons_train    = df["season"][train_mask]
+    temporal_w_train = get_temporal_weights(seasons_train)
 
-    print(f"\n   Treino: {len(X_train)} jogos (2023-2024)")
+    print(f"\n   Treino: {len(X_train)} jogos (2012-2024)")
     print(f"   Teste:  {len(X_test)} jogos (2025-2026)")
     print(f"   Dist treino: {pd.Series(y_train_raw).value_counts().to_dict()}")
     print(f"   Dist teste:  {pd.Series(y_test_raw).value_counts().to_dict()}")
 
-    # Pesos por classe
-    freq = pd.Series(y_train_raw).value_counts(normalize=True)
-    pw_h = 1.0
-    pw_d = (freq["H"] / freq["D"]) * 1.5
-    pw_a = freq["H"] / freq["A"]
-    print(f"\n   Pesos — H:{pw_h:.2f} | D:{pw_d:.2f} | A:{pw_a:.2f}")
+    # Pesos de classe baseados em temporadas recentes
+    recent = df[df["season"].isin([2022, 2023, 2024])]["result"]
+    freq   = recent.value_counts(normalize=True)
+    pw_h   = 1.0
+    pw_d   = (freq["H"] / freq["D"]) * 1.5
+    pw_a   = freq["H"] / freq["A"]
+    print(f"\n   Pesos classe — H:{pw_h:.2f} | D:{pw_d:.2f} | A:{pw_a:.2f}")
+    print(f"   Peso temporal — 2024={SEASON_WEIGHTS[2024]}x | 2012={SEASON_WEIGHTS[2012]}x")
 
     # ── Cross-validação temporal ──
     tscv = TimeSeriesSplit(n_splits=5)
     cv_scores = []
     print("\n🕐 Cross-validação temporal:")
     for fold, (tr_idx, val_idx) in enumerate(tscv.split(X_train), 1):
-        Xtr, Xval = X_train.iloc[tr_idx], X_train.iloc[val_idx]
-        ytr_raw   = y_train_raw.iloc[tr_idx]
-        yval_raw  = y_train_raw.iloc[val_idx]
+        Xtr, Xval    = X_train.iloc[tr_idx], X_train.iloc[val_idx]
+        ytr_raw      = y_train_raw.iloc[tr_idx]
+        yval_raw     = y_train_raw.iloc[val_idx]
+        seas_tr      = seasons_train.iloc[tr_idx]
+        tw           = get_temporal_weights(seas_tr)
 
-        mh = lgb.LGBMClassifier(n_estimators=200, max_depth=4, learning_rate=0.03,
-             num_leaves=15, subsample=0.8, colsample_bytree=0.8,
-             min_child_samples=20, reg_alpha=0.3, reg_lambda=0.3,
-             random_state=42, verbose=-1, n_jobs=-1)
-        md = lgb.LGBMClassifier(n_estimators=200, max_depth=4, learning_rate=0.03,
-             num_leaves=15, subsample=0.8, colsample_bytree=0.8,
-             min_child_samples=20, reg_alpha=0.3, reg_lambda=0.3,
-             random_state=42, verbose=-1, n_jobs=-1)
-        ma = lgb.LGBMClassifier(n_estimators=200, max_depth=4, learning_rate=0.03,
-             num_leaves=15, subsample=0.8, colsample_bytree=0.8,
-             min_child_samples=20, reg_alpha=0.3, reg_lambda=0.3,
-             random_state=42, verbose=-1, n_jobs=-1)
+        def fold_fit(cls, pw):
+            cw = np.where(ytr_raw == cls, pw, 1.0)
+            sw = cw * tw; sw = sw / sw.mean()
+            m  = lgb.LGBMClassifier(
+                n_estimators=200, max_depth=4, learning_rate=0.03,
+                num_leaves=15, subsample=0.8, colsample_bytree=0.8,
+                min_child_samples=20, reg_alpha=0.3, reg_lambda=0.3,
+                random_state=42, verbose=-1, n_jobs=-1)
+            m.fit(Xtr, (ytr_raw == cls).astype(int), sample_weight=sw)
+            return m
 
-        mh.fit(Xtr, (ytr_raw == "H").astype(int),
-               sample_weight=np.where(ytr_raw == "H", pw_h, 1.0))
-        md.fit(Xtr, (ytr_raw == "D").astype(int),
-               sample_weight=np.where(ytr_raw == "D", pw_d, 1.0))
-        ma.fit(Xtr, (ytr_raw == "A").astype(int),
-               sample_weight=np.where(ytr_raw == "A", pw_a, 1.0))
+        mh = fold_fit("H", pw_h)
+        md = fold_fit("D", pw_d)
+        ma = fold_fit("A", pw_a)
 
         ph  = mh.predict_proba(Xval)[:, 1]
         pd_ = md.predict_proba(Xval)[:, 1]
@@ -188,21 +199,21 @@ def train():
     print(f"   Média CV: {np.mean(cv_scores):.2%} ± {np.std(cv_scores):.2%}")
 
     # ── Treinar modelos finais ──
-    print("\n🔧 Treinando 3 modelos binários finais...")
+    print("\n🔧 Treinando 3 modelos binários finais com peso temporal...")
     model_h, cal_h = train_binary(
         X_train, (y_train_raw == "H").astype(int),
         X_test,  (y_test_raw  == "H").astype(int),
-        "H", pw_h
+        temporal_w_train, "H", pw_h
     )
     model_d, cal_d = train_binary(
         X_train, (y_train_raw == "D").astype(int),
         X_test,  (y_test_raw  == "D").astype(int),
-        "D", pw_d
+        temporal_w_train, "D", pw_d
     )
     model_a, cal_a = train_binary(
         X_train, (y_train_raw == "A").astype(int),
         X_test,  (y_test_raw  == "A").astype(int),
-        "A", pw_a
+        temporal_w_train, "A", pw_a
     )
 
     # ── Combinar e avaliar ──
