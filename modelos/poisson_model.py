@@ -6,7 +6,7 @@ import joblib
 from pathlib import Path
 
 DATA_PATH        = r"C:\PREDICTOR\REPO\scraping\data\processed\features.csv"
-POISSON_MODEL_PATH = r"C:\PREDICTOR\REPO\models\poisson_model.pkl"
+POISSON_MODEL_PATH = r"C:\PREDICTOR\REPO\modelos\poisson_model.pkl"
 
 GOAL_FEATURES = [
     "elo_diff", "home_elo", "away_elo",

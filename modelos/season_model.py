@@ -5,8 +5,8 @@ from pathlib import Path
 from joblib import Parallel, delayed
 import multiprocessing
 
-MODEL_PATH         = r"C:\PREDICTOR\REPO\models\match_model.pkl"
-POISSON_MODEL_PATH = r"C:\PREDICTOR\REPO\models\poisson_model.pkl"
+MODEL_PATH         = r"C:\PREDICTOR\REPO\modelos\match_model.pkl"
+POISSON_MODEL_PATH = r"C:\PREDICTOR\REPO\modelos\poisson_model.pkl"
 FEATURES_PATH      = r"C:\PREDICTOR\REPO\scraping\data\processed\features.csv"
 MATCHES_PATH       = r"C:\PREDICTOR\REPO\scraping\data\raw\matches.csv"
 MARKET_PATH        = r"C:\PREDICTOR\REPO\scraping\data\external\market_values.csv"
