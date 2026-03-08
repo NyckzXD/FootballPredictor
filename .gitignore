@@ -1,0 +1,22 @@
+# Ambiente virtual Python
+venv/
+env/
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Modelos treinados (se forem muito pesados, adicione)
+models/*.pkl
+models/*.h5
+
+# Sistemas operacionais
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/

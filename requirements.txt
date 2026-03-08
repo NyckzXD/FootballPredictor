@@ -1,0 +1,15 @@
+requests
+pandas
+numpy
+scikit-learn
+xgboost
+lightgbm
+beautifulsoup4
+selenium
+lxml
+tqdm
+matplotlib
+seaborn
+joblib
+python-dotenv
+cloudscraper
