@@ -1,47 +1,71 @@
-import requests
 import pandas as pd
 import time
-from bs4 import BeautifulSoup
 from pathlib import Path
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 
-# URLs do Brasileirão Série A no FBref
-# Formato: https://fbref.com/en/comps/24/YYYY/schedule/
-LEAGUE_ID = 24  # Brasileirão Série A
-SEASONS   = list(range(2012, 2025))  # FBref tem desde ~2012
+OUTPUT_PATH = r"C:\PREDICTOR\REPO\scraping\data\raw\matches_fbref.csv"
+LEAGUE_ID   = 24
+SEASONS     = list(range(2012, 2026))
 
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+
+def create_driver():
+    options = Options()
+    options.add_argument("--headless")           # sem abrir janela
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option("useAutomationExtension", False)
+    options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/120.0.0.0 Safari/537.36"
     )
-}
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=options
+    )
+    driver.execute_script(
+        "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+    )
+    return driver
 
-def get_season_matches(season: int) -> list:
-    url = f"https://fbref.com/en/comps/{LEAGUE_ID}/{season}/schedule/{season}-Serie-A-Scores-and-Fixtures"
-    
+
+def get_season_matches(driver, season: int) -> list:
+    url = (
+        f"https://fbref.com/en/comps/{LEAGUE_ID}/{season}"
+        f"/schedule/{season}-Serie-A-Scores-and-Fixtures"
+    )
     print(f"   Acessando: {url}")
-    
+
     try:
-        r = requests.get(url, headers=HEADERS, timeout=30)
-        if r.status_code != 200:
-            print(f"   ❌ Status {r.status_code}")
-            return []
+        driver.get(url)
+        # Esperar tabela carregar
+        WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.TAG_NAME, "tbody"))
+        )
+        time.sleep(2)
     except Exception as e:
-        print(f"   ❌ Erro: {e}")
+        print(f"   ❌ Timeout: {e}")
         return []
 
-    soup = BeautifulSoup(r.content, "lxml")
-    
-    # ID da tabela muda por temporada: sched_YYYY_24_1
+    soup   = BeautifulSoup(driver.page_source, "lxml")
+
+    # Tentar achar tabela de schedule
     table = soup.find("table", {"id": f"sched_{season}_24_1"})
     if not table:
-        # Fallback — qualquer tabela stats
-        table = soup.find("table", {"id": lambda x: x and "sched" in x})
+        table = soup.find("table", {"id": lambda x: x and "sched" in str(x)})
     if not table:
-        print(f"   ⚠️  Tabela não encontrada. IDs disponíveis:")
-        for t in soup.find_all("table"):
-            print(f"      {t.get('id')}")
+        print(f"   ⚠️  Tabela não encontrada para {season}")
+        tables = [t.get("id") for t in soup.find_all("table")]
+        print(f"   Tabelas disponíveis: {tables[:5]}")
         return []
 
     rows = []
@@ -49,15 +73,17 @@ def get_season_matches(season: int) -> list:
         if "thead" in (tr.get("class") or []):
             continue
 
-        data = {td.get("data-stat"): td.get_text(strip=True)
-                for td in tr.find_all(["td", "th"])}
+        data = {
+            td.get("data-stat"): td.get_text(strip=True)
+            for td in tr.find_all(["td", "th"])
+        }
 
         score = data.get("score", "")
         if not score or "–" not in score:
             continue
 
         try:
-            hg, ag = score.split("–")
+            hg, ag   = score.split("–")
             home_goals = int(hg.strip())
             away_goals = int(ag.strip())
         except ValueError:
@@ -87,14 +113,12 @@ def get_season_matches(season: int) -> list:
 
 
 def normalize_team(name: str) -> str:
-    """Normaliza nomes do FBref para padrão do projeto."""
     MAP = {
         "Atlético Mineiro":     "CA Mineiro",
         "Atletico Mineiro":     "CA Mineiro",
         "Corinthians":          "SC Corinthians Paulista",
         "Flamengo":             "CR Flamengo",
         "Vasco da Gama":        "CR Vasco da Gama",
-        "Vasco":                "CR Vasco da Gama",
         "Palmeiras":            "SE Palmeiras",
         "São Paulo":            "São Paulo FC",
         "Sao Paulo":            "São Paulo FC",
@@ -105,34 +129,24 @@ def normalize_team(name: str) -> str:
         "Gremio":               "Grêmio FBPA",
         "Santos":               "Santos FC",
         "Red Bull Bragantino":  "RB Bragantino",
-        "Bragantino":           "RB Bragantino",
         "Bahia":                "EC Bahia",
         "Cruzeiro":             "Cruzeiro EC",
         "Athletico Paranaense": "CA Paranaense",
-        "Athletico-PR":         "CA Paranaense",
         "América Mineiro":      "América FC",
-        "America Mineiro":      "América FC",
         "Ceará":                "Ceará SC",
-        "Ceara":                "Ceará SC",
         "Fortaleza":            "Fortaleza EC",
         "Goiás":                "Goiás EC",
-        "Goias":                "Goiás EC",
         "Coritiba":             "Coritiba FBC",
         "Chapecoense":          "Chapecoense AF",
         "Vitória":              "EC Vitória",
-        "Vitoria":              "EC Vitória",
         "Mirassol":             "Mirassol FC",
         "Remo":                 "Clube do Remo",
         "Cuiabá":               "Cuiabá EC",
-        "Cuiaba":               "Cuiabá EC",
         "Juventude":            "EC Juventude",
         "Sport Recife":         "Sport Club do Recife",
         "Avaí":                 "Avaí FC",
-        "Avai":                 "Avaí FC",
         "Criciúma":             "Criciúma EC",
-        "Criciuma":             "Criciúma EC",
         "Atlético Goianiense":  "Atlético Goianiense",
-        "Atletico Goianiense":  "Atlético Goianiense",
     }
     return MAP.get(name, name)
 
@@ -141,23 +155,28 @@ def collect_all():
     all_matches = []
     Path(OUTPUT_PATH).parent.mkdir(parents=True, exist_ok=True)
 
-    for season in SEASONS:
-        print(f"\n📅 Coletando {season}...")
-        matches = get_season_matches(season)
+    print("🌐 Iniciando Chrome...")
+    driver = create_driver()
 
-        if matches:
-            # Normalizar nomes
-            for m in matches:
-                m["home_team"] = normalize_team(m["home_team"])
-                m["away_team"] = normalize_team(m["away_team"])
+    try:
+        for season in SEASONS:
+            print(f"\n📅 Coletando {season}...")
+            matches = get_season_matches(driver, season)
 
-            print(f"   ✅ {len(matches)} jogos coletados")
-            all_matches.extend(matches)
-        else:
-            print(f"   ⚠️  Sem dados para {season}")
+            if matches:
+                for m in matches:
+                    m["home_team"] = normalize_team(m["home_team"])
+                    m["away_team"] = normalize_team(m["away_team"])
+                print(f"   ✅ {len(matches)} jogos coletados")
+                all_matches.extend(matches)
+            else:
+                print(f"   ⚠️  Sem dados para {season}")
 
-        # FBref bloqueia se requisições forem muito rápidas
-        time.sleep(4)
+            # Pausa entre temporadas para não ser bloqueado
+            time.sleep(5)
+
+    finally:
+        driver.quit()
 
     if not all_matches:
         print("❌ Nenhum jogo coletado!")
@@ -167,11 +186,7 @@ def collect_all():
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df = df.dropna(subset=["date", "home_team", "away_team"])
     df = df.sort_values("date").reset_index(drop=True)
-
-    # Gerar match_id único
     df["match_id"] = range(90000, 90000 + len(df))
-
-    # Extrair número da rodada
     df["matchday"] = pd.to_numeric(
         df["matchday"].astype(str).str.extract(r"(\d+)")[0],
         errors="coerce"
@@ -189,13 +204,15 @@ def collect_all():
 
 
 if __name__ == "__main__":
-    # Testar com uma temporada primeiro
     print("🧪 Testando com 2023...")
-    test = get_season_matches(2023)
+    driver = create_driver()
+    test   = get_season_matches(driver, 2023)
+    driver.quit()
+
     if test:
         print(f"✅ {len(test)} jogos encontrados!")
         print(f"   Exemplo: {test[0]}")
         print("\nIniciando coleta completa...")
         collect_all()
     else:
-        print("❌ Problema no scraping — verificar estrutura da página")
+        print("❌ Problema no scraping")
