@@ -8,7 +8,7 @@ import multiprocessing
 MODEL_PATH         = r"C:\PREDICTOR\REPO\modelos\match_model.pkl"
 POISSON_MODEL_PATH = r"C:\PREDICTOR\REPO\modelos\poisson_model.pkl"
 FEATURES_PATH      = r"C:\PREDICTOR\REPO\scraping\data\processed\features.csv"
-MATCHES_PATH       = r"C:\PREDICTOR\REPO\scraping\data\raw\matches.csv"
+MATCHES_PATH       = r"C:\PREDICTOR\REPO\scraping\data\raw\matches_final.csv"
 MARKET_PATH        = r"C:\PREDICTOR\REPO\scraping\data\external\market_values.csv"
 
 # ──────────────────────────────────────────────
@@ -389,6 +389,6 @@ if __name__ == "__main__":
     print(mc.to_string())
 
     # Salvar
-    out = r"C:\PREDICTOR\scraping\data\processed\simulacao_2026.csv"
+    out = r"C:\PREDICTOR\REPO\scraping\data\processed\simulacao_2026.csv"
     mc.to_csv(out, index=False)
     print(f"\n✅ Resultado salvo em {out}")
