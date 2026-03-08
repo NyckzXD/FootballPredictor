@@ -125,9 +125,16 @@ def merge():
     print("\n📂 Carregando features...")
     features = pd.read_csv(FEATURES_PATH)
     features["date"] = pd.to_datetime(features["date"], errors="coerce")
-    print(f"   {len(features)} jogos no features.csv")
+    
+    # Remover linhas com data nula antes do merge
+    before = len(features)
+    features = features.dropna(subset=["date", "home_team", "away_team"])
+    print(f"   {len(features)} jogos válidos (removidos {before - len(features)} com data nula)")
 
-    # Merge por data + times (tolerância de 3 dias)
+    # Garantir que teams não são nulos no odds também
+    odds_clean = odds_clean.dropna(subset=["date", "home_team", "away_team"])
+
+    # Merge por data + times
     features = features.sort_values("date").reset_index(drop=True)
     odds_clean = odds_clean.sort_values("date").reset_index(drop=True)
 
