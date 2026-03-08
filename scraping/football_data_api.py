@@ -2,8 +2,12 @@ import requests
 import pandas as pd
 import time
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
-API_KEY = "1229cd54e5744eb4bdd23fe36def04c8"  # Registre em football-data.org (gratuito)
+load_dotenv()
+
+API_KEY = os.getenv("DATA_API_KEY")  # Registre em football-data.org (gratuito)
 BASE_URL = "https://api.football-data.org/v4/"
 HEADERS = {"X-Auth-Token": API_KEY}
 

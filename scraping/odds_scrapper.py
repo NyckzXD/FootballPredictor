@@ -2,9 +2,13 @@ import requests
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Registre em https://the-odds-api.com (gratuito)
-API_KEY     = "281fe5e6a8fd622413137be70d66c8c0"
+API_KEY     = os.getenv("ODDS_API_KEY")
 BASE_URL    = "https://api.the-odds-api.com/v4"
 OUTPUT_PATH = r"C:\PREDICTOR\scraping\data\external\odds.csv"
 
