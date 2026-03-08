@@ -1,3 +1,9 @@
+import requests
+import pandas as pd
+import time
+from bs4 import BeautifulSoup
+from pathlib import Path
+
 # URLs do Brasileirão Série A no FBref
 # Formato: https://fbref.com/en/comps/24/YYYY/schedule/
 LEAGUE_ID = 24  # Brasileirão Série A
