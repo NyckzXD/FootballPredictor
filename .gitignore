@@ -20,3 +20,5 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+models
+trainmodels
