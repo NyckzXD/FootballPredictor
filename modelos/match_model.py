@@ -111,8 +111,8 @@ def train():
     print(f"   Total features: {len(all_cols)}")
 
     # Split temporal
-    train_mask = df["season"].isin([2023, 2024])
-    test_mask  = df["season"].isin([2025, 2026])
+    train_mask = df["season"].isin([2006, 2023])
+    test_mask  = df["season"].isin([2023, 2024, 2025, 2026])
     X_train, X_test = X[train_mask], X[test_mask]
     y_train_raw = df["result"][train_mask]
     y_test_raw  = df["result"][test_mask].values
