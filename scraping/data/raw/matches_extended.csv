@@ -1,0 +1,1141 @@
+match_id,date,season,matchday,status,home_team,away_team,home_goals,away_goals,home_ht,away_ht
+837992,2022-04-09 19:30:00+00:00,2022,Regular Season - 1,FINISHED,Fluminense,Santos,0,0,0,0
+837998,2022-04-09 22:00:00+00:00,2022,Regular Season - 1,FINISHED,Atletico Goianiense,Flamengo,1,1,0,0
+837994,2022-04-10 00:00:00+00:00,2022,Regular Season - 1,FINISHED,Palmeiras,Ceara,2,3,1,2
+838000,2022-04-10 14:00:00+00:00,2022,Regular Season - 1,FINISHED,Coritiba,Goias,3,0,1,0
+837995,2022-04-10 19:00:00+00:00,2022,Regular Season - 1,FINISHED,Botafogo,Corinthians,1,3,0,3
+837991,2022-04-10 19:00:00+00:00,2022,Regular Season - 1,FINISHED,Atletico-MG,Internacional,2,0,1,0
+837997,2022-04-10 21:00:00+00:00,2022,Regular Season - 1,FINISHED,Fortaleza EC,Cuiaba,0,1,0,1
+837999,2022-04-10 22:00:00+00:00,2022,Regular Season - 1,FINISHED,Avai,America Mineiro,1,0,0,0
+837993,2022-04-10 22:00:00+00:00,2022,Regular Season - 1,FINISHED,Sao Paulo,Atletico Paranaense,4,0,1,0
+837996,2022-04-11 23:00:00+00:00,2022,Regular Season - 1,FINISHED,Juventude,RB Bragantino,2,2,1,1
+838008,2022-04-16 19:30:00+00:00,2022,Regular Season - 2,FINISHED,Goias,Palmeiras,1,1,0,0
+838001,2022-04-16 22:00:00+00:00,2022,Regular Season - 2,FINISHED,America Mineiro,Juventude,4,1,2,0
+838004,2022-04-16 22:00:00+00:00,2022,Regular Season - 2,FINISHED,Corinthians,Avai,3,0,2,0
+838009,2022-04-17 00:00:00+00:00,2022,Regular Season - 2,FINISHED,Cuiaba,Fluminense,0,1,0,0
+838005,2022-04-17 14:00:00+00:00,2022,Regular Season - 2,FINISHED,Santos,Coritiba,2,1,2,1
+838002,2022-04-17 19:00:00+00:00,2022,Regular Season - 2,FINISHED,Flamengo,Sao Paulo,3,1,1,1
+838003,2022-04-17 21:00:00+00:00,2022,Regular Season - 2,FINISHED,RB Bragantino,Atletico Goianiense,4,0,3,0
+838010,2022-04-17 21:00:00+00:00,2022,Regular Season - 2,FINISHED,Atletico Paranaense,Atletico-MG,0,1,0,0
+838006,2022-04-17 21:00:00+00:00,2022,Regular Season - 2,FINISHED,Internacional,Fortaleza EC,2,1,1,1
+838007,2022-04-17 22:00:00+00:00,2022,Regular Season - 2,FINISHED,Ceara,Botafogo,1,3,1,1
+838022,2022-04-20 22:30:00+00:00,2022,Regular Season - 4,FINISHED,Flamengo,Palmeiras,0,0,0,0
+838020,2022-04-23 19:30:00+00:00,2022,Regular Season - 3,FINISHED,Atletico Paranaense,Flamengo,1,0,1,0
+838013,2022-04-23 19:30:00+00:00,2022,Regular Season - 3,FINISHED,RB Bragantino,Sao Paulo,1,1,1,0
+838014,2022-04-23 22:00:00+00:00,2022,Regular Season - 3,FINISHED,Palmeiras,Corinthians,3,0,2,0
+838012,2022-04-23 22:00:00+00:00,2022,Regular Season - 3,FINISHED,Fluminense,Internacional,0,1,0,0
+838011,2022-04-24 00:00:00+00:00,2022,Regular Season - 3,FINISHED,Atletico-MG,Coritiba,2,2,2,0
+838015,2022-04-24 19:00:00+00:00,2022,Regular Season - 3,FINISHED,Santos,America Mineiro,3,0,1,0
+838016,2022-04-24 21:00:00+00:00,2022,Regular Season - 3,FINISHED,Juventude,Cuiaba,0,1,0,0
+838018,2022-04-24 21:30:00+00:00,2022,Regular Season - 3,FINISHED,Atletico Goianiense,Botafogo,1,1,0,0
+838019,2022-04-25 23:00:00+00:00,2022,Regular Season - 3,FINISHED,Avai,Goias,3,2,1,0
+838021,2022-04-30 19:30:00+00:00,2022,Regular Season - 4,FINISHED,America Mineiro,Atletico Paranaense,1,0,0,0
+838027,2022-04-30 19:30:00+00:00,2022,Regular Season - 4,FINISHED,Ceara,RB Bragantino,0,1,0,1
+838028,2022-04-30 21:30:00+00:00,2022,Regular Season - 4,FINISHED,Goias,Atletico-MG,2,2,0,1
+838029,2022-04-30 22:00:00+00:00,2022,Regular Season - 4,FINISHED,Cuiaba,Atletico Goianiense,1,1,0,1
+838025,2022-05-01 14:00:00+00:00,2022,Regular Season - 4,FINISHED,Botafogo,Juventude,1,1,0,0
+838030,2022-05-01 19:00:00+00:00,2022,Regular Season - 4,FINISHED,Coritiba,Fluminense,3,2,0,2
+838024,2022-05-01 19:00:00+00:00,2022,Regular Season - 4,FINISHED,Corinthians,Fortaleza EC,1,0,0,0
+838026,2022-05-01 22:00:00+00:00,2022,Regular Season - 4,FINISHED,Internacional,Avai,0,0,0,0
+838023,2022-05-02 23:00:00+00:00,2022,Regular Season - 4,FINISHED,Sao Paulo,Santos,2,1,1,1
+838031,2022-05-07 19:30:00+00:00,2022,Regular Season - 5,FINISHED,Atletico-MG,America Mineiro,1,2,0,1
+838040,2022-05-07 23:30:00+00:00,2022,Regular Season - 5,FINISHED,Atletico Paranaense,Ceara,1,0,0,0
+838032,2022-05-08 14:00:00+00:00,2022,Regular Season - 5,FINISHED,Flamengo,Botafogo,0,1,0,0
+838034,2022-05-08 19:00:00+00:00,2022,Regular Season - 5,FINISHED,Palmeiras,Fluminense,1,1,0,0
+838038,2022-05-08 19:00:00+00:00,2022,Regular Season - 5,FINISHED,Atletico Goianiense,Goias,0,1,0,1
+838035,2022-05-08 21:00:00+00:00,2022,Regular Season - 5,FINISHED,Santos,Cuiaba,4,1,2,1
+838033,2022-05-08 21:00:00+00:00,2022,Regular Season - 5,FINISHED,RB Bragantino,Corinthians,0,1,0,0
+838036,2022-05-08 22:00:00+00:00,2022,Regular Season - 5,FINISHED,Juventude,Internacional,1,1,0,0
+838037,2022-05-08 22:00:00+00:00,2022,Regular Season - 5,FINISHED,Fortaleza EC,Sao Paulo,1,1,0,0
+838039,2022-05-09 23:00:00+00:00,2022,Regular Season - 5,FINISHED,Avai,Coritiba,2,1,0,0
+838053,2022-05-11 23:30:00+00:00,2022,Regular Season - 7,FINISHED,RB Bragantino,Atletico-MG,1,1,1,0
+838044,2022-05-14 19:30:00+00:00,2022,Regular Season - 6,FINISHED,Palmeiras,RB Bragantino,2,0,1,0
+838047,2022-05-14 19:30:00+00:00,2022,Regular Season - 6,FINISHED,Ceara,Flamengo,2,2,1,2
+838041,2022-05-14 22:00:00+00:00,2022,Regular Season - 6,FINISHED,Atletico-MG,Atletico Goianiense,2,0,1,0
+838046,2022-05-14 22:00:00+00:00,2022,Regular Season - 6,FINISHED,Internacional,Corinthians,2,2,2,1
+838042,2022-05-15 00:00:00+00:00,2022,Regular Season - 6,FINISHED,Fluminense,Atletico Paranaense,2,1,1,0
+838043,2022-05-15 19:00:00+00:00,2022,Regular Season - 6,FINISHED,Sao Paulo,Cuiaba,2,1,0,1
+838050,2022-05-15 20:30:00+00:00,2022,Regular Season - 6,FINISHED,Coritiba,America Mineiro,1,0,1,0
+838045,2022-05-15 21:00:00+00:00,2022,Regular Season - 6,FINISHED,Botafogo,Fortaleza EC,3,1,1,1
+838049,2022-05-15 21:00:00+00:00,2022,Regular Season - 6,FINISHED,Avai,Juventude,1,2,1,1
+838048,2022-05-15 22:00:00+00:00,2022,Regular Season - 6,FINISHED,Goias,Santos,1,0,1,0
+838058,2022-05-21 19:30:00+00:00,2022,Regular Season - 7,FINISHED,Atletico Goianiense,Coritiba,2,0,1,0
+838052,2022-05-21 19:30:00+00:00,2022,Regular Season - 7,FINISHED,Flamengo,Goias,1,0,1,0
+838055,2022-05-21 21:30:00+00:00,2022,Regular Season - 7,FINISHED,Santos,Ceara,0,0,0,0
+838056,2022-05-21 22:00:00+00:00,2022,Regular Season - 7,FINISHED,Juventude,Palmeiras,0,3,0,2
+838051,2022-05-22 00:00:00+00:00,2022,Regular Season - 7,FINISHED,America Mineiro,Botafogo,1,1,1,0
+838059,2022-05-22 00:00:00+00:00,2022,Regular Season - 7,FINISHED,Cuiaba,Internacional,1,1,0,0
+838054,2022-05-22 19:00:00+00:00,2022,Regular Season - 7,FINISHED,Corinthians,Sao Paulo,1,1,0,1
+838057,2022-05-22 19:00:00+00:00,2022,Regular Season - 7,FINISHED,Fortaleza EC,Fluminense,0,1,0,1
+838060,2022-05-22 22:00:00+00:00,2022,Regular Season - 7,FINISHED,Atletico Paranaense,Avai,2,1,2,0
+838068,2022-05-28 19:30:00+00:00,2022,Regular Season - 8,FINISHED,Goias,RB Bragantino,1,1,0,1
+838063,2022-05-28 22:00:00+00:00,2022,Regular Season - 8,FINISHED,Sao Paulo,Ceara,2,2,2,1
+838067,2022-05-28 23:30:00+00:00,2022,Regular Season - 8,FINISHED,Fortaleza EC,Juventude,1,1,0,0
+838065,2022-05-29 19:00:00+00:00,2022,Regular Season - 8,FINISHED,Santos,Palmeiras,0,1,0,0
+838070,2022-05-29 19:00:00+00:00,2022,Regular Season - 8,FINISHED,Coritiba,Botafogo,1,0,1,0
+838062,2022-05-29 21:00:00+00:00,2022,Regular Season - 8,FINISHED,Fluminense,Flamengo,1,2,1,1
+838064,2022-05-29 21:00:00+00:00,2022,Regular Season - 8,FINISHED,Corinthians,America Mineiro,1,1,0,0
+838069,2022-05-29 21:00:00+00:00,2022,Regular Season - 8,FINISHED,Cuiaba,Atletico Paranaense,0,1,0,0
+838061,2022-05-29 22:00:00+00:00,2022,Regular Season - 8,FINISHED,Atletico-MG,Avai,2,1,0,1
+838066,2022-05-30 23:00:00+00:00,2022,Regular Season - 8,FINISHED,Internacional,Atletico Goianiense,1,1,1,0
+838017,2022-06-01 23:30:00+00:00,2022,Regular Season - 3,FINISHED,Fortaleza EC,Ceara,0,1,0,1
+838071,2022-06-04 19:30:00+00:00,2022,Regular Season - 9,FINISHED,America Mineiro,Cuiaba,2,1,1,1
+838077,2022-06-04 22:00:00+00:00,2022,Regular Season - 9,FINISHED,Ceara,Coritiba,1,1,1,0
+838080,2022-06-04 22:00:00+00:00,2022,Regular Season - 9,FINISHED,Atletico Paranaense,Santos,2,2,1,1
+838079,2022-06-04 22:00:00+00:00,2022,Regular Season - 9,FINISHED,Avai,Sao Paulo,1,1,0,1
+838078,2022-06-04 23:30:00+00:00,2022,Regular Season - 9,FINISHED,Atletico Goianiense,Corinthians,0,1,0,1
+838076,2022-06-05 14:00:00+00:00,2022,Regular Season - 9,FINISHED,Juventude,Fluminense,1,0,1,0
+838074,2022-06-05 19:00:00+00:00,2022,Regular Season - 9,FINISHED,Palmeiras,Atletico-MG,0,0,0,0
+838072,2022-06-05 19:00:00+00:00,2022,Regular Season - 9,FINISHED,Flamengo,Fortaleza EC,1,2,1,1
+838073,2022-06-05 22:00:00+00:00,2022,Regular Season - 9,FINISHED,RB Bragantino,Internacional,0,2,0,0
+838075,2022-06-06 23:00:00+00:00,2022,Regular Season - 9,FINISHED,Botafogo,Goias,1,2,1,0
+838089,2022-06-08 00:30:00+00:00,2022,Regular Season - 10,FINISHED,Cuiaba,Corinthians,1,0,1,0
+838081,2022-06-08 22:00:00+00:00,2022,Regular Season - 10,FINISHED,America Mineiro,Ceara,0,2,0,1
+838086,2022-06-08 22:00:00+00:00,2022,Regular Season - 10,FINISHED,Juventude,Atletico Paranaense,1,3,1,1
+838088,2022-06-08 23:30:00+00:00,2022,Regular Season - 10,FINISHED,Atletico Goianiense,Avai,2,1,1,1
+838083,2022-06-08 23:30:00+00:00,2022,Regular Season - 10,FINISHED,RB Bragantino,Flamengo,1,0,1,0
+838082,2022-06-09 00:30:00+00:00,2022,Regular Season - 10,FINISHED,Fluminense,Atletico-MG,5,3,3,2
+838085,2022-06-09 00:30:00+00:00,2022,Regular Season - 10,FINISHED,Santos,Internacional,1,1,0,0
+838084,2022-06-09 22:00:00+00:00,2022,Regular Season - 10,FINISHED,Palmeiras,Botafogo,4,0,3,0
+838087,2022-06-09 23:00:00+00:00,2022,Regular Season - 10,FINISHED,Fortaleza EC,Goias,1,1,1,0
+838090,2022-06-09 23:00:00+00:00,2022,Regular Season - 10,FINISHED,Coritiba,Sao Paulo,1,1,0,1
+838094,2022-06-11 19:30:00+00:00,2022,Regular Season - 11,FINISHED,Corinthians,Juventude,2,0,1,0
+838092,2022-06-11 22:00:00+00:00,2022,Regular Season - 11,FINISHED,Fluminense,Atletico Goianiense,0,2,0,2
+838091,2022-06-11 22:00:00+00:00,2022,Regular Season - 11,FINISHED,Atletico-MG,Santos,1,1,1,0
+838099,2022-06-11 22:00:00+00:00,2022,Regular Season - 11,FINISHED,Cuiaba,RB Bragantino,1,1,1,1
+838096,2022-06-12 00:00:00+00:00,2022,Regular Season - 11,FINISHED,Internacional,Flamengo,3,1,2,0
+838093,2022-06-12 19:00:00+00:00,2022,Regular Season - 11,FINISHED,Sao Paulo,America Mineiro,1,0,1,0
+838098,2022-06-12 19:00:00+00:00,2022,Regular Season - 11,FINISHED,Goias,Ceara,1,1,0,1
+838100,2022-06-12 21:00:00+00:00,2022,Regular Season - 11,FINISHED,Coritiba,Palmeiras,0,2,0,1
+838097,2022-06-12 22:00:00+00:00,2022,Regular Season - 11,FINISHED,Fortaleza EC,Atletico Paranaense,0,0,0,0
+838095,2022-06-13 22:00:00+00:00,2022,Regular Season - 11,FINISHED,Botafogo,Avai,0,1,0,1
+838106,2022-06-15 00:30:00+00:00,2022,Regular Season - 12,FINISHED,Juventude,Santos,1,2,1,0
+838107,2022-06-15 22:00:00+00:00,2022,Regular Season - 12,FINISHED,Ceara,Atletico-MG,0,0,0,0
+838103,2022-06-15 22:00:00+00:00,2022,Regular Season - 12,FINISHED,RB Bragantino,Coritiba,4,2,3,0
+838102,2022-06-15 23:30:00+00:00,2022,Regular Season - 12,FINISHED,Flamengo,Cuiaba,2,0,1,0
+838108,2022-06-15 23:30:00+00:00,2022,Regular Season - 12,FINISHED,Goias,Internacional,1,2,1,1
+838110,2022-06-16 00:30:00+00:00,2022,Regular Season - 12,FINISHED,Atletico Paranaense,Corinthians,1,1,0,1
+838101,2022-06-16 00:30:00+00:00,2022,Regular Season - 12,FINISHED,America Mineiro,Fluminense,0,0,0,0
+838105,2022-06-16 19:00:00+00:00,2022,Regular Season - 12,FINISHED,Botafogo,Sao Paulo,1,0,0,0
+838104,2022-06-16 21:00:00+00:00,2022,Regular Season - 12,FINISHED,Palmeiras,Atletico Goianiense,4,2,4,1
+838109,2022-06-16 22:00:00+00:00,2022,Regular Season - 12,FINISHED,Avai,Fortaleza EC,3,2,2,1
+838119,2022-06-18 22:00:00+00:00,2022,Regular Season - 13,FINISHED,Cuiaba,Ceara,0,0,0,0
+838115,2022-06-19 00:00:00+00:00,2022,Regular Season - 13,FINISHED,Santos,RB Bragantino,2,2,2,1
+838111,2022-06-19 19:00:00+00:00,2022,Regular Season - 13,FINISHED,Atletico-MG,Flamengo,2,0,1,0
+838114,2022-06-19 19:00:00+00:00,2022,Regular Season - 13,FINISHED,Corinthians,Goias,1,0,1,0
+838120,2022-06-19 19:00:00+00:00,2022,Regular Season - 13,FINISHED,Coritiba,Atletico Paranaense,0,1,0,0
+838117,2022-06-19 21:00:00+00:00,2022,Regular Season - 13,FINISHED,Fortaleza EC,America Mineiro,1,0,1,0
+838116,2022-06-19 21:00:00+00:00,2022,Regular Season - 13,FINISHED,Internacional,Botafogo,2,3,2,1
+838118,2022-06-19 21:00:00+00:00,2022,Regular Season - 13,FINISHED,Atletico Goianiense,Juventude,3,1,0,1
+838112,2022-06-19 22:00:00+00:00,2022,Regular Season - 13,FINISHED,Fluminense,Avai,2,0,1,0
+838113,2022-06-20 23:00:00+00:00,2022,Regular Season - 13,FINISHED,Sao Paulo,Palmeiras,1,2,1,0
+838126,2022-06-25 00:30:00+00:00,2022,Regular Season - 14,FINISHED,Internacional,Coritiba,3,0,2,0
+838130,2022-06-25 19:30:00+00:00,2022,Regular Season - 14,FINISHED,Atletico Paranaense,RB Bragantino,4,2,3,0
+838122,2022-06-25 22:00:00+00:00,2022,Regular Season - 14,FINISHED,Flamengo,America Mineiro,3,0,1,0
+838124,2022-06-25 22:00:00+00:00,2022,Regular Season - 14,FINISHED,Corinthians,Santos,0,0,0,0
+838121,2022-06-26 00:00:00+00:00,2022,Regular Season - 14,FINISHED,Atletico-MG,Fortaleza EC,3,2,0,2
+838125,2022-06-26 19:00:00+00:00,2022,Regular Season - 14,FINISHED,Botafogo,Fluminense,0,1,0,0
+838129,2022-06-26 19:00:00+00:00,2022,Regular Season - 14,FINISHED,Avai,Palmeiras,2,2,1,0
+838123,2022-06-26 21:00:00+00:00,2022,Regular Season - 14,FINISHED,Sao Paulo,Juventude,0,0,0,0
+838127,2022-06-26 21:00:00+00:00,2022,Regular Season - 14,FINISHED,Ceara,Atletico Goianiense,1,1,0,1
+838128,2022-06-26 21:00:00+00:00,2022,Regular Season - 14,FINISHED,Goias,Cuiaba,1,0,0,0
+838136,2022-07-02 19:30:00+00:00,2022,Regular Season - 15,FINISHED,Juventude,Atletico-MG,1,2,0,1
+838132,2022-07-02 19:30:00+00:00,2022,Regular Season - 15,FINISHED,Fluminense,Corinthians,4,0,2,0
+838137,2022-07-02 22:00:00+00:00,2022,Regular Season - 15,FINISHED,Ceara,Internacional,1,1,1,1
+838135,2022-07-02 22:00:00+00:00,2022,Regular Season - 15,FINISHED,Santos,Flamengo,1,2,0,1
+838134,2022-07-03 00:00:00+00:00,2022,Regular Season - 15,FINISHED,Palmeiras,Atletico Paranaense,0,2,0,1
+838139,2022-07-03 14:00:00+00:00,2022,Regular Season - 15,FINISHED,Avai,Cuiaba,1,2,1,0
+838138,2022-07-03 19:00:00+00:00,2022,Regular Season - 15,FINISHED,Atletico Goianiense,Sao Paulo,1,2,1,1
+838131,2022-07-03 21:00:00+00:00,2022,Regular Season - 15,FINISHED,America Mineiro,Goias,1,0,0,0
+838140,2022-07-03 21:00:00+00:00,2022,Regular Season - 15,FINISHED,Coritiba,Fortaleza EC,2,1,1,0
+838133,2022-07-04 23:00:00+00:00,2022,Regular Season - 15,FINISHED,RB Bragantino,Botafogo,0,1,0,0
+838143,2022-07-09 19:30:00+00:00,2022,Regular Season - 16,FINISHED,RB Bragantino,Avai,4,0,0,0
+838142,2022-07-09 22:00:00+00:00,2022,Regular Season - 16,FINISHED,Fluminense,Ceara,2,1,1,0
+838148,2022-07-09 23:30:00+00:00,2022,Regular Season - 16,FINISHED,Goias,Atletico Paranaense,2,1,2,0
+838150,2022-07-10 14:00:00+00:00,2022,Regular Season - 16,FINISHED,Coritiba,Juventude,2,2,0,2
+838144,2022-07-10 19:00:00+00:00,2022,Regular Season - 16,FINISHED,Corinthians,Flamengo,1,0,0,0
+838145,2022-07-10 21:00:00+00:00,2022,Regular Season - 16,FINISHED,Santos,Atletico Goianiense,1,0,0,0
+838147,2022-07-10 21:00:00+00:00,2022,Regular Season - 16,FINISHED,Fortaleza EC,Palmeiras,0,0,0,0
+838141,2022-07-10 21:00:00+00:00,2022,Regular Season - 16,FINISHED,Atletico-MG,Sao Paulo,0,0,0,0
+838149,2022-07-10 22:00:00+00:00,2022,Regular Season - 16,FINISHED,Cuiaba,Botafogo,2,0,1,0
+838146,2022-07-11 23:00:00+00:00,2022,Regular Season - 16,FINISHED,Internacional,America Mineiro,1,0,0,0
+838160,2022-07-16 19:30:00+00:00,2022,Regular Season - 17,FINISHED,Atletico Paranaense,Internacional,0,0,0,0
+838152,2022-07-16 22:00:00+00:00,2022,Regular Season - 17,FINISHED,Flamengo,Coritiba,2,0,2,0
+838159,2022-07-16 22:00:00+00:00,2022,Regular Season - 17,FINISHED,Avai,Santos,1,0,1,0
+838157,2022-07-17 00:00:00+00:00,2022,Regular Season - 17,FINISHED,Ceara,Corinthians,3,1,2,1
+838156,2022-07-17 14:00:00+00:00,2022,Regular Season - 17,FINISHED,Juventude,Goias,0,0,0,0
+838153,2022-07-17 19:00:00+00:00,2022,Regular Season - 17,FINISHED,Sao Paulo,Fluminense,2,2,2,1
+838155,2022-07-17 21:00:00+00:00,2022,Regular Season - 17,FINISHED,Botafogo,Atletico-MG,0,1,0,0
+838158,2022-07-17 21:00:00+00:00,2022,Regular Season - 17,FINISHED,Atletico Goianiense,Fortaleza EC,0,1,0,0
+838151,2022-07-17 22:00:00+00:00,2022,Regular Season - 17,FINISHED,America Mineiro,RB Bragantino,0,3,0,3
+838154,2022-07-18 23:00:00+00:00,2022,Regular Season - 17,FINISHED,Palmeiras,Cuiaba,1,0,0,0
+838167,2022-07-20 00:30:00+00:00,2022,Regular Season - 18,FINISHED,Ceara,Avai,1,0,1,0
+838168,2022-07-20 22:00:00+00:00,2022,Regular Season - 18,FINISHED,Goias,Fluminense,2,3,1,1
+838163,2022-07-20 22:00:00+00:00,2022,Regular Season - 18,FINISHED,RB Bragantino,Fortaleza EC,2,1,1,0
+838170,2022-07-20 22:30:00+00:00,2022,Regular Season - 18,FINISHED,Atletico Paranaense,Atletico Goianiense,4,1,2,0
+838166,2022-07-20 23:30:00+00:00,2022,Regular Season - 18,FINISHED,Internacional,Sao Paulo,3,3,3,2
+838162,2022-07-20 23:30:00+00:00,2022,Regular Season - 18,FINISHED,Flamengo,Juventude,4,0,3,0
+838165,2022-07-21 00:30:00+00:00,2022,Regular Season - 18,FINISHED,Santos,Botafogo,2,0,1,0
+838164,2022-07-21 00:30:00+00:00,2022,Regular Season - 18,FINISHED,Corinthians,Coritiba,3,1,1,0
+838169,2022-07-21 22:00:00+00:00,2022,Regular Season - 18,FINISHED,Cuiaba,Atletico-MG,1,1,0,0
+838161,2022-07-21 23:00:00+00:00,2022,Regular Season - 18,FINISHED,America Mineiro,Palmeiras,0,1,0,0
+838173,2022-07-23 22:00:00+00:00,2022,Regular Season - 19,FINISHED,Sao Paulo,Goias,3,3,2,2
+838175,2022-07-24 00:00:00+00:00,2022,Regular Season - 19,FINISHED,Botafogo,Atletico Paranaense,2,0,1,0
+838179,2022-07-24 14:00:00+00:00,2022,Regular Season - 19,FINISHED,Avai,Flamengo,1,2,0,0
+838174,2022-07-24 19:00:00+00:00,2022,Regular Season - 19,FINISHED,Palmeiras,Internacional,2,1,1,0
+838172,2022-07-24 19:00:00+00:00,2022,Regular Season - 19,FINISHED,Fluminense,RB Bragantino,2,1,0,0
+838176,2022-07-24 19:00:00+00:00,2022,Regular Season - 19,FINISHED,Juventude,Ceara,1,0,0,0
+838171,2022-07-24 21:00:00+00:00,2022,Regular Season - 19,FINISHED,Atletico-MG,Corinthians,1,2,1,0
+838178,2022-07-24 21:00:00+00:00,2022,Regular Season - 19,FINISHED,Atletico Goianiense,America Mineiro,0,1,0,1
+838177,2022-07-24 22:00:00+00:00,2022,Regular Season - 19,FINISHED,Fortaleza EC,Santos,0,0,0,0
+838180,2022-07-25 23:00:00+00:00,2022,Regular Season - 19,FINISHED,Coritiba,Cuiaba,1,0,1,0
+838187,2022-07-30 19:30:00+00:00,2022,Regular Season - 20,FINISHED,Ceara,Palmeiras,1,2,0,2
+838188,2022-07-30 19:30:00+00:00,2022,Regular Season - 20,FINISHED,Goias,Coritiba,1,0,0,0
+838184,2022-07-30 22:00:00+00:00,2022,Regular Season - 20,FINISHED,Corinthians,Botafogo,1,0,1,0
+838182,2022-07-30 23:30:00+00:00,2022,Regular Season - 20,FINISHED,Flamengo,Atletico Goianiense,4,1,4,0
+838190,2022-07-31 19:00:00+00:00,2022,Regular Season - 20,FINISHED,Atletico Paranaense,Sao Paulo,1,0,0,0
+838186,2022-07-31 19:00:00+00:00,2022,Regular Season - 20,FINISHED,Internacional,Atletico-MG,3,0,3,0
+838189,2022-07-31 21:00:00+00:00,2022,Regular Season - 20,FINISHED,Cuiaba,Fortaleza EC,0,1,0,1
+838181,2022-07-31 21:00:00+00:00,2022,Regular Season - 20,FINISHED,America Mineiro,Avai,3,1,1,1
+838183,2022-07-31 22:00:00+00:00,2022,Regular Season - 20,FINISHED,RB Bragantino,Juventude,1,0,1,0
+838185,2022-08-01 23:00:00+00:00,2022,Regular Season - 20,FINISHED,Santos,Fluminense,2,2,1,0
+838195,2022-08-06 19:30:00+00:00,2022,Regular Season - 21,FINISHED,Botafogo,Ceara,1,1,1,0
+838196,2022-08-06 19:30:00+00:00,2022,Regular Season - 21,FINISHED,Juventude,America Mineiro,0,1,0,1
+838198,2022-08-06 22:00:00+00:00,2022,Regular Season - 21,FINISHED,Atletico Goianiense,RB Bragantino,2,1,0,0
+838199,2022-08-06 22:00:00+00:00,2022,Regular Season - 21,FINISHED,Avai,Corinthians,1,1,1,0
+838193,2022-08-06 23:30:00+00:00,2022,Regular Season - 21,FINISHED,Sao Paulo,Flamengo,0,2,0,1
+838194,2022-08-07 19:00:00+00:00,2022,Regular Season - 21,FINISHED,Palmeiras,Goias,3,0,2,0
+838192,2022-08-07 19:00:00+00:00,2022,Regular Season - 21,FINISHED,Fluminense,Cuiaba,1,0,1,0
+838197,2022-08-07 21:00:00+00:00,2022,Regular Season - 21,FINISHED,Fortaleza EC,Internacional,3,0,1,0
+838191,2022-08-07 22:00:00+00:00,2022,Regular Season - 21,FINISHED,Atletico-MG,Atletico Paranaense,2,3,1,0
+838200,2022-08-08 23:00:00+00:00,2022,Regular Season - 21,FINISHED,Coritiba,Santos,1,2,0,0
+838208,2022-08-13 19:30:00+00:00,2022,Regular Season - 22,FINISHED,Goias,Avai,1,1,0,1
+838204,2022-08-13 22:00:00+00:00,2022,Regular Season - 22,FINISHED,Corinthians,Palmeiras,0,1,0,0
+838209,2022-08-13 23:30:00+00:00,2022,Regular Season - 22,FINISHED,Cuiaba,Juventude,1,0,1,0
+838205,2022-08-14 00:00:00+00:00,2022,Regular Season - 22,FINISHED,Botafogo,Atletico Goianiense,0,0,0,0
+838210,2022-08-14 14:00:00+00:00,2022,Regular Season - 22,FINISHED,Coritiba,Atletico-MG,0,1,0,0
+838203,2022-08-14 19:00:00+00:00,2022,Regular Season - 22,FINISHED,Sao Paulo,RB Bragantino,3,0,1,0
+838202,2022-08-14 19:00:00+00:00,2022,Regular Season - 22,FINISHED,Flamengo,Atletico Paranaense,5,0,0,0
+838207,2022-08-14 19:00:00+00:00,2022,Regular Season - 22,FINISHED,Ceara,Fortaleza EC,0,1,0,1
+838201,2022-08-14 21:00:00+00:00,2022,Regular Season - 22,FINISHED,America Mineiro,Santos,1,0,1,0
+838206,2022-08-14 22:00:00+00:00,2022,Regular Season - 22,FINISHED,Internacional,Fluminense,3,0,1,0
+838211,2022-08-20 19:30:00+00:00,2022,Regular Season - 23,FINISHED,Atletico-MG,Goias,0,1,0,0
+838212,2022-08-20 22:00:00+00:00,2022,Regular Season - 23,FINISHED,Fluminense,Coritiba,5,2,2,0
+838216,2022-08-21 14:00:00+00:00,2022,Regular Season - 23,FINISHED,Juventude,Botafogo,2,2,1,0
+838214,2022-08-21 19:00:00+00:00,2022,Regular Season - 23,FINISHED,Palmeiras,Flamengo,1,1,0,1
+838220,2022-08-21 21:00:00+00:00,2022,Regular Season - 23,FINISHED,Atletico Paranaense,America Mineiro,1,1,1,0
+838218,2022-08-21 21:00:00+00:00,2022,Regular Season - 23,FINISHED,Atletico Goianiense,Cuiaba,1,1,1,0
+838217,2022-08-21 21:00:00+00:00,2022,Regular Season - 23,FINISHED,Fortaleza EC,Corinthians,1,0,0,0
+838213,2022-08-21 21:00:00+00:00,2022,Regular Season - 23,FINISHED,RB Bragantino,Ceara,1,1,0,0
+838215,2022-08-21 22:00:00+00:00,2022,Regular Season - 23,FINISHED,Santos,Sao Paulo,1,0,1,0
+838219,2022-08-22 23:00:00+00:00,2022,Regular Season - 23,FINISHED,Avai,Internacional,0,1,0,0
+838228,2022-08-27 19:30:00+00:00,2022,Regular Season - 24,FINISHED,Goias,Atletico Goianiense,2,1,1,0
+838230,2022-08-27 19:30:00+00:00,2022,Regular Season - 24,FINISHED,Coritiba,Avai,1,0,0,0
+838222,2022-08-27 22:00:00+00:00,2022,Regular Season - 24,FINISHED,Fluminense,Palmeiras,1,1,1,1
+838227,2022-08-28 00:00:00+00:00,2022,Regular Season - 24,FINISHED,Ceara,Atletico Paranaense,0,0,0,0
+838221,2022-08-28 19:00:00+00:00,2022,Regular Season - 24,FINISHED,America Mineiro,Atletico-MG,1,1,1,1
+838223,2022-08-28 19:00:00+00:00,2022,Regular Season - 24,FINISHED,Sao Paulo,Fortaleza EC,0,1,0,1
+838225,2022-08-28 21:00:00+00:00,2022,Regular Season - 24,FINISHED,Botafogo,Flamengo,0,1,0,0
+838229,2022-08-28 21:00:00+00:00,2022,Regular Season - 24,FINISHED,Cuiaba,Santos,0,0,0,0
+838226,2022-08-29 23:00:00+00:00,2022,Regular Season - 24,FINISHED,Internacional,Juventude,4,0,2,0
+838224,2022-08-30 00:30:00+00:00,2022,Regular Season - 24,FINISHED,Corinthians,RB Bragantino,1,0,1,0
+838236,2022-09-03 19:30:00+00:00,2022,Regular Season - 25,FINISHED,Juventude,Avai,1,1,0,0
+838240,2022-09-03 22:00:00+00:00,2022,Regular Season - 25,FINISHED,Atletico Paranaense,Fluminense,1,0,1,0
+838233,2022-09-03 22:00:00+00:00,2022,Regular Season - 25,FINISHED,RB Bragantino,Palmeiras,2,2,2,1
+838231,2022-09-03 23:30:00+00:00,2022,Regular Season - 25,FINISHED,America Mineiro,Coritiba,2,0,1,0
+838232,2022-09-04 14:00:00+00:00,2022,Regular Season - 25,FINISHED,Flamengo,Ceara,1,1,0,1
+838234,2022-09-04 19:00:00+00:00,2022,Regular Season - 25,FINISHED,Corinthians,Internacional,2,2,2,1
+838237,2022-09-04 19:00:00+00:00,2022,Regular Season - 25,FINISHED,Fortaleza EC,Botafogo,1,3,0,2
+838238,2022-09-04 21:00:00+00:00,2022,Regular Season - 25,FINISHED,Atletico Goianiense,Atletico-MG,0,2,0,1
+838239,2022-09-04 22:00:00+00:00,2022,Regular Season - 25,FINISHED,Cuiaba,Sao Paulo,1,1,1,0
+838235,2022-09-05 23:00:00+00:00,2022,Regular Season - 25,FINISHED,Santos,Goias,1,2,0,1
+838241,2022-09-07 20:00:00+00:00,2022,Regular Season - 26,FINISHED,Atletico-MG,RB Bragantino,1,1,1,1
+838246,2022-09-10 19:30:00+00:00,2022,Regular Season - 26,FINISHED,Internacional,Cuiaba,1,0,0,0
+838247,2022-09-10 19:30:00+00:00,2022,Regular Season - 26,FINISHED,Ceara,Santos,2,1,2,0
+838242,2022-09-10 22:00:00+00:00,2022,Regular Season - 26,FINISHED,Fluminense,Fortaleza EC,2,1,1,0
+838244,2022-09-11 00:00:00+00:00,2022,Regular Season - 26,FINISHED,Palmeiras,Juventude,2,1,0,0
+838245,2022-09-11 14:00:00+00:00,2022,Regular Season - 26,FINISHED,Botafogo,America Mineiro,0,0,0,0
+838249,2022-09-11 14:00:00+00:00,2022,Regular Season - 26,FINISHED,Avai,Atletico Paranaense,1,1,1,0
+838250,2022-09-11 19:00:00+00:00,2022,Regular Season - 26,FINISHED,Coritiba,Atletico Goianiense,2,0,1,0
+838243,2022-09-11 19:00:00+00:00,2022,Regular Season - 26,FINISHED,Sao Paulo,Corinthians,1,1,1,1
+838248,2022-09-11 22:00:00+00:00,2022,Regular Season - 26,FINISHED,Goias,Flamengo,1,1,0,0
+838259,2022-09-17 19:30:00+00:00,2022,Regular Season - 27,FINISHED,Avai,Atletico-MG,1,0,0,0
+838255,2022-09-17 22:00:00+00:00,2022,Regular Season - 27,FINISHED,Botafogo,Coritiba,2,0,0,0
+838253,2022-09-18 14:00:00+00:00,2022,Regular Season - 27,FINISHED,RB Bragantino,Goias,1,1,1,0
+838252,2022-09-18 19:00:00+00:00,2022,Regular Season - 27,FINISHED,Flamengo,Fluminense,1,2,0,1
+838257,2022-09-18 19:00:00+00:00,2022,Regular Season - 27,FINISHED,Ceara,Sao Paulo,0,2,0,1
+838251,2022-09-18 21:00:00+00:00,2022,Regular Season - 27,FINISHED,America Mineiro,Corinthians,1,0,0,0
+838256,2022-09-18 21:00:00+00:00,2022,Regular Season - 27,FINISHED,Juventude,Fortaleza EC,1,1,0,1
+838254,2022-09-18 21:30:00+00:00,2022,Regular Season - 27,FINISHED,Palmeiras,Santos,1,0,0,0
+838260,2022-09-18 22:00:00+00:00,2022,Regular Season - 27,FINISHED,Atletico Paranaense,Cuiaba,2,2,2,1
+838258,2022-09-19 23:00:00+00:00,2022,Regular Season - 27,FINISHED,Atletico Goianiense,Internacional,1,2,0,2
+838263,2022-09-25 23:00:00+00:00,2022,Regular Season - 28,FINISHED,Sao Paulo,Avai,4,0,3,0
+838265,2022-09-28 00:00:00+00:00,2022,Regular Season - 28,FINISHED,Santos,Atletico Paranaense,2,0,1,0
+838262,2022-09-28 22:00:00+00:00,2022,Regular Season - 28,FINISHED,Fluminense,Juventude,4,0,2,0
+838264,2022-09-28 22:00:00+00:00,2022,Regular Season - 28,FINISHED,Corinthians,Atletico Goianiense,2,1,1,1
+838270,2022-09-28 22:00:00+00:00,2022,Regular Season - 28,FINISHED,Coritiba,Ceara,1,0,1,0
+838267,2022-09-28 22:00:00+00:00,2022,Regular Season - 28,FINISHED,Fortaleza EC,Flamengo,3,2,1,2
+838269,2022-09-29 00:00:00+00:00,2022,Regular Season - 28,FINISHED,Cuiaba,America Mineiro,2,1,1,0
+838266,2022-09-29 00:45:00+00:00,2022,Regular Season - 28,FINISHED,Internacional,RB Bragantino,0,0,0,0
+838268,2022-09-29 00:45:00+00:00,2022,Regular Season - 28,FINISHED,Goias,Botafogo,0,1,0,0
+838261,2022-09-29 00:45:00+00:00,2022,Regular Season - 28,FINISHED,Atletico-MG,Palmeiras,0,1,0,0
+838276,2022-10-01 18:00:00+00:00,2022,Regular Season - 29,FINISHED,Internacional,Santos,1,0,1,0
+838277,2022-10-01 18:00:00+00:00,2022,Regular Season - 29,FINISHED,Ceara,America Mineiro,1,2,0,1
+838271,2022-10-01 18:00:00+00:00,2022,Regular Season - 29,FINISHED,Atletico-MG,Fluminense,2,0,1,0
+838278,2022-10-01 22:00:00+00:00,2022,Regular Season - 29,FINISHED,Goias,Fortaleza EC,0,1,0,1
+838279,2022-10-01 22:00:00+00:00,2022,Regular Season - 29,FINISHED,Avai,Atletico Goianiense,1,2,0,1
+838272,2022-10-01 22:00:00+00:00,2022,Regular Season - 29,FINISHED,Flamengo,RB Bragantino,4,1,1,0
+838280,2022-10-01 22:00:00+00:00,2022,Regular Season - 29,FINISHED,Atletico Paranaense,Juventude,2,0,1,0
+838274,2022-10-02 00:00:00+00:00,2022,Regular Season - 29,FINISHED,Corinthians,Cuiaba,2,0,2,0
+838275,2022-10-03 23:00:00+00:00,2022,Regular Season - 29,FINISHED,Botafogo,Palmeiras,1,3,1,2
+838286,2022-10-05 00:30:00+00:00,2022,Regular Season - 30,FINISHED,Juventude,Corinthians,2,2,0,1
+838287,2022-10-05 22:00:00+00:00,2022,Regular Season - 30,FINISHED,Ceara,Goias,1,1,0,0
+838288,2022-10-05 22:00:00+00:00,2022,Regular Season - 30,FINISHED,Atletico Goianiense,Fluminense,3,2,1,2
+838283,2022-10-05 22:00:00+00:00,2022,Regular Season - 30,FINISHED,RB Bragantino,Cuiaba,2,1,1,1
+838290,2022-10-05 22:30:00+00:00,2022,Regular Season - 30,FINISHED,Atletico Paranaense,Fortaleza EC,1,1,0,1
+838282,2022-10-06 00:30:00+00:00,2022,Regular Season - 30,FINISHED,Flamengo,Internacional,0,0,0,0
+838285,2022-10-06 00:30:00+00:00,2022,Regular Season - 30,FINISHED,Santos,Atletico-MG,1,2,0,0
+838284,2022-10-06 22:00:00+00:00,2022,Regular Season - 30,FINISHED,Palmeiras,Coritiba,4,0,2,0
+838281,2022-10-06 23:00:00+00:00,2022,Regular Season - 30,FINISHED,America Mineiro,Sao Paulo,1,2,1,1
+838289,2022-10-06 23:00:00+00:00,2022,Regular Season - 30,FINISHED,Avai,Botafogo,1,2,1,0
+838299,2022-10-08 22:00:00+00:00,2022,Regular Season - 31,FINISHED,Cuiaba,Flamengo,1,2,0,0
+838294,2022-10-09 00:00:00+00:00,2022,Regular Season - 31,FINISHED,Corinthians,Atletico Paranaense,2,1,2,0
+838296,2022-10-09 14:00:00+00:00,2022,Regular Season - 31,FINISHED,Internacional,Goias,4,2,2,2
+838297,2022-10-09 19:00:00+00:00,2022,Regular Season - 31,FINISHED,Fortaleza EC,Avai,2,0,0,0
+838293,2022-10-09 19:00:00+00:00,2022,Regular Season - 31,FINISHED,Sao Paulo,Botafogo,0,1,0,0
+838292,2022-10-09 21:00:00+00:00,2022,Regular Season - 31,FINISHED,Fluminense,America Mineiro,0,2,0,2
+838300,2022-10-09 21:00:00+00:00,2022,Regular Season - 31,FINISHED,Coritiba,RB Bragantino,2,1,1,1
+838291,2022-10-09 21:00:00+00:00,2022,Regular Season - 31,FINISHED,Atletico-MG,Ceara,0,0,0,0
+838298,2022-10-10 21:30:00+00:00,2022,Regular Season - 31,FINISHED,Atletico Goianiense,Palmeiras,1,1,0,0
+838295,2022-10-10 23:00:00+00:00,2022,Regular Season - 31,FINISHED,Santos,Juventude,4,1,1,0
+838301,2022-10-15 23:30:00+00:00,2022,Regular Season - 32,FINISHED,America Mineiro,Fortaleza EC,1,2,0,1
+838302,2022-10-15 23:30:00+00:00,2022,Regular Season - 32,FINISHED,Flamengo,Atletico-MG,1,0,1,0
+838304,2022-10-16 19:00:00+00:00,2022,Regular Season - 32,FINISHED,Palmeiras,Sao Paulo,0,0,0,0
+838307,2022-10-16 19:00:00+00:00,2022,Regular Season - 32,FINISHED,Ceara,Cuiaba,1,1,0,0
+838305,2022-10-16 21:00:00+00:00,2022,Regular Season - 32,FINISHED,Botafogo,Internacional,0,1,0,0
+838306,2022-10-16 21:00:00+00:00,2022,Regular Season - 32,FINISHED,Juventude,Atletico Goianiense,1,1,0,0
+838310,2022-10-16 22:00:00+00:00,2022,Regular Season - 32,FINISHED,Atletico Paranaense,Coritiba,1,0,0,0
+838309,2022-10-16 22:00:00+00:00,2022,Regular Season - 32,FINISHED,Avai,Fluminense,0,3,0,2
+838303,2022-10-17 23:00:00+00:00,2022,Regular Season - 32,FINISHED,RB Bragantino,Santos,0,2,0,0
+838273,2022-10-20 23:00:00+00:00,2022,Regular Season - 29,FINISHED,Sao Paulo,Coritiba,3,1,1,0
+838313,2022-10-22 19:30:00+00:00,2022,Regular Season - 33,FINISHED,RB Bragantino,Atletico Paranaense,4,2,3,0
+838315,2022-10-22 22:00:00+00:00,2022,Regular Season - 33,FINISHED,Santos,Corinthians,0,1,0,0
+838311,2022-10-22 22:00:00+00:00,2022,Regular Season - 33,FINISHED,America Mineiro,Flamengo,1,2,1,2
+838314,2022-10-23 00:00:00+00:00,2022,Regular Season - 33,FINISHED,Palmeiras,Avai,3,0,1,0
+838312,2022-10-23 19:00:00+00:00,2022,Regular Season - 33,FINISHED,Fluminense,Botafogo,2,2,0,1
+838316,2022-10-23 19:00:00+00:00,2022,Regular Season - 33,FINISHED,Juventude,Sao Paulo,1,2,1,1
+838318,2022-10-23 21:00:00+00:00,2022,Regular Season - 33,FINISHED,Atletico Goianiense,Ceara,1,0,1,0
+838320,2022-10-23 21:00:00+00:00,2022,Regular Season - 33,FINISHED,Coritiba,Internacional,1,1,1,0
+838319,2022-10-23 21:00:00+00:00,2022,Regular Season - 33,FINISHED,Cuiaba,Goias,1,2,0,2
+838317,2022-10-24 23:00:00+00:00,2022,Regular Season - 33,FINISHED,Fortaleza EC,Atletico-MG,0,0,0,0
+838322,2022-10-26 00:45:00+00:00,2022,Regular Season - 34,FINISHED,Flamengo,Santos,3,2,1,0
+838330,2022-10-26 00:45:00+00:00,2022,Regular Season - 34,FINISHED,Atletico Paranaense,Palmeiras,1,3,1,0
+838325,2022-10-26 22:30:00+00:00,2022,Regular Season - 34,FINISHED,Botafogo,RB Bragantino,2,1,1,0
+838326,2022-10-27 00:45:00+00:00,2022,Regular Season - 34,FINISHED,Internacional,Ceara,2,1,0,1
+838324,2022-10-27 00:45:00+00:00,2022,Regular Season - 34,FINISHED,Corinthians,Fluminense,0,2,0,1
+838328,2022-10-27 00:45:00+00:00,2022,Regular Season - 34,FINISHED,Goias,America Mineiro,2,2,0,0
+838323,2022-10-27 22:00:00+00:00,2022,Regular Season - 34,FINISHED,Sao Paulo,Atletico Goianiense,2,1,1,0
+838327,2022-10-27 22:00:00+00:00,2022,Regular Season - 34,FINISHED,Fortaleza EC,Coritiba,3,1,1,0
+838321,2022-10-27 22:30:00+00:00,2022,Regular Season - 34,FINISHED,Atletico-MG,Juventude,1,0,1,0
+838329,2022-10-27 23:00:00+00:00,2022,Regular Season - 34,FINISHED,Cuiaba,Avai,1,0,0,0
+838308,2022-10-29 23:30:00+00:00,2022,Regular Season - 32,FINISHED,Goias,Corinthians,0,0,0,0
+838335,2022-10-31 22:00:00+00:00,2022,Regular Season - 35,FINISHED,Botafogo,Cuiaba,0,2,0,1
+838337,2022-10-31 23:00:00+00:00,2022,Regular Season - 35,FINISHED,Ceara,Fluminense,0,1,0,0
+838338,2022-11-01 22:00:00+00:00,2022,Regular Season - 35,FINISHED,Atletico Goianiense,Santos,2,3,2,1
+838339,2022-11-01 22:00:00+00:00,2022,Regular Season - 35,FINISHED,Avai,RB Bragantino,1,2,0,0
+838336,2022-11-01 22:00:00+00:00,2022,Regular Season - 35,FINISHED,Juventude,Coritiba,0,1,0,0
+838333,2022-11-02 00:30:00+00:00,2022,Regular Season - 35,FINISHED,Sao Paulo,Atletico-MG,2,2,2,1
+838331,2022-11-02 19:00:00+00:00,2022,Regular Season - 35,FINISHED,America Mineiro,Internacional,1,0,0,0
+838340,2022-11-02 19:00:00+00:00,2022,Regular Season - 35,FINISHED,Atletico Paranaense,Goias,3,2,3,1
+838334,2022-11-03 00:30:00+00:00,2022,Regular Season - 35,FINISHED,Palmeiras,Fortaleza EC,4,0,2,0
+838332,2022-11-03 00:30:00+00:00,2022,Regular Season - 35,FINISHED,Flamengo,Corinthians,1,2,0,1
+838348,2022-11-04 22:00:00+00:00,2022,Regular Season - 36,FINISHED,Goias,Juventude,1,0,0,0
+838343,2022-11-04 22:00:00+00:00,2022,Regular Season - 36,FINISHED,RB Bragantino,America Mineiro,1,4,1,3
+838342,2022-11-05 19:30:00+00:00,2022,Regular Season - 36,FINISHED,Fluminense,Sao Paulo,3,1,0,1
+838345,2022-11-05 19:30:00+00:00,2022,Regular Season - 36,FINISHED,Santos,Avai,1,1,1,0
+838344,2022-11-05 23:30:00+00:00,2022,Regular Season - 36,FINISHED,Corinthians,Ceara,1,0,0,0
+838346,2022-11-06 00:00:00+00:00,2022,Regular Season - 36,FINISHED,Internacional,Atletico Paranaense,2,0,0,0
+838350,2022-11-06 19:00:00+00:00,2022,Regular Season - 36,FINISHED,Coritiba,Flamengo,1,0,0,0
+838347,2022-11-06 19:00:00+00:00,2022,Regular Season - 36,FINISHED,Fortaleza EC,Atletico Goianiense,1,1,0,1
+838349,2022-11-06 21:30:00+00:00,2022,Regular Season - 36,FINISHED,Cuiaba,Palmeiras,1,1,1,0
+838341,2022-11-07 23:00:00+00:00,2022,Regular Season - 36,FINISHED,Atletico-MG,Botafogo,0,2,0,0
+838352,2022-11-08 22:00:00+00:00,2022,Regular Season - 37,FINISHED,Fluminense,Goias,3,0,0,0
+838359,2022-11-08 22:00:00+00:00,2022,Regular Season - 37,FINISHED,Avai,Ceara,2,0,0,0
+838360,2022-11-08 22:00:00+00:00,2022,Regular Season - 37,FINISHED,Coritiba,Corinthians,2,2,2,1
+838353,2022-11-09 00:30:00+00:00,2022,Regular Season - 37,FINISHED,Sao Paulo,Internacional,0,1,0,1
+838357,2022-11-09 23:30:00+00:00,2022,Regular Season - 37,FINISHED,Fortaleza EC,RB Bragantino,6,0,4,0
+838356,2022-11-10 00:30:00+00:00,2022,Regular Season - 37,FINISHED,Juventude,Flamengo,2,2,2,1
+838354,2022-11-10 00:30:00+00:00,2022,Regular Season - 37,FINISHED,Palmeiras,America Mineiro,2,1,1,1
+838358,2022-11-10 00:30:00+00:00,2022,Regular Season - 37,FINISHED,Atletico Goianiense,Atletico Paranaense,1,1,0,0
+838355,2022-11-10 23:00:00+00:00,2022,Regular Season - 37,FINISHED,Botafogo,Santos,3,0,1,0
+838351,2022-11-10 23:00:00+00:00,2022,Regular Season - 37,FINISHED,Atletico-MG,Cuiaba,3,0,2,0
+838362,2022-11-12 19:00:00+00:00,2022,Regular Season - 38,FINISHED,Flamengo,Avai,1,2,1,1
+838368,2022-11-13 19:00:00+00:00,2022,Regular Season - 38,FINISHED,Goias,Sao Paulo,0,4,0,1
+838369,2022-11-13 19:00:00+00:00,2022,Regular Season - 38,FINISHED,Cuiaba,Coritiba,2,1,2,0
+838363,2022-11-13 19:00:00+00:00,2022,Regular Season - 38,FINISHED,RB Bragantino,Fluminense,0,1,0,1
+838370,2022-11-13 19:00:00+00:00,2022,Regular Season - 38,FINISHED,Atletico Paranaense,Botafogo,3,0,0,0
+838361,2022-11-13 19:00:00+00:00,2022,Regular Season - 38,FINISHED,America Mineiro,Atletico Goianiense,1,1,1,1
+838367,2022-11-13 19:00:00+00:00,2022,Regular Season - 38,FINISHED,Ceara,Juventude,4,1,2,0
+838365,2022-11-13 19:00:00+00:00,2022,Regular Season - 38,FINISHED,Santos,Fortaleza EC,0,2,0,0
+838366,2022-11-13 19:00:00+00:00,2022,Regular Season - 38,FINISHED,Internacional,Palmeiras,3,0,2,0
+838364,2022-11-13 19:00:00+00:00,2022,Regular Season - 38,FINISHED,Corinthians,Atletico-MG,0,1,0,1
+1005651,2023-04-15 19:00:00+00:00,2023,Regular Season - 1,FINISHED,Palmeiras,Cuiaba,2,1,1,1
+1005658,2023-04-15 19:00:00+00:00,2023,Regular Season - 1,FINISHED,America Mineiro,Fluminense,0,3,0,0
+1005650,2023-04-15 21:30:00+00:00,2023,Regular Season - 1,FINISHED,Botafogo,Sao Paulo,2,1,1,1
+1005656,2023-04-15 21:30:00+00:00,2023,Regular Season - 1,FINISHED,Atletico Paranaense,Goias,2,0,1,0
+1005657,2023-04-15 21:30:00+00:00,2023,Regular Season - 1,FINISHED,Fortaleza EC,Internacional,1,1,0,0
+1005653,2023-04-15 21:30:00+00:00,2023,Regular Season - 1,FINISHED,RB Bragantino,Bahia,2,1,0,1
+1005654,2023-04-16 00:00:00+00:00,2023,Regular Season - 1,FINISHED,Atletico-MG,Vasco DA Gama,1,2,1,2
+1005652,2023-04-16 19:00:00+00:00,2023,Regular Season - 1,FINISHED,Corinthians,Cruzeiro,2,1,0,0
+1005649,2023-04-16 19:00:00+00:00,2023,Regular Season - 1,FINISHED,Flamengo,Coritiba,3,0,1,0
+1005655,2023-04-16 21:30:00+00:00,2023,Regular Season - 1,FINISHED,Gremio,Santos,1,0,1,0
+1005659,2023-04-22 19:00:00+00:00,2023,Regular Season - 2,FINISHED,Fluminense,Atletico Paranaense,2,0,1,0
+1005661,2023-04-22 21:30:00+00:00,2023,Regular Season - 2,FINISHED,Sao Paulo,America Mineiro,3,0,1,0
+1005668,2023-04-22 21:30:00+00:00,2023,Regular Season - 2,FINISHED,Cuiaba,RB Bragantino,1,1,0,0
+1005664,2023-04-23 00:00:00+00:00,2023,Regular Season - 2,FINISHED,Cruzeiro,Gremio,1,0,0,0
+1005665,2023-04-23 14:00:00+00:00,2023,Regular Season - 2,FINISHED,Internacional,Flamengo,2,1,0,0
+1005662,2023-04-23 19:00:00+00:00,2023,Regular Season - 2,FINISHED,Santos,Atletico-MG,0,0,0,0
+1005660,2023-04-23 19:00:00+00:00,2023,Regular Season - 2,FINISHED,Vasco DA Gama,Palmeiras,2,2,2,1
+1005666,2023-04-23 21:30:00+00:00,2023,Regular Season - 2,FINISHED,Coritiba,Fortaleza EC,0,3,0,0
+1005663,2023-04-23 22:00:00+00:00,2023,Regular Season - 2,FINISHED,Goias,Corinthians,3,1,1,1
+1005667,2023-04-24 23:00:00+00:00,2023,Regular Season - 2,FINISHED,Bahia,Botafogo,1,2,1,1
+1005676,2023-04-29 19:30:00+00:00,2023,Regular Season - 3,FINISHED,Coritiba,Sao Paulo,1,1,1,0
+1005677,2023-04-29 19:30:00+00:00,2023,Regular Season - 3,FINISHED,Fortaleza EC,Fluminense,4,2,2,1
+1005671,2023-04-29 21:30:00+00:00,2023,Regular Season - 3,FINISHED,Palmeiras,Corinthians,2,1,2,0
+1005672,2023-04-29 21:30:00+00:00,2023,Regular Season - 3,FINISHED,Santos,America Mineiro,3,2,2,1
+1005673,2023-04-29 21:30:00+00:00,2023,Regular Season - 3,FINISHED,RB Bragantino,Cruzeiro,0,3,0,1
+1005674,2023-04-30 00:00:00+00:00,2023,Regular Season - 3,FINISHED,Atletico-MG,Atletico Paranaense,2,1,1,0
+1005669,2023-04-30 19:00:00+00:00,2023,Regular Season - 3,FINISHED,Flamengo,Botafogo,2,3,0,2
+1005678,2023-04-30 21:30:00+00:00,2023,Regular Season - 3,FINISHED,Cuiaba,Gremio,1,2,1,1
+1005675,2023-04-30 21:30:00+00:00,2023,Regular Season - 3,FINISHED,Internacional,Goias,1,0,0,0
+1005670,2023-05-01 23:00:00+00:00,2023,Regular Season - 3,FINISHED,Vasco DA Gama,Bahia,0,1,0,1
+1005684,2023-05-06 19:00:00+00:00,2023,Regular Season - 4,FINISHED,Cruzeiro,Santos,2,1,1,0
+1005679,2023-05-07 00:00:00+00:00,2023,Regular Season - 4,FINISHED,Fluminense,Vasco DA Gama,1,1,0,1
+1005688,2023-05-07 14:00:00+00:00,2023,Regular Season - 4,FINISHED,America Mineiro,Cuiaba,1,2,1,0
+1005687,2023-05-07 19:00:00+00:00,2023,Regular Season - 4,FINISHED,Bahia,Coritiba,3,1,1,0
+1005681,2023-05-07 19:00:00+00:00,2023,Regular Season - 4,FINISHED,Sao Paulo,Internacional,2,0,1,0
+1005686,2023-05-07 19:00:00+00:00,2023,Regular Season - 4,FINISHED,Atletico Paranaense,Flamengo,2,1,1,1
+1005680,2023-05-07 21:30:00+00:00,2023,Regular Season - 4,FINISHED,Botafogo,Atletico-MG,2,0,1,0
+1005685,2023-05-07 21:30:00+00:00,2023,Regular Season - 4,FINISHED,Gremio,RB Bragantino,3,3,1,1
+1005683,2023-05-07 21:30:00+00:00,2023,Regular Season - 4,FINISHED,Goias,Palmeiras,0,5,0,1
+1005682,2023-05-08 23:00:00+00:00,2023,Regular Season - 4,FINISHED,Corinthians,Fortaleza EC,1,1,0,0
+1005695,2023-05-10 22:00:00+00:00,2023,Regular Season - 5,FINISHED,Internacional,Atletico Paranaense,0,2,0,0
+1005692,2023-05-10 22:00:00+00:00,2023,Regular Season - 5,FINISHED,Santos,Bahia,3,0,2,0
+1005693,2023-05-10 22:00:00+00:00,2023,Regular Season - 5,FINISHED,RB Bragantino,America Mineiro,2,2,2,1
+1005698,2023-05-10 23:00:00+00:00,2023,Regular Season - 5,FINISHED,Cuiaba,Atletico-MG,0,4,0,1
+1005689,2023-05-10 23:00:00+00:00,2023,Regular Season - 5,FINISHED,Flamengo,Goias,2,0,1,0
+1005694,2023-05-11 00:30:00+00:00,2023,Regular Season - 5,FINISHED,Cruzeiro,Fluminense,0,2,0,1
+1005691,2023-05-11 00:30:00+00:00,2023,Regular Season - 5,FINISHED,Palmeiras,Gremio,4,1,1,1
+1005696,2023-05-11 22:00:00+00:00,2023,Regular Season - 5,FINISHED,Coritiba,Vasco DA Gama,1,1,1,0
+1005690,2023-05-11 22:30:00+00:00,2023,Regular Season - 5,FINISHED,Botafogo,Corinthians,3,0,1,0
+1005697,2023-05-11 23:00:00+00:00,2023,Regular Season - 5,FINISHED,Fortaleza EC,Sao Paulo,0,0,0,0
+1005707,2023-05-13 19:00:00+00:00,2023,Regular Season - 6,FINISHED,Bahia,Flamengo,2,3,1,3
+1005701,2023-05-13 21:30:00+00:00,2023,Regular Season - 6,FINISHED,Palmeiras,RB Bragantino,1,1,0,0
+1005699,2023-05-13 21:30:00+00:00,2023,Regular Season - 6,FINISHED,Fluminense,Cuiaba,2,0,1,0
+1005704,2023-05-14 00:00:00+00:00,2023,Regular Season - 6,FINISHED,Atletico-MG,Internacional,2,0,1,0
+1005705,2023-05-14 19:00:00+00:00,2023,Regular Season - 6,FINISHED,Gremio,Fortaleza EC,0,0,0,0
+1005702,2023-05-14 19:00:00+00:00,2023,Regular Season - 6,FINISHED,Corinthians,Sao Paulo,1,1,1,1
+1005700,2023-05-14 19:00:00+00:00,2023,Regular Season - 6,FINISHED,Vasco DA Gama,Santos,0,1,0,1
+1005708,2023-05-14 21:30:00+00:00,2023,Regular Season - 6,FINISHED,America Mineiro,Cruzeiro,0,4,0,1
+1005706,2023-05-14 21:30:00+00:00,2023,Regular Season - 6,FINISHED,Atletico Paranaense,Coritiba,3,2,0,1
+1005703,2023-05-14 21:30:00+00:00,2023,Regular Season - 6,FINISHED,Goias,Botafogo,2,1,1,1
+1005717,2023-05-20 19:00:00+00:00,2023,Regular Season - 7,FINISHED,Bahia,Goias,1,1,1,1
+1005713,2023-05-20 21:30:00+00:00,2023,Regular Season - 7,FINISHED,RB Bragantino,Atletico Paranaense,2,0,1,0
+1005711,2023-05-20 21:30:00+00:00,2023,Regular Season - 7,FINISHED,Sao Paulo,Vasco DA Gama,4,2,2,1
+1005716,2023-05-20 21:30:00+00:00,2023,Regular Season - 7,FINISHED,Coritiba,Atletico-MG,1,2,1,1
+1005710,2023-05-20 21:30:00+00:00,2023,Regular Season - 7,FINISHED,Botafogo,Fluminense,1,0,0,0
+1005718,2023-05-20 21:30:00+00:00,2023,Regular Season - 7,FINISHED,America Mineiro,Fortaleza EC,2,1,2,1
+1005712,2023-05-21 00:00:00+00:00,2023,Regular Season - 7,FINISHED,Santos,Palmeiras,0,0,0,0
+1005709,2023-05-21 19:00:00+00:00,2023,Regular Season - 7,FINISHED,Flamengo,Corinthians,1,0,0,0
+1005715,2023-05-21 21:30:00+00:00,2023,Regular Season - 7,FINISHED,Gremio,Internacional,3,1,2,0
+1005714,2023-05-22 23:00:00+00:00,2023,Regular Season - 7,FINISHED,Cruzeiro,Cuiaba,0,1,0,1
+1005726,2023-05-27 19:00:00+00:00,2023,Regular Season - 8,FINISHED,Atletico Paranaense,Gremio,1,2,1,1
+1005727,2023-05-27 19:00:00+00:00,2023,Regular Season - 8,FINISHED,Fortaleza EC,Vasco DA Gama,2,0,0,0
+1005719,2023-05-27 21:30:00+00:00,2023,Regular Season - 8,FINISHED,Flamengo,Cruzeiro,1,1,1,1
+1005728,2023-05-27 21:30:00+00:00,2023,Regular Season - 8,FINISHED,Cuiaba,Coritiba,1,1,1,0
+1005721,2023-05-28 00:00:00+00:00,2023,Regular Season - 8,FINISHED,Sao Paulo,Goias,2,1,0,1
+1005725,2023-05-28 19:00:00+00:00,2023,Regular Season - 8,FINISHED,Internacional,Bahia,2,0,0,0
+1005722,2023-05-28 19:00:00+00:00,2023,Regular Season - 8,FINISHED,Corinthians,Fluminense,2,0,0,0
+1005723,2023-05-28 21:30:00+00:00,2023,Regular Season - 8,FINISHED,RB Bragantino,Santos,2,0,1,0
+1005724,2023-05-28 21:30:00+00:00,2023,Regular Season - 8,FINISHED,Atletico-MG,Palmeiras,1,1,1,0
+1005720,2023-05-28 22:00:00+00:00,2023,Regular Season - 8,FINISHED,Botafogo,America Mineiro,2,0,1,0
+1005737,2023-06-03 19:00:00+00:00,2023,Regular Season - 9,FINISHED,Fortaleza EC,Bahia,0,0,0,0
+1005734,2023-06-03 21:30:00+00:00,2023,Regular Season - 9,FINISHED,Cruzeiro,Atletico-MG,0,1,0,1
+1005738,2023-06-03 21:30:00+00:00,2023,Regular Season - 9,FINISHED,America Mineiro,Corinthians,2,0,0,0
+1005736,2023-06-03 21:30:00+00:00,2023,Regular Season - 9,FINISHED,Atletico Paranaense,Botafogo,1,0,1,0
+1005732,2023-06-04 00:00:00+00:00,2023,Regular Season - 9,FINISHED,Santos,Internacional,1,1,1,1
+1005729,2023-06-04 19:00:00+00:00,2023,Regular Season - 9,FINISHED,Fluminense,RB Bragantino,2,1,2,0
+1005735,2023-06-04 19:00:00+00:00,2023,Regular Season - 9,FINISHED,Gremio,Sao Paulo,2,1,2,1
+1005731,2023-06-04 21:30:00+00:00,2023,Regular Season - 9,FINISHED,Palmeiras,Coritiba,3,1,2,0
+1005733,2023-06-04 21:30:00+00:00,2023,Regular Season - 9,FINISHED,Goias,Cuiaba,0,1,0,0
+1005730,2023-06-05 23:00:00+00:00,2023,Regular Season - 9,FINISHED,Vasco DA Gama,Flamengo,1,4,0,4
+1005746,2023-06-10 19:00:00+00:00,2023,Regular Season - 10,FINISHED,Coritiba,Santos,0,0,0,0
+1005747,2023-06-10 21:30:00+00:00,2023,Regular Season - 10,FINISHED,Bahia,Cruzeiro,2,2,1,2
+1005742,2023-06-10 21:30:00+00:00,2023,Regular Season - 10,FINISHED,Corinthians,Cuiaba,1,1,0,0
+1005744,2023-06-10 21:30:00+00:00,2023,Regular Season - 10,FINISHED,Atletico-MG,RB Bragantino,1,1,1,1
+1005740,2023-06-11 00:00:00+00:00,2023,Regular Season - 10,FINISHED,Botafogo,Fortaleza EC,2,0,1,0
+1005748,2023-06-11 14:00:00+00:00,2023,Regular Season - 10,FINISHED,America Mineiro,Atletico Paranaense,2,2,0,1
+1005745,2023-06-11 19:00:00+00:00,2023,Regular Season - 10,FINISHED,Internacional,Vasco DA Gama,2,1,2,1
+1005741,2023-06-11 19:00:00+00:00,2023,Regular Season - 10,FINISHED,Sao Paulo,Palmeiras,0,2,0,1
+1005743,2023-06-11 21:30:00+00:00,2023,Regular Season - 10,FINISHED,Goias,Fluminense,2,2,1,1
+1005739,2023-06-11 21:30:00+00:00,2023,Regular Season - 10,FINISHED,Flamengo,Gremio,3,0,1,0
+1005751,2023-06-21 22:00:00+00:00,2023,Regular Season - 11,FINISHED,Sao Paulo,Atletico Paranaense,2,1,1,1
+1005754,2023-06-21 22:00:00+00:00,2023,Regular Season - 11,FINISHED,Cruzeiro,Fortaleza EC,0,1,0,0
+1005752,2023-06-21 23:00:00+00:00,2023,Regular Season - 11,FINISHED,Santos,Corinthians,0,2,0,2
+1005757,2023-06-22 00:30:00+00:00,2023,Regular Season - 11,FINISHED,Bahia,Palmeiras,1,0,0,0
+1005749,2023-06-22 00:30:00+00:00,2023,Regular Season - 11,FINISHED,Fluminense,Atletico-MG,1,1,1,1
+1005755,2023-06-22 22:00:00+00:00,2023,Regular Season - 11,FINISHED,Gremio,America Mineiro,3,1,1,1
+1005750,2023-06-22 23:00:00+00:00,2023,Regular Season - 11,FINISHED,Vasco DA Gama,Goias,0,1,0,0
+1005756,2023-06-22 23:00:00+00:00,2023,Regular Season - 11,FINISHED,Coritiba,Internacional,0,1,0,0
+1005758,2023-06-22 23:00:00+00:00,2023,Regular Season - 11,FINISHED,Cuiaba,Botafogo,0,1,0,0
+1005753,2023-06-23 00:30:00+00:00,2023,Regular Season - 11,FINISHED,RB Bragantino,Flamengo,4,0,1,0
+1005766,2023-06-24 19:00:00+00:00,2023,Regular Season - 12,FINISHED,Atletico Paranaense,Corinthians,1,0,1,0
+1005759,2023-06-24 21:30:00+00:00,2023,Regular Season - 12,FINISHED,Fluminense,Bahia,2,1,0,1
+1005767,2023-06-24 21:30:00+00:00,2023,Regular Season - 12,FINISHED,Fortaleza EC,Atletico-MG,2,1,0,0
+1005764,2023-06-25 00:00:00+00:00,2023,Regular Season - 12,FINISHED,Cruzeiro,Sao Paulo,1,0,1,0
+1005765,2023-06-25 19:00:00+00:00,2023,Regular Season - 12,FINISHED,Gremio,Coritiba,5,1,1,1
+1005761,2023-06-25 19:00:00+00:00,2023,Regular Season - 12,FINISHED,Palmeiras,Botafogo,0,1,0,1
+1005763,2023-06-25 21:30:00+00:00,2023,Regular Season - 12,FINISHED,RB Bragantino,Goias,2,0,2,0
+1005768,2023-06-25 21:30:00+00:00,2023,Regular Season - 12,FINISHED,America Mineiro,Internacional,1,2,1,0
+1005762,2023-06-25 21:30:00+00:00,2023,Regular Season - 12,FINISHED,Santos,Flamengo,2,3,1,1
+1005760,2023-06-27 00:00:00+00:00,2023,Regular Season - 12,FINISHED,Vasco DA Gama,Cuiaba,1,0,0,0
+1005771,2023-07-01 19:00:00+00:00,2023,Regular Season - 13,FINISHED,Sao Paulo,Fluminense,1,0,0,0
+1005777,2023-07-01 21:30:00+00:00,2023,Regular Season - 13,FINISHED,Bahia,Gremio,1,2,1,1
+1005769,2023-07-01 21:30:00+00:00,2023,Regular Season - 13,FINISHED,Flamengo,Fortaleza EC,2,0,1,0
+1005775,2023-07-02 00:00:00+00:00,2023,Regular Season - 13,FINISHED,Internacional,Cruzeiro,0,0,0,0
+1005772,2023-07-02 14:00:00+00:00,2023,Regular Season - 13,FINISHED,Corinthians,RB Bragantino,0,1,0,1
+1005770,2023-07-02 19:00:00+00:00,2023,Regular Season - 13,FINISHED,Botafogo,Vasco DA Gama,2,0,0,0
+1005776,2023-07-02 19:00:00+00:00,2023,Regular Season - 13,FINISHED,Atletico Paranaense,Palmeiras,2,2,0,1
+1005774,2023-07-02 19:00:00+00:00,2023,Regular Season - 13,FINISHED,Atletico-MG,America Mineiro,2,2,2,0
+1005778,2023-07-02 21:30:00+00:00,2023,Regular Season - 13,FINISHED,Cuiaba,Santos,3,0,0,0
+1005773,2023-07-03 23:00:00+00:00,2023,Regular Season - 13,FINISHED,Goias,Coritiba,1,2,0,2
+1005780,2023-07-08 19:00:00+00:00,2023,Regular Season - 14,FINISHED,Vasco DA Gama,Cruzeiro,0,1,0,1
+1005788,2023-07-08 19:00:00+00:00,2023,Regular Season - 14,FINISHED,Cuiaba,Bahia,1,1,1,0
+1005786,2023-07-08 21:30:00+00:00,2023,Regular Season - 14,FINISHED,Coritiba,America Mineiro,3,1,2,1
+1005784,2023-07-08 21:30:00+00:00,2023,Regular Season - 14,FINISHED,Atletico-MG,Corinthians,0,1,0,1
+1005781,2023-07-09 00:00:00+00:00,2023,Regular Season - 14,FINISHED,Palmeiras,Flamengo,1,1,1,0
+1005782,2023-07-09 14:00:00+00:00,2023,Regular Season - 14,FINISHED,Santos,Goias,4,3,3,1
+1005779,2023-07-09 19:00:00+00:00,2023,Regular Season - 14,FINISHED,Fluminense,Internacional,2,0,2,0
+1005783,2023-07-09 19:00:00+00:00,2023,Regular Season - 14,FINISHED,RB Bragantino,Sao Paulo,0,0,0,0
+1005785,2023-07-09 21:30:00+00:00,2023,Regular Season - 14,FINISHED,Gremio,Botafogo,0,2,0,0
+1005787,2023-07-09 21:30:00+00:00,2023,Regular Season - 14,FINISHED,Fortaleza EC,Atletico Paranaense,1,0,0,0
+1005790,2023-07-16 00:00:00+00:00,2023,Regular Season - 15,FINISHED,Botafogo,RB Bragantino,2,0,0,0
+1005794,2023-07-16 14:00:00+00:00,2023,Regular Season - 15,FINISHED,Cruzeiro,Coritiba,0,0,0,0
+1005789,2023-07-16 19:00:00+00:00,2023,Regular Season - 15,FINISHED,Fluminense,Flamengo,0,0,0,0
+1005791,2023-07-16 19:00:00+00:00,2023,Regular Season - 15,FINISHED,Sao Paulo,Santos,4,1,2,0
+1005797,2023-07-16 19:00:00+00:00,2023,Regular Season - 15,FINISHED,Fortaleza EC,Cuiaba,0,1,0,1
+1005795,2023-07-16 21:30:00+00:00,2023,Regular Season - 15,FINISHED,Internacional,Palmeiras,0,0,0,0
+1005796,2023-07-16 21:30:00+00:00,2023,Regular Season - 15,FINISHED,Atletico Paranaense,Bahia,2,0,2,0
+1005793,2023-07-17 23:00:00+00:00,2023,Regular Season - 15,FINISHED,Goias,Atletico-MG,0,0,0,0
+1005801,2023-07-22 19:00:00+00:00,2023,Regular Season - 16,FINISHED,Palmeiras,Fortaleza EC,3,1,1,1
+1005799,2023-07-22 19:00:00+00:00,2023,Regular Season - 16,FINISHED,Flamengo,America Mineiro,1,1,0,0
+1005808,2023-07-22 21:30:00+00:00,2023,Regular Season - 16,FINISHED,Cuiaba,Sao Paulo,2,1,0,0
+1005807,2023-07-22 21:30:00+00:00,2023,Regular Season - 16,FINISHED,Bahia,Corinthians,0,0,0,0
+1005805,2023-07-23 00:00:00+00:00,2023,Regular Season - 16,FINISHED,Gremio,Atletico-MG,1,0,1,0
+1005802,2023-07-23 19:00:00+00:00,2023,Regular Season - 16,FINISHED,Santos,Botafogo,2,2,1,0
+1005804,2023-07-23 19:00:00+00:00,2023,Regular Season - 16,FINISHED,Cruzeiro,Goias,0,1,0,1
+1005803,2023-07-23 19:00:00+00:00,2023,Regular Season - 16,FINISHED,RB Bragantino,Internacional,0,0,0,0
+1005800,2023-07-23 21:30:00+00:00,2023,Regular Season - 16,FINISHED,Vasco DA Gama,Atletico Paranaense,0,2,0,0
+1005806,2023-07-24 22:00:00+00:00,2023,Regular Season - 16,FINISHED,Coritiba,Fluminense,2,0,2,0
+1005815,2023-07-29 19:00:00+00:00,2023,Regular Season - 17,FINISHED,Internacional,Cuiaba,1,2,1,1
+1005809,2023-07-29 19:00:00+00:00,2023,Regular Season - 17,FINISHED,Fluminense,Santos,1,0,0,0
+1005816,2023-07-29 19:00:00+00:00,2023,Regular Season - 17,FINISHED,Atletico Paranaense,Cruzeiro,3,3,1,2
+1005812,2023-07-29 21:30:00+00:00,2023,Regular Season - 17,FINISHED,Corinthians,Vasco DA Gama,3,1,1,0
+1005817,2023-07-29 21:30:00+00:00,2023,Regular Season - 17,FINISHED,Fortaleza EC,RB Bragantino,0,3,0,1
+1005814,2023-07-30 00:00:00+00:00,2023,Regular Season - 17,FINISHED,Atletico-MG,Flamengo,1,2,1,0
+1005811,2023-07-30 14:00:00+00:00,2023,Regular Season - 17,FINISHED,Sao Paulo,Bahia,0,0,0,0
+1005810,2023-07-30 19:00:00+00:00,2023,Regular Season - 17,FINISHED,Botafogo,Coritiba,4,1,3,1
+1005818,2023-07-30 19:00:00+00:00,2023,Regular Season - 17,FINISHED,America Mineiro,Palmeiras,1,4,1,2
+1005813,2023-07-30 21:30:00+00:00,2023,Regular Season - 17,FINISHED,Goias,Gremio,1,1,0,0
+1005822,2023-08-05 19:00:00+00:00,2023,Regular Season - 18,FINISHED,Santos,Atletico Paranaense,1,1,0,1
+1005825,2023-08-05 21:30:00+00:00,2023,Regular Season - 18,FINISHED,Internacional,Corinthians,2,2,1,1
+1005823,2023-08-05 21:30:00+00:00,2023,Regular Season - 18,FINISHED,Goias,Fortaleza EC,1,0,0,0
+1005819,2023-08-06 00:00:00+00:00,2023,Regular Season - 18,FINISHED,Fluminense,Palmeiras,2,1,1,0
+1005821,2023-08-06 19:00:00+00:00,2023,Regular Season - 18,FINISHED,Sao Paulo,Atletico-MG,0,2,0,1
+1005820,2023-08-06 19:00:00+00:00,2023,Regular Season - 18,FINISHED,Vasco DA Gama,Gremio,1,0,0,0
+1005827,2023-08-06 21:30:00+00:00,2023,Regular Season - 18,FINISHED,Bahia,America Mineiro,3,1,1,0
+1005824,2023-08-06 21:30:00+00:00,2023,Regular Season - 18,FINISHED,Cruzeiro,Botafogo,0,0,0,0
+1005826,2023-08-06 21:30:00+00:00,2023,Regular Season - 18,FINISHED,Coritiba,RB Bragantino,0,1,0,1
+1005828,2023-08-06 23:00:00+00:00,2023,Regular Season - 18,FINISHED,Cuiaba,Flamengo,3,0,0,0
+1005830,2023-08-13 00:00:00+00:00,2023,Regular Season - 19,FINISHED,Botafogo,Internacional,3,1,0,1
+1005834,2023-08-13 14:00:00+00:00,2023,Regular Season - 19,FINISHED,Atletico-MG,Bahia,1,0,0,0
+1005838,2023-08-13 19:00:00+00:00,2023,Regular Season - 19,FINISHED,America Mineiro,Goias,0,1,0,1
+1005835,2023-08-13 19:00:00+00:00,2023,Regular Season - 19,FINISHED,Gremio,Fluminense,2,1,2,1
+1005832,2023-08-13 19:00:00+00:00,2023,Regular Season - 19,FINISHED,Corinthians,Coritiba,3,1,0,1
+1005837,2023-08-13 21:30:00+00:00,2023,Regular Season - 19,FINISHED,Fortaleza EC,Santos,4,0,0,0
+1005829,2023-08-13 21:30:00+00:00,2023,Regular Season - 19,FINISHED,Flamengo,Sao Paulo,1,1,0,1
+1005831,2023-08-14 22:00:00+00:00,2023,Regular Season - 19,FINISHED,Palmeiras,Cruzeiro,1,0,0,0
+1005833,2023-08-15 00:00:00+00:00,2023,Regular Season - 19,FINISHED,RB Bragantino,Vasco DA Gama,1,1,1,1
+1005836,2023-08-15 23:00:00+00:00,2023,Regular Season - 19,FINISHED,Atletico Paranaense,Cuiaba,2,0,1,0
+1005841,2023-08-19 19:00:00+00:00,2023,Regular Season - 20,FINISHED,Sao Paulo,Botafogo,0,0,0,0
+1005845,2023-08-19 19:00:00+00:00,2023,Regular Season - 20,FINISHED,Internacional,Fortaleza EC,0,1,0,1
+1005839,2023-08-19 21:30:00+00:00,2023,Regular Season - 20,FINISHED,Fluminense,America Mineiro,3,1,0,0
+1005848,2023-08-19 21:30:00+00:00,2023,Regular Season - 20,FINISHED,Cuiaba,Palmeiras,0,2,0,1
+1005844,2023-08-20 00:00:00+00:00,2023,Regular Season - 20,FINISHED,Cruzeiro,Corinthians,1,1,1,0
+1005840,2023-08-20 14:00:00+00:00,2023,Regular Season - 20,FINISHED,Vasco DA Gama,Atletico-MG,1,0,1,0
+1005847,2023-08-20 19:00:00+00:00,2023,Regular Season - 20,FINISHED,Bahia,RB Bragantino,4,0,2,0
+1005842,2023-08-20 19:00:00+00:00,2023,Regular Season - 20,FINISHED,Santos,Gremio,2,1,0,0
+1005846,2023-08-20 19:00:00+00:00,2023,Regular Season - 20,FINISHED,Coritiba,Flamengo,2,3,1,2
+1005843,2023-08-21 23:00:00+00:00,2023,Regular Season - 20,FINISHED,Goias,Atletico Paranaense,1,1,0,1
+1005849,2023-08-26 21:30:00+00:00,2023,Regular Season - 21,FINISHED,Flamengo,Internacional,0,0,0,0
+1005852,2023-08-27 00:00:00+00:00,2023,Regular Season - 21,FINISHED,Corinthians,Goias,1,1,0,0
+1005853,2023-08-27 14:00:00+00:00,2023,Regular Season - 21,FINISHED,RB Bragantino,Cuiaba,2,0,0,0
+1005850,2023-08-27 19:00:00+00:00,2023,Regular Season - 21,FINISHED,Botafogo,Bahia,3,0,1,0
+1005858,2023-08-27 19:00:00+00:00,2023,Regular Season - 21,FINISHED,America Mineiro,Sao Paulo,2,1,0,0
+1005854,2023-08-27 19:00:00+00:00,2023,Regular Season - 21,FINISHED,Atletico-MG,Santos,2,0,1,0
+1005856,2023-08-27 21:30:00+00:00,2023,Regular Season - 21,FINISHED,Atletico Paranaense,Fluminense,2,2,1,0
+1005857,2023-08-27 21:30:00+00:00,2023,Regular Season - 21,FINISHED,Fortaleza EC,Coritiba,3,1,2,0
+1005851,2023-08-27 21:30:00+00:00,2023,Regular Season - 21,FINISHED,Palmeiras,Vasco DA Gama,1,0,0,0
+1005855,2023-08-27 22:00:00+00:00,2023,Regular Season - 21,FINISHED,Gremio,Cruzeiro,3,0,1,0
+1005866,2023-09-02 19:00:00+00:00,2023,Regular Season - 22,FINISHED,Atletico Paranaense,Atletico-MG,1,1,0,1
+1005863,2023-09-02 19:00:00+00:00,2023,Regular Season - 22,FINISHED,Goias,Internacional,0,0,0,0
+1005860,2023-09-03 00:00:00+00:00,2023,Regular Season - 22,FINISHED,Botafogo,Flamengo,1,2,1,1
+1005865,2023-09-03 14:00:00+00:00,2023,Regular Season - 22,FINISHED,Gremio,Cuiaba,2,0,1,0
+1005859,2023-09-03 19:00:00+00:00,2023,Regular Season - 22,FINISHED,Fluminense,Fortaleza EC,1,0,0,0
+1005862,2023-09-03 19:00:00+00:00,2023,Regular Season - 22,FINISHED,Corinthians,Palmeiras,0,0,0,0
+1005867,2023-09-03 21:30:00+00:00,2023,Regular Season - 22,FINISHED,Bahia,Vasco DA Gama,1,1,1,0
+1005868,2023-09-03 21:30:00+00:00,2023,Regular Season - 22,FINISHED,America Mineiro,Santos,2,0,1,0
+1005864,2023-09-03 21:30:00+00:00,2023,Regular Season - 22,FINISHED,Cruzeiro,RB Bragantino,0,0,0,0
+1005875,2023-09-14 00:30:00+00:00,2023,Regular Season - 23,FINISHED,Internacional,Sao Paulo,2,1,0,1
+1005869,2023-09-14 00:30:00+00:00,2023,Regular Season - 23,FINISHED,Flamengo,Atletico Paranaense,0,3,0,1
+1005872,2023-09-14 22:00:00+00:00,2023,Regular Season - 23,FINISHED,Santos,Cruzeiro,0,3,0,1
+1005877,2023-09-14 22:00:00+00:00,2023,Regular Season - 23,FINISHED,Fortaleza EC,Corinthians,2,1,1,1
+1005876,2023-09-14 23:00:00+00:00,2023,Regular Season - 23,FINISHED,Coritiba,Bahia,2,4,1,3
+1005873,2023-09-15 00:30:00+00:00,2023,Regular Season - 23,FINISHED,RB Bragantino,Gremio,2,0,2,0
+1005878,2023-09-15 23:00:00+00:00,2023,Regular Season - 23,FINISHED,Cuiaba,America Mineiro,2,2,2,2
+1005871,2023-09-16 00:30:00+00:00,2023,Regular Season - 23,FINISHED,Palmeiras,Goias,1,0,0,0
+1005870,2023-09-16 19:00:00+00:00,2023,Regular Season - 23,FINISHED,Vasco DA Gama,Fluminense,4,2,1,0
+1005874,2023-09-17 00:00:00+00:00,2023,Regular Season - 23,FINISHED,Atletico-MG,Botafogo,1,0,0,0
+1005887,2023-09-18 23:00:00+00:00,2023,Regular Season - 24,FINISHED,Bahia,Santos,1,2,0,0
+1005792,2023-09-19 00:00:00+00:00,2023,Regular Season - 15,FINISHED,Corinthians,Gremio,4,4,3,2
+1005888,2023-09-20 00:30:00+00:00,2023,Regular Season - 24,FINISHED,America Mineiro,RB Bragantino,0,2,0,1
+1005883,2023-09-20 22:00:00+00:00,2023,Regular Season - 24,FINISHED,Goias,Flamengo,0,0,0,0
+1005879,2023-09-21 00:30:00+00:00,2023,Regular Season - 24,FINISHED,Fluminense,Cruzeiro,1,0,0,0
+1005881,2023-09-21 00:30:00+00:00,2023,Regular Season - 24,FINISHED,Sao Paulo,Fortaleza EC,1,2,0,1
+1005880,2023-09-21 22:00:00+00:00,2023,Regular Season - 24,FINISHED,Vasco DA Gama,Coritiba,5,1,2,0
+1005886,2023-09-21 22:30:00+00:00,2023,Regular Season - 24,FINISHED,Atletico Paranaense,Internacional,2,1,1,1
+1005885,2023-09-22 00:30:00+00:00,2023,Regular Season - 24,FINISHED,Gremio,Palmeiras,1,0,1,0
+1005882,2023-09-22 23:00:00+00:00,2023,Regular Season - 24,FINISHED,Corinthians,Botafogo,1,0,0,0
+1005884,2023-09-24 00:00:00+00:00,2023,Regular Season - 24,FINISHED,Atletico-MG,Cuiaba,1,0,1,0
+1005798,2023-09-25 23:00:00+00:00,2023,Regular Season - 15,FINISHED,America Mineiro,Vasco DA Gama,0,1,0,0
+1005861,2023-09-27 22:00:00+00:00,2023,Regular Season - 22,FINISHED,Sao Paulo,Coritiba,2,1,2,1
+1005889,2023-09-30 19:00:00+00:00,2023,Regular Season - 25,FINISHED,Flamengo,Bahia,1,0,0,0
+1005897,2023-09-30 19:00:00+00:00,2023,Regular Season - 25,FINISHED,Fortaleza EC,Gremio,1,1,1,0
+1005898,2023-09-30 21:30:00+00:00,2023,Regular Season - 25,FINISHED,Cuiaba,Fluminense,3,0,0,0
+1005891,2023-09-30 21:30:00+00:00,2023,Regular Season - 25,FINISHED,Sao Paulo,Corinthians,2,1,2,1
+1005895,2023-10-01 00:00:00+00:00,2023,Regular Season - 25,FINISHED,Internacional,Atletico-MG,0,2,0,0
+1005892,2023-10-01 19:00:00+00:00,2023,Regular Season - 25,FINISHED,Santos,Vasco DA Gama,4,1,3,1
+1005894,2023-10-01 19:00:00+00:00,2023,Regular Season - 25,FINISHED,Cruzeiro,America Mineiro,1,1,1,1
+1005896,2023-10-01 19:00:00+00:00,2023,Regular Season - 25,FINISHED,Coritiba,Atletico Paranaense,2,0,2,0
+1005893,2023-10-01 21:30:00+00:00,2023,Regular Season - 25,FINISHED,RB Bragantino,Palmeiras,2,1,0,1
+1005890,2023-10-02 23:00:00+00:00,2023,Regular Season - 25,FINISHED,Botafogo,Goias,1,1,0,1
+1005903,2023-10-07 19:00:00+00:00,2023,Regular Season - 26,FINISHED,Goias,Bahia,4,6,3,3
+1005900,2023-10-07 21:30:00+00:00,2023,Regular Season - 26,FINISHED,Vasco DA Gama,Sao Paulo,0,0,0,0
+1005902,2023-10-08 00:00:00+00:00,2023,Regular Season - 26,FINISHED,Corinthians,Flamengo,1,1,0,0
+1005905,2023-10-08 19:00:00+00:00,2023,Regular Season - 26,FINISHED,Internacional,Gremio,3,2,1,0
+1005901,2023-10-08 19:00:00+00:00,2023,Regular Season - 26,FINISHED,Palmeiras,Santos,1,2,1,1
+1005899,2023-10-08 19:00:00+00:00,2023,Regular Season - 26,FINISHED,Fluminense,Botafogo,0,2,0,2
+1005906,2023-10-08 21:30:00+00:00,2023,Regular Season - 26,FINISHED,Atletico Paranaense,RB Bragantino,1,1,1,1
+1005907,2023-10-08 21:30:00+00:00,2023,Regular Season - 26,FINISHED,Fortaleza EC,America Mineiro,3,2,1,2
+1005904,2023-10-08 21:30:00+00:00,2023,Regular Season - 26,FINISHED,Atletico-MG,Coritiba,1,2,0,0
+1005908,2023-10-15 00:00:00+00:00,2023,Regular Season - 26,FINISHED,Cuiaba,Cruzeiro,0,0,0,0
+1005915,2023-10-18 22:00:00+00:00,2023,Regular Season - 27,FINISHED,Gremio,Atletico Paranaense,1,2,1,1
+1005918,2023-10-18 23:00:00+00:00,2023,Regular Season - 27,FINISHED,America Mineiro,Botafogo,1,2,1,1
+1005916,2023-10-18 23:00:00+00:00,2023,Regular Season - 27,FINISHED,Coritiba,Cuiaba,0,3,0,1
+1005917,2023-10-19 00:30:00+00:00,2023,Regular Season - 27,FINISHED,Bahia,Internacional,1,0,1,0
+1005910,2023-10-19 00:30:00+00:00,2023,Regular Season - 27,FINISHED,Vasco DA Gama,Fortaleza EC,1,0,0,0
+1005913,2023-10-19 00:30:00+00:00,2023,Regular Season - 27,FINISHED,Goias,Sao Paulo,2,0,2,0
+1005911,2023-10-19 22:00:00+00:00,2023,Regular Season - 27,FINISHED,Palmeiras,Atletico-MG,0,2,0,1
+1005914,2023-10-19 22:00:00+00:00,2023,Regular Season - 27,FINISHED,Cruzeiro,Flamengo,0,2,0,2
+1005912,2023-10-19 23:00:00+00:00,2023,Regular Season - 27,FINISHED,Santos,RB Bragantino,1,3,0,2
+1005909,2023-10-20 00:30:00+00:00,2023,Regular Season - 27,FINISHED,Fluminense,Corinthians,3,3,1,3
+1005927,2023-10-21 21:30:00+00:00,2023,Regular Season - 28,FINISHED,Bahia,Fortaleza EC,2,0,1,0
+1005921,2023-10-21 21:30:00+00:00,2023,Regular Season - 28,FINISHED,Sao Paulo,Gremio,3,0,1,0
+1005928,2023-10-21 21:30:00+00:00,2023,Regular Season - 28,FINISHED,Cuiaba,Goias,1,1,0,1
+1005920,2023-10-22 00:00:00+00:00,2023,Regular Season - 28,FINISHED,Botafogo,Atletico Paranaense,1,1,1,1
+1005925,2023-10-22 19:00:00+00:00,2023,Regular Season - 28,FINISHED,Internacional,Santos,7,1,4,0
+1005919,2023-10-22 19:00:00+00:00,2023,Regular Season - 28,FINISHED,Flamengo,Vasco DA Gama,1,0,0,0
+1005924,2023-10-22 19:00:00+00:00,2023,Regular Season - 28,FINISHED,Atletico-MG,Cruzeiro,0,1,0,0
+1005923,2023-10-22 21:30:00+00:00,2023,Regular Season - 28,FINISHED,RB Bragantino,Fluminense,1,0,1,0
+1005926,2023-10-22 21:30:00+00:00,2023,Regular Season - 28,FINISHED,Coritiba,Palmeiras,0,2,0,2
+1005922,2023-10-22 21:30:00+00:00,2023,Regular Season - 28,FINISHED,Corinthians,America Mineiro,1,1,0,1
+1005931,2023-10-25 23:00:00+00:00,2023,Regular Season - 29,FINISHED,Palmeiras,Sao Paulo,5,0,3,0
+1005934,2023-10-25 23:00:00+00:00,2023,Regular Season - 29,FINISHED,Cruzeiro,Bahia,3,0,1,0
+1005935,2023-10-26 00:30:00+00:00,2023,Regular Season - 29,FINISHED,Gremio,Flamengo,3,2,0,1
+1005938,2023-10-26 00:30:00+00:00,2023,Regular Season - 29,FINISHED,Cuiaba,Corinthians,0,1,0,0
+1005929,2023-10-26 22:00:00+00:00,2023,Regular Season - 29,FINISHED,Fluminense,Goias,5,3,2,2
+1005936,2023-10-26 22:00:00+00:00,2023,Regular Season - 29,FINISHED,Atletico Paranaense,America Mineiro,3,2,3,1
+1005933,2023-10-26 22:00:00+00:00,2023,Regular Season - 29,FINISHED,RB Bragantino,Atletico-MG,1,2,0,1
+1005932,2023-10-27 00:30:00+00:00,2023,Regular Season - 29,FINISHED,Santos,Coritiba,2,1,1,1
+1005930,2023-10-27 22:00:00+00:00,2023,Regular Season - 29,FINISHED,Vasco DA Gama,Internacional,1,2,0,1
+1005941,2023-10-28 23:00:00+00:00,2023,Regular Season - 30,FINISHED,Palmeiras,Bahia,1,0,1,0
+1005948,2023-10-28 23:00:00+00:00,2023,Regular Season - 30,FINISHED,America Mineiro,Gremio,3,4,2,2
+1005944,2023-10-29 01:00:00+00:00,2023,Regular Season - 30,FINISHED,Atletico-MG,Fluminense,2,0,0,0
+1005946,2023-10-29 19:00:00+00:00,2023,Regular Season - 30,FINISHED,Atletico Paranaense,Sao Paulo,1,1,1,1
+1005943,2023-10-29 19:00:00+00:00,2023,Regular Season - 30,FINISHED,Goias,Vasco DA Gama,1,1,0,0
+1005945,2023-10-29 21:30:00+00:00,2023,Regular Season - 30,FINISHED,Internacional,Coritiba,3,4,1,2
+1005942,2023-10-29 21:30:00+00:00,2023,Regular Season - 30,FINISHED,Corinthians,Santos,1,1,0,0
+1005940,2023-10-29 23:00:00+00:00,2023,Regular Season - 30,FINISHED,Botafogo,Cuiaba,0,1,0,0
+1005957,2023-10-31 22:00:00+00:00,2023,Regular Season - 31,FINISHED,Bahia,Fluminense,1,0,1,0
+1005955,2023-11-01 22:00:00+00:00,2023,Regular Season - 31,FINISHED,Internacional,America Mineiro,1,1,1,0
+1005952,2023-11-01 22:00:00+00:00,2023,Regular Season - 31,FINISHED,Corinthians,Atletico Paranaense,1,0,0,0
+1005949,2023-11-01 23:00:00+00:00,2023,Regular Season - 31,FINISHED,Flamengo,Santos,1,2,1,1
+1005956,2023-11-01 23:00:00+00:00,2023,Regular Season - 31,FINISHED,Coritiba,Gremio,1,2,0,1
+1005950,2023-11-02 00:30:00+00:00,2023,Regular Season - 31,FINISHED,Botafogo,Palmeiras,3,4,3,0
+1005954,2023-11-02 00:30:00+00:00,2023,Regular Season - 31,FINISHED,Atletico-MG,Fortaleza EC,3,1,1,1
+1005958,2023-11-02 20:00:00+00:00,2023,Regular Season - 31,FINISHED,Cuiaba,Vasco DA Gama,0,2,0,0
+1005953,2023-11-02 21:00:00+00:00,2023,Regular Season - 31,FINISHED,Goias,RB Bragantino,0,2,0,1
+1005951,2023-11-02 23:00:00+00:00,2023,Regular Season - 31,FINISHED,Sao Paulo,Cruzeiro,1,0,0,0
+1005968,2023-11-04 22:30:00+00:00,2023,Regular Season - 32,FINISHED,America Mineiro,Atletico-MG,1,1,0,0
+1005965,2023-11-04 22:30:00+00:00,2023,Regular Season - 32,FINISHED,Gremio,Bahia,1,0,0,0
+1005961,2023-11-05 00:30:00+00:00,2023,Regular Season - 32,FINISHED,Palmeiras,Atletico Paranaense,1,0,1,0
+1005964,2023-11-05 19:00:00+00:00,2023,Regular Season - 32,FINISHED,Cruzeiro,Internacional,1,2,0,1
+1005967,2023-11-05 19:00:00+00:00,2023,Regular Season - 32,FINISHED,Fortaleza EC,Flamengo,0,2,0,1
+1005963,2023-11-05 19:00:00+00:00,2023,Regular Season - 32,FINISHED,RB Bragantino,Corinthians,1,0,1,0
+1005966,2023-11-05 21:30:00+00:00,2023,Regular Season - 32,FINISHED,Coritiba,Goias,0,1,0,0
+1005960,2023-11-06 22:00:00+00:00,2023,Regular Season - 32,FINISHED,Vasco DA Gama,Botafogo,1,0,1,0
+1005962,2023-11-07 00:00:00+00:00,2023,Regular Season - 32,FINISHED,Santos,Cuiaba,0,0,0,0
+1005975,2023-11-08 22:00:00+00:00,2023,Regular Season - 33,FINISHED,Internacional,Fluminense,0,0,0,0
+1005978,2023-11-08 22:00:00+00:00,2023,Regular Season - 33,FINISHED,America Mineiro,Coritiba,0,3,0,2
+1005971,2023-11-08 23:00:00+00:00,2023,Regular Season - 33,FINISHED,Sao Paulo,RB Bragantino,1,0,0,0
+1005976,2023-11-08 23:00:00+00:00,2023,Regular Season - 33,FINISHED,Atletico Paranaense,Fortaleza EC,1,1,0,0
+1005969,2023-11-09 00:30:00+00:00,2023,Regular Season - 33,FINISHED,Flamengo,Palmeiras,3,0,2,0
+1005972,2023-11-09 22:00:00+00:00,2023,Regular Season - 33,FINISHED,Corinthians,Atletico-MG,1,1,1,0
+1005973,2023-11-09 22:00:00+00:00,2023,Regular Season - 33,FINISHED,Goias,Santos,0,1,0,0
+1005970,2023-11-09 23:00:00+00:00,2023,Regular Season - 33,FINISHED,Botafogo,Gremio,3,4,2,1
+1005977,2023-11-09 23:00:00+00:00,2023,Regular Season - 33,FINISHED,Bahia,Cuiaba,0,3,0,1
+1005986,2023-11-11 19:00:00+00:00,2023,Regular Season - 34,FINISHED,Coritiba,Cruzeiro,1,0,0,0
+1005979,2023-11-11 21:30:00+00:00,2023,Regular Season - 34,FINISHED,Flamengo,Fluminense,1,1,1,0
+1005981,2023-11-12 00:00:00+00:00,2023,Regular Season - 34,FINISHED,Palmeiras,Internacional,3,0,1,0
+1005985,2023-11-12 19:00:00+00:00,2023,Regular Season - 34,FINISHED,Gremio,Corinthians,0,1,0,1
+1005983,2023-11-12 19:00:00+00:00,2023,Regular Season - 34,FINISHED,RB Bragantino,Botafogo,2,2,1,2
+1005988,2023-11-12 21:30:00+00:00,2023,Regular Season - 34,FINISHED,Cuiaba,Fortaleza EC,2,1,1,0
+1005984,2023-11-12 21:30:00+00:00,2023,Regular Season - 34,FINISHED,Atletico-MG,Goias,2,1,1,0
+1005982,2023-11-12 21:30:00+00:00,2023,Regular Season - 34,FINISHED,Santos,Sao Paulo,0,0,0,0
+1005987,2023-11-12 21:30:00+00:00,2023,Regular Season - 34,FINISHED,Bahia,Atletico Paranaense,1,1,0,0
+1005980,2023-11-12 21:30:00+00:00,2023,Regular Season - 34,FINISHED,Vasco DA Gama,America Mineiro,2,1,1,1
+1005947,2023-11-18 21:30:00+00:00,2023,Regular Season - 30,FINISHED,Fortaleza EC,Cruzeiro,0,1,0,0
+1005974,2023-11-22 22:00:00+00:00,2023,Regular Season - 33,FINISHED,Cruzeiro,Vasco DA Gama,2,2,2,1
+1005959,2023-11-23 00:30:00+00:00,2023,Regular Season - 32,FINISHED,Fluminense,Sao Paulo,1,0,0,0
+1005937,2023-11-23 22:00:00+00:00,2023,Regular Season - 29,FINISHED,Fortaleza EC,Botafogo,2,2,2,1
+1005939,2023-11-24 00:30:00+00:00,2023,Regular Season - 30,FINISHED,Flamengo,RB Bragantino,1,0,0,0
+1005992,2023-11-25 00:00:00+00:00,2023,Regular Season - 35,FINISHED,Corinthians,Bahia,1,5,0,3
+1005996,2023-11-25 22:30:00+00:00,2023,Regular Season - 35,FINISHED,Atletico Paranaense,Vasco DA Gama,0,0,0,0
+1005989,2023-11-26 00:00:00+00:00,2023,Regular Season - 35,FINISHED,Fluminense,Coritiba,2,1,1,0
+1005990,2023-11-26 19:00:00+00:00,2023,Regular Season - 35,FINISHED,Botafogo,Santos,1,1,1,0
+1005994,2023-11-26 19:00:00+00:00,2023,Regular Season - 35,FINISHED,Atletico-MG,Gremio,3,0,1,0
+1005995,2023-11-26 21:30:00+00:00,2023,Regular Season - 35,FINISHED,Internacional,RB Bragantino,1,0,1,0
+1005998,2023-11-26 21:30:00+00:00,2023,Regular Season - 35,FINISHED,America Mineiro,Flamengo,0,3,0,1
+1005991,2023-11-26 21:30:00+00:00,2023,Regular Season - 35,FINISHED,Sao Paulo,Cuiaba,0,0,0,0
+1005997,2023-11-26 21:30:00+00:00,2023,Regular Season - 35,FINISHED,Fortaleza EC,Palmeiras,2,2,1,0
+1005993,2023-11-28 00:00:00+00:00,2023,Regular Season - 35,FINISHED,Goias,Cruzeiro,0,1,0,0
+1006000,2023-11-29 00:30:00+00:00,2023,Regular Season - 36,FINISHED,Vasco DA Gama,Corinthians,2,4,2,2
+1006002,2023-11-29 22:00:00+00:00,2023,Regular Season - 36,FINISHED,Santos,Fluminense,0,3,0,2
+1005999,2023-11-29 22:30:00+00:00,2023,Regular Season - 36,FINISHED,Flamengo,Atletico-MG,0,3,0,1
+1006007,2023-11-29 23:00:00+00:00,2023,Regular Season - 36,FINISHED,Bahia,Sao Paulo,0,1,0,0
+1006008,2023-11-29 23:00:00+00:00,2023,Regular Season - 36,FINISHED,Cuiaba,Internacional,0,2,0,0
+1006001,2023-11-30 00:30:00+00:00,2023,Regular Season - 36,FINISHED,Palmeiras,America Mineiro,4,0,2,0
+1006006,2023-11-30 00:30:00+00:00,2023,Regular Season - 36,FINISHED,Coritiba,Botafogo,1,1,0,0
+1006005,2023-11-30 22:00:00+00:00,2023,Regular Season - 36,FINISHED,Gremio,Goias,2,1,0,1
+1006004,2023-11-30 23:00:00+00:00,2023,Regular Season - 36,FINISHED,Cruzeiro,Atletico Paranaense,1,1,0,0
+1006003,2023-11-30 23:30:00+00:00,2023,Regular Season - 36,FINISHED,RB Bragantino,Fortaleza EC,1,2,1,2
+1006012,2023-12-02 21:00:00+00:00,2023,Regular Season - 37,FINISHED,Corinthians,Internacional,1,2,0,1
+1006014,2023-12-03 00:00:00+00:00,2023,Regular Season - 37,FINISHED,Atletico-MG,Sao Paulo,2,1,0,0
+1006011,2023-12-03 19:00:00+00:00,2023,Regular Season - 37,FINISHED,Palmeiras,Fluminense,1,0,1,0
+1006009,2023-12-03 19:00:00+00:00,2023,Regular Season - 37,FINISHED,Flamengo,Cuiaba,2,1,2,0
+1006013,2023-12-03 21:30:00+00:00,2023,Regular Season - 37,FINISHED,RB Bragantino,Coritiba,1,0,0,0
+1006017,2023-12-03 21:30:00+00:00,2023,Regular Season - 37,FINISHED,Fortaleza EC,Goias,1,0,1,0
+1006016,2023-12-03 21:30:00+00:00,2023,Regular Season - 37,FINISHED,Atletico Paranaense,Santos,3,0,1,0
+1006015,2023-12-03 21:30:00+00:00,2023,Regular Season - 37,FINISHED,Gremio,Vasco DA Gama,1,0,0,0
+1006018,2023-12-03 21:30:00+00:00,2023,Regular Season - 37,FINISHED,America Mineiro,Bahia,3,2,2,1
+1006010,2023-12-03 21:30:00+00:00,2023,Regular Season - 37,FINISHED,Botafogo,Cruzeiro,0,0,0,0
+1006023,2023-12-06 22:00:00+00:00,2023,Regular Season - 38,FINISHED,Goias,America Mineiro,1,0,1,0
+1006027,2023-12-07 00:30:00+00:00,2023,Regular Season - 38,FINISHED,Bahia,Atletico-MG,4,1,2,1
+1006025,2023-12-07 00:30:00+00:00,2023,Regular Season - 38,FINISHED,Internacional,Botafogo,3,1,1,0
+1006019,2023-12-07 00:30:00+00:00,2023,Regular Season - 38,FINISHED,Fluminense,Gremio,2,3,1,2
+1006021,2023-12-07 00:30:00+00:00,2023,Regular Season - 38,FINISHED,Sao Paulo,Flamengo,1,0,1,0
+1006022,2023-12-07 00:30:00+00:00,2023,Regular Season - 38,FINISHED,Santos,Fortaleza EC,1,2,0,1
+1006020,2023-12-07 00:30:00+00:00,2023,Regular Season - 38,FINISHED,Vasco DA Gama,RB Bragantino,2,1,1,0
+1006024,2023-12-07 00:30:00+00:00,2023,Regular Season - 38,FINISHED,Cruzeiro,Palmeiras,1,1,0,1
+1006026,2023-12-07 00:30:00+00:00,2023,Regular Season - 38,FINISHED,Coritiba,Corinthians,0,2,0,2
+1006028,2023-12-07 00:30:00+00:00,2023,Regular Season - 38,FINISHED,Cuiaba,Atletico Paranaense,3,0,2,0
+1180355,2024-04-13 21:30:00+00:00,2024,Regular Season - 1,FINISHED,Internacional,Bahia,2,1,0,0
+1180364,2024-04-13 21:30:00+00:00,2024,Regular Season - 1,FINISHED,Criciuma,Juventude,1,1,1,0
+1180361,2024-04-14 00:00:00+00:00,2024,Regular Season - 1,FINISHED,Sao Paulo,Fortaleza EC,1,2,0,0
+1180358,2024-04-14 00:00:00+00:00,2024,Regular Season - 1,FINISHED,Fluminense,RB Bragantino,2,2,1,0
+1180360,2024-04-14 19:00:00+00:00,2024,Regular Season - 1,FINISHED,Corinthians,Atletico-MG,0,0,0,0
+1180359,2024-04-14 19:00:00+00:00,2024,Regular Season - 1,FINISHED,Vasco DA Gama,Gremio,2,1,2,0
+1180362,2024-04-14 19:00:00+00:00,2024,Regular Season - 1,FINISHED,Atletico Paranaense,Cuiaba,4,0,3,0
+1180363,2024-04-14 19:00:00+00:00,2024,Regular Season - 1,FINISHED,Atletico Goianiense,Flamengo,1,2,0,1
+1180356,2024-04-14 20:00:00+00:00,2024,Regular Season - 1,FINISHED,Cruzeiro,Botafogo,3,2,1,1
+1180357,2024-04-14 21:30:00+00:00,2024,Regular Season - 1,FINISHED,Vitoria,Palmeiras,0,1,0,1
+1180367,2024-04-17 00:30:00+00:00,2024,Regular Season - 2,FINISHED,Bahia,Fluminense,2,1,1,1
+1180365,2024-04-17 22:00:00+00:00,2024,Regular Season - 2,FINISHED,Gremio,Atletico Paranaense,2,0,1,0
+1180371,2024-04-17 22:00:00+00:00,2024,Regular Season - 2,FINISHED,RB Bragantino,Vasco DA Gama,2,1,1,0
+1180370,2024-04-17 23:00:00+00:00,2024,Regular Season - 2,FINISHED,Palmeiras,Internacional,0,1,0,1
+1180374,2024-04-17 23:00:00+00:00,2024,Regular Season - 2,FINISHED,Juventude,Corinthians,2,0,0,0
+1180372,2024-04-17 23:00:00+00:00,2024,Regular Season - 2,FINISHED,Fortaleza EC,Cruzeiro,1,1,1,0
+1180366,2024-04-17 23:00:00+00:00,2024,Regular Season - 2,FINISHED,Atletico-MG,Criciuma,1,1,1,0
+1180368,2024-04-18 00:30:00+00:00,2024,Regular Season - 2,FINISHED,Flamengo,Sao Paulo,2,1,1,0
+1180369,2024-04-19 00:30:00+00:00,2024,Regular Season - 2,FINISHED,Botafogo,Atletico Goianiense,1,0,1,0
+1180378,2024-04-20 19:00:00+00:00,2024,Regular Season - 3,FINISHED,Fluminense,Vasco DA Gama,2,1,1,0
+1180381,2024-04-20 21:30:00+00:00,2024,Regular Season - 3,FINISHED,RB Bragantino,Corinthians,1,0,1,0
+1180375,2024-04-20 21:30:00+00:00,2024,Regular Season - 3,FINISHED,Gremio,Cuiaba,1,0,1,0
+1180376,2024-04-21 00:00:00+00:00,2024,Regular Season - 3,FINISHED,Atletico-MG,Cruzeiro,3,0,3,0
+1180380,2024-04-21 19:00:00+00:00,2024,Regular Season - 3,FINISHED,Palmeiras,Flamengo,0,0,0,0
+1180382,2024-04-21 19:00:00+00:00,2024,Regular Season - 3,FINISHED,Atletico Paranaense,Internacional,1,0,0,0
+1180377,2024-04-21 19:00:00+00:00,2024,Regular Season - 3,FINISHED,Vitoria,Bahia,2,2,1,0
+1180379,2024-04-21 21:30:00+00:00,2024,Regular Season - 3,FINISHED,Botafogo,Juventude,5,1,2,0
+1180383,2024-04-21 21:30:00+00:00,2024,Regular Season - 3,FINISHED,Atletico Goianiense,Sao Paulo,0,3,0,1
+1180389,2024-04-27 19:00:00+00:00,2024,Regular Season - 4,FINISHED,Vasco DA Gama,Criciuma,0,4,0,1
+1180393,2024-04-27 21:30:00+00:00,2024,Regular Season - 4,FINISHED,Cuiaba,Atletico-MG,0,3,0,1
+1180387,2024-04-28 00:00:00+00:00,2024,Regular Season - 4,FINISHED,Bahia,Gremio,1,0,1,0
+1180388,2024-04-28 14:00:00+00:00,2024,Regular Season - 4,FINISHED,Flamengo,Botafogo,0,2,0,0
+1180390,2024-04-28 19:00:00+00:00,2024,Regular Season - 4,FINISHED,Corinthians,Fluminense,3,0,2,0
+1180386,2024-04-28 19:00:00+00:00,2024,Regular Season - 4,FINISHED,Cruzeiro,Vitoria,3,1,0,0
+1180394,2024-04-28 21:30:00+00:00,2024,Regular Season - 4,FINISHED,Juventude,Atletico Paranaense,1,1,1,0
+1180392,2024-04-28 21:30:00+00:00,2024,Regular Season - 4,FINISHED,Fortaleza EC,RB Bragantino,1,1,1,1
+1180385,2024-04-28 23:00:00+00:00,2024,Regular Season - 4,FINISHED,Internacional,Atletico Goianiense,1,1,0,0
+1180391,2024-04-29 23:00:00+00:00,2024,Regular Season - 4,FINISHED,Sao Paulo,Palmeiras,0,0,0,0
+1180398,2024-05-04 19:00:00+00:00,2024,Regular Season - 5,FINISHED,Fluminense,Atletico-MG,2,2,1,0
+1180401,2024-05-04 21:30:00+00:00,2024,Regular Season - 5,FINISHED,RB Bragantino,Flamengo,1,1,1,0
+1180400,2024-05-05 00:00:00+00:00,2024,Regular Season - 5,FINISHED,Corinthians,Fortaleza EC,0,0,0,0
+1180402,2024-05-05 19:00:00+00:00,2024,Regular Season - 5,FINISHED,Atletico Paranaense,Vasco DA Gama,1,0,1,0
+1180397,2024-05-05 19:00:00+00:00,2024,Regular Season - 5,FINISHED,Vitoria,Sao Paulo,1,3,0,1
+1180399,2024-05-05 21:30:00+00:00,2024,Regular Season - 5,FINISHED,Botafogo,Bahia,1,2,0,1
+1180403,2024-05-05 21:30:00+00:00,2024,Regular Season - 5,FINISHED,Cuiaba,Palmeiras,0,2,0,1
+1180408,2024-05-11 19:00:00+00:00,2024,Regular Season - 6,FINISHED,Flamengo,Corinthians,2,0,1,0
+1180410,2024-05-12 19:00:00+00:00,2024,Regular Season - 6,FINISHED,Palmeiras,Atletico Paranaense,0,2,0,1
+1180413,2024-05-12 19:00:00+00:00,2024,Regular Season - 6,FINISHED,Atletico Goianiense,Cruzeiro,0,1,0,0
+1180412,2024-05-12 19:00:00+00:00,2024,Regular Season - 6,FINISHED,Fortaleza EC,Botafogo,1,1,1,1
+1180407,2024-05-12 21:30:00+00:00,2024,Regular Season - 6,FINISHED,Bahia,RB Bragantino,1,0,1,0
+1180409,2024-05-12 21:30:00+00:00,2024,Regular Season - 6,FINISHED,Vasco DA Gama,Vitoria,2,1,0,0
+1180411,2024-05-13 23:00:00+00:00,2024,Regular Season - 6,FINISHED,Sao Paulo,Fluminense,2,1,1,1
+1180415,2024-06-01 19:00:00+00:00,2024,Regular Season - 7,FINISHED,Gremio,RB Bragantino,0,2,0,1
+1180417,2024-06-01 19:00:00+00:00,2024,Regular Season - 7,FINISHED,Vitoria,Atletico Goianiense,0,2,0,1
+1180423,2024-06-01 21:30:00+00:00,2024,Regular Season - 7,FINISHED,Cuiaba,Internacional,0,1,0,0
+1180418,2024-06-01 21:30:00+00:00,2024,Regular Season - 7,FINISHED,Fluminense,Juventude,1,1,1,0
+1180420,2024-06-02 00:00:00+00:00,2024,Regular Season - 7,FINISHED,Corinthians,Botafogo,0,1,0,0
+1180419,2024-06-02 19:00:00+00:00,2024,Regular Season - 7,FINISHED,Vasco DA Gama,Flamengo,1,6,1,3
+1180424,2024-06-02 19:00:00+00:00,2024,Regular Season - 7,FINISHED,Criciuma,Palmeiras,1,2,0,0
+1180416,2024-06-02 19:00:00+00:00,2024,Regular Season - 7,FINISHED,Atletico-MG,Bahia,1,1,0,0
+1180421,2024-06-02 21:30:00+00:00,2024,Regular Season - 7,FINISHED,Sao Paulo,Cruzeiro,2,0,1,0
+1180422,2024-06-02 21:30:00+00:00,2024,Regular Season - 7,FINISHED,Fortaleza EC,Atletico Paranaense,1,0,1,0
+1180404,2024-06-05 22:00:00+00:00,2024,Regular Season - 5,FINISHED,Juventude,Atletico Goianiense,1,0,1,0
+1180373,2024-06-05 23:00:00+00:00,2024,Regular Season - 2,FINISHED,Cuiaba,Vitoria,0,0,0,0
+1180414,2024-06-09 19:00:00+00:00,2024,Regular Season - 6,FINISHED,Criciuma,Cuiaba,2,5,0,3
+1180433,2024-06-11 22:00:00+00:00,2024,Regular Season - 8,FINISHED,Atletico Goianiense,Corinthians,2,2,0,1
+1180434,2024-06-11 22:00:00+00:00,2024,Regular Season - 8,FINISHED,Juventude,Vitoria,1,1,1,1
+1180429,2024-06-11 23:00:00+00:00,2024,Regular Season - 8,FINISHED,Botafogo,Fluminense,1,0,0,0
+1180431,2024-06-12 00:30:00+00:00,2024,Regular Season - 8,FINISHED,RB Bragantino,Atletico-MG,1,2,1,2
+1180426,2024-06-13 22:00:00+00:00,2024,Regular Season - 8,FINISHED,Cruzeiro,Cuiaba,2,1,1,0
+1180432,2024-06-13 23:00:00+00:00,2024,Regular Season - 8,FINISHED,Atletico Paranaense,Criciuma,3,1,1,1
+1180425,2024-06-13 23:00:00+00:00,2024,Regular Season - 8,FINISHED,Internacional,Sao Paulo,0,0,0,0
+1180428,2024-06-13 23:00:00+00:00,2024,Regular Season - 8,FINISHED,Flamengo,Gremio,2,1,1,0
+1180427,2024-06-14 00:30:00+00:00,2024,Regular Season - 8,FINISHED,Bahia,Fortaleza EC,1,0,0,0
+1180430,2024-06-14 00:30:00+00:00,2024,Regular Season - 8,FINISHED,Palmeiras,Vasco DA Gama,2,0,1,0
+1180441,2024-06-15 21:30:00+00:00,2024,Regular Season - 9,FINISHED,RB Bragantino,Juventude,2,1,1,1
+1180438,2024-06-16 00:00:00+00:00,2024,Regular Season - 9,FINISHED,Fluminense,Atletico Goianiense,1,2,1,0
+1180440,2024-06-16 19:00:00+00:00,2024,Regular Season - 9,FINISHED,Corinthians,Sao Paulo,2,2,2,2
+1180442,2024-06-16 19:00:00+00:00,2024,Regular Season - 9,FINISHED,Atletico Paranaense,Flamengo,1,1,0,0
+1180437,2024-06-16 19:00:00+00:00,2024,Regular Season - 9,FINISHED,Vitoria,Internacional,2,1,1,0
+1180443,2024-06-16 21:30:00+00:00,2024,Regular Season - 9,FINISHED,Cuiaba,Fortaleza EC,5,0,4,0
+1180435,2024-06-16 21:30:00+00:00,2024,Regular Season - 9,FINISHED,Gremio,Botafogo,1,2,1,1
+1180439,2024-06-16 21:30:00+00:00,2024,Regular Season - 9,FINISHED,Vasco DA Gama,Cruzeiro,0,0,0,0
+1180444,2024-06-16 21:30:00+00:00,2024,Regular Season - 9,FINISHED,Criciuma,Bahia,2,2,1,0
+1180436,2024-06-17 23:30:00+00:00,2024,Regular Season - 9,FINISHED,Atletico-MG,Palmeiras,0,4,0,1
+1180449,2024-06-19 22:00:00+00:00,2024,Regular Season - 10,FINISHED,Botafogo,Atletico Paranaense,1,1,0,0
+1180453,2024-06-19 22:00:00+00:00,2024,Regular Season - 10,FINISHED,Atletico Goianiense,Criciuma,1,2,1,0
+1180454,2024-06-19 23:00:00+00:00,2024,Regular Season - 10,FINISHED,Juventude,Vasco DA Gama,2,0,0,0
+1180451,2024-06-19 23:00:00+00:00,2024,Regular Season - 10,FINISHED,Sao Paulo,Cuiaba,0,1,0,0
+1180452,2024-06-19 23:00:00+00:00,2024,Regular Season - 10,FINISHED,Fortaleza EC,Gremio,1,0,1,0
+1180446,2024-06-20 00:30:00+00:00,2024,Regular Season - 10,FINISHED,Cruzeiro,Fluminense,2,0,1,0
+1180445,2024-06-20 00:30:00+00:00,2024,Regular Season - 10,FINISHED,Internacional,Corinthians,1,0,1,0
+1180447,2024-06-20 21:30:00+00:00,2024,Regular Season - 10,FINISHED,Vitoria,Atletico-MG,4,2,2,1
+1180448,2024-06-20 23:00:00+00:00,2024,Regular Season - 10,FINISHED,Flamengo,Bahia,2,1,1,1
+1180450,2024-06-21 00:30:00+00:00,2024,Regular Season - 10,FINISHED,Palmeiras,RB Bragantino,2,1,1,0
+1180464,2024-06-22 19:00:00+00:00,2024,Regular Season - 11,FINISHED,Criciuma,Botafogo,2,1,1,0
+1180455,2024-06-22 20:30:00+00:00,2024,Regular Season - 11,FINISHED,Gremio,Internacional,0,1,0,0
+1180463,2024-06-22 21:30:00+00:00,2024,Regular Season - 11,FINISHED,Cuiaba,Atletico Goianiense,0,0,0,0
+1180459,2024-06-23 00:30:00+00:00,2024,Regular Season - 11,FINISHED,Vasco DA Gama,Sao Paulo,4,1,2,1
+1180457,2024-06-23 19:00:00+00:00,2024,Regular Season - 11,FINISHED,Bahia,Cruzeiro,4,1,1,1
+1180458,2024-06-23 19:00:00+00:00,2024,Regular Season - 11,FINISHED,Fluminense,Flamengo,0,1,0,0
+1180462,2024-06-23 19:00:00+00:00,2024,Regular Season - 11,FINISHED,Atletico Paranaense,Corinthians,1,1,1,0
+1180460,2024-06-23 21:30:00+00:00,2024,Regular Season - 11,FINISHED,Palmeiras,Juventude,3,1,0,0
+1180461,2024-06-23 21:30:00+00:00,2024,Regular Season - 11,FINISHED,RB Bragantino,Vitoria,2,1,1,1
+1180456,2024-06-23 21:30:00+00:00,2024,Regular Season - 11,FINISHED,Atletico-MG,Fortaleza EC,1,1,0,1
+1180469,2024-06-26 22:00:00+00:00,2024,Regular Season - 12,FINISHED,Botafogo,RB Bragantino,2,1,1,1
+1180466,2024-06-26 22:00:00+00:00,2024,Regular Season - 12,FINISHED,Cruzeiro,Atletico Paranaense,2,0,1,0
+1180470,2024-06-26 23:00:00+00:00,2024,Regular Season - 12,FINISHED,Corinthians,Cuiaba,1,1,0,1
+1180473,2024-06-26 23:00:00+00:00,2024,Regular Season - 12,FINISHED,Atletico Goianiense,Gremio,1,1,0,0
+1180474,2024-06-26 23:00:00+00:00,2024,Regular Season - 12,FINISHED,Juventude,Flamengo,2,1,1,1
+1180472,2024-06-27 00:30:00+00:00,2024,Regular Season - 12,FINISHED,Fortaleza EC,Palmeiras,3,0,1,0
+1180465,2024-06-27 00:30:00+00:00,2024,Regular Season - 12,FINISHED,Internacional,Atletico-MG,1,2,0,0
+1180467,2024-06-27 00:30:00+00:00,2024,Regular Season - 12,FINISHED,Bahia,Vasco DA Gama,2,1,1,1
+1180468,2024-06-27 22:00:00+00:00,2024,Regular Season - 12,FINISHED,Fluminense,Vitoria,0,1,0,0
+1180471,2024-06-27 23:00:00+00:00,2024,Regular Season - 12,FINISHED,Sao Paulo,Criciuma,2,1,2,0
+1180479,2024-06-29 21:30:00+00:00,2024,Regular Season - 13,FINISHED,Vasco DA Gama,Botafogo,1,1,0,0
+1180483,2024-06-29 21:30:00+00:00,2024,Regular Season - 13,FINISHED,Cuiaba,RB Bragantino,1,1,1,1
+1180476,2024-06-30 14:00:00+00:00,2024,Regular Season - 13,FINISHED,Atletico-MG,Atletico Goianiense,1,1,1,1
+1180475,2024-06-30 19:00:00+00:00,2024,Regular Season - 13,FINISHED,Gremio,Fluminense,1,0,0,0
+1180482,2024-06-30 19:00:00+00:00,2024,Regular Season - 13,FINISHED,Fortaleza EC,Juventude,2,1,2,0
+1180481,2024-06-30 19:00:00+00:00,2024,Regular Season - 13,FINISHED,Sao Paulo,Bahia,3,1,2,0
+1180478,2024-06-30 21:30:00+00:00,2024,Regular Season - 13,FINISHED,Flamengo,Cruzeiro,2,1,1,1
+1180477,2024-06-30 21:30:00+00:00,2024,Regular Season - 13,FINISHED,Vitoria,Atletico Paranaense,0,1,0,0
+1180484,2024-06-30 21:30:00+00:00,2024,Regular Season - 13,FINISHED,Criciuma,Internacional,1,1,0,1
+1180480,2024-07-01 23:00:00+00:00,2024,Regular Season - 13,FINISHED,Palmeiras,Corinthians,2,0,0,0
+1180493,2024-07-03 22:00:00+00:00,2024,Regular Season - 14,FINISHED,Cuiaba,Botafogo,1,2,1,1
+1180494,2024-07-03 23:00:00+00:00,2024,Regular Season - 14,FINISHED,Criciuma,Cruzeiro,1,0,0,0
+1180489,2024-07-03 23:00:00+00:00,2024,Regular Season - 14,FINISHED,Vasco DA Gama,Fortaleza EC,2,0,1,0
+1180486,2024-07-04 00:30:00+00:00,2024,Regular Season - 14,FINISHED,Atletico-MG,Flamengo,2,4,0,2
+1180492,2024-07-04 00:30:00+00:00,2024,Regular Season - 14,FINISHED,Atletico Paranaense,Sao Paulo,1,2,1,1
+1180491,2024-07-04 00:30:00+00:00,2024,Regular Season - 14,FINISHED,RB Bragantino,Atletico Goianiense,3,1,3,1
+1180487,2024-07-04 22:00:00+00:00,2024,Regular Season - 14,FINISHED,Bahia,Juventude,2,0,0,0
+1180485,2024-07-04 22:00:00+00:00,2024,Regular Season - 14,FINISHED,Gremio,Palmeiras,2,2,1,0
+1180488,2024-07-04 23:00:00+00:00,2024,Regular Season - 14,FINISHED,Fluminense,Internacional,1,1,1,1
+1180490,2024-07-04 23:00:00+00:00,2024,Regular Season - 14,FINISHED,Corinthians,Vitoria,3,2,2,1
+1180501,2024-07-06 23:00:00+00:00,2024,Regular Season - 15,FINISHED,Sao Paulo,RB Bragantino,2,0,0,0
+1180498,2024-07-06 23:00:00+00:00,2024,Regular Season - 15,FINISHED,Flamengo,Cuiaba,1,1,0,1
+1180502,2024-07-07 19:00:00+00:00,2024,Regular Season - 15,FINISHED,Fortaleza EC,Fluminense,1,0,0,0
+1180504,2024-07-07 19:00:00+00:00,2024,Regular Season - 15,FINISHED,Juventude,Gremio,3,0,2,0
+1180496,2024-07-07 19:00:00+00:00,2024,Regular Season - 15,FINISHED,Cruzeiro,Corinthians,3,0,2,0
+1180495,2024-07-07 21:00:00+00:00,2024,Regular Season - 15,FINISHED,Internacional,Vasco DA Gama,1,2,0,0
+1180500,2024-07-07 21:30:00+00:00,2024,Regular Season - 15,FINISHED,Palmeiras,Bahia,2,0,1,0
+1180497,2024-07-07 21:30:00+00:00,2024,Regular Season - 15,FINISHED,Vitoria,Criciuma,2,1,2,1
+1180503,2024-07-07 21:30:00+00:00,2024,Regular Season - 15,FINISHED,Atletico Goianiense,Atletico Paranaense,1,2,0,0
+1180499,2024-07-07 23:30:00+00:00,2024,Regular Season - 15,FINISHED,Botafogo,Atletico-MG,3,0,1,0
+1180505,2024-07-10 21:30:00+00:00,2024,Regular Season - 16,FINISHED,Gremio,Cruzeiro,0,2,0,2
+1180512,2024-07-10 22:00:00+00:00,2024,Regular Season - 16,FINISHED,Atletico Paranaense,Bahia,1,3,0,2
+1180509,2024-07-10 22:00:00+00:00,2024,Regular Season - 16,FINISHED,Vasco DA Gama,Corinthians,2,0,0,0
+1180510,2024-07-11 22:30:00+00:00,2024,Regular Season - 16,FINISHED,Palmeiras,Atletico Goianiense,3,1,1,1
+1180508,2024-07-11 23:00:00+00:00,2024,Regular Season - 16,FINISHED,Flamengo,Fortaleza EC,1,2,1,1
+1180514,2024-07-11 23:00:00+00:00,2024,Regular Season - 16,FINISHED,Criciuma,Fluminense,1,1,0,0
+1180507,2024-07-12 00:30:00+00:00,2024,Regular Season - 16,FINISHED,Vitoria,Botafogo,0,1,0,0
+1180506,2024-07-12 00:30:00+00:00,2024,Regular Season - 16,FINISHED,Atletico-MG,Sao Paulo,2,1,2,1
+1180517,2024-07-13 19:00:00+00:00,2024,Regular Season - 17,FINISHED,Bahia,Cuiaba,1,2,0,1
+1180516,2024-07-13 19:00:00+00:00,2024,Regular Season - 17,FINISHED,Cruzeiro,RB Bragantino,2,1,1,0
+1180524,2024-07-16 22:00:00+00:00,2024,Regular Season - 17,FINISHED,Juventude,Atletico-MG,1,1,1,1
+1180520,2024-07-17 00:00:00+00:00,2024,Regular Season - 17,FINISHED,Corinthians,Criciuma,2,1,0,1
+1180523,2024-07-17 22:00:00+00:00,2024,Regular Season - 17,FINISHED,Atletico Goianiense,Vasco DA Gama,0,1,0,0
+1180521,2024-07-17 23:00:00+00:00,2024,Regular Season - 17,FINISHED,Sao Paulo,Gremio,1,0,1,0
+1180519,2024-07-18 00:30:00+00:00,2024,Regular Season - 17,FINISHED,Botafogo,Palmeiras,1,0,0,0
+1180522,2024-07-18 00:30:00+00:00,2024,Regular Season - 17,FINISHED,Fortaleza EC,Vitoria,3,1,2,0
+1180528,2024-07-20 19:00:00+00:00,2024,Regular Season - 18,FINISHED,Flamengo,Criciuma,2,1,0,1
+1180529,2024-07-20 21:30:00+00:00,2024,Regular Season - 18,FINISHED,Botafogo,Internacional,1,0,1,0
+1180530,2024-07-21 00:00:00+00:00,2024,Regular Season - 18,FINISHED,Palmeiras,Cruzeiro,2,0,1,0
+1180525,2024-07-21 14:00:00+00:00,2024,Regular Season - 18,FINISHED,Gremio,Vitoria,2,0,0,0
+1180527,2024-07-21 19:00:00+00:00,2024,Regular Season - 18,FINISHED,Bahia,Corinthians,0,1,0,1
+1180526,2024-07-21 19:00:00+00:00,2024,Regular Season - 18,FINISHED,Atletico-MG,Vasco DA Gama,2,0,2,0
+1180534,2024-07-21 21:30:00+00:00,2024,Regular Season - 18,FINISHED,Juventude,Sao Paulo,0,0,0,0
+1180532,2024-07-21 21:30:00+00:00,2024,Regular Season - 18,FINISHED,Fortaleza EC,Atletico Goianiense,3,1,1,1
+1180531,2024-07-21 21:30:00+00:00,2024,Regular Season - 18,FINISHED,RB Bragantino,Atletico Paranaense,1,0,1,0
+1180533,2024-07-21 23:00:00+00:00,2024,Regular Season - 18,FINISHED,Cuiaba,Fluminense,0,1,0,0
+1180536,2024-07-24 22:00:00+00:00,2024,Regular Season - 19,FINISHED,Cruzeiro,Juventude,2,0,1,0
+1180384,2024-07-24 22:00:00+00:00,2024,Regular Season - 3,FINISHED,Criciuma,Fortaleza EC,1,1,1,0
+1180541,2024-07-24 22:30:00+00:00,2024,Regular Season - 19,FINISHED,Sao Paulo,Botafogo,2,2,1,2
+1180537,2024-07-24 23:00:00+00:00,2024,Regular Season - 19,FINISHED,Vitoria,Flamengo,1,2,0,1
+1180538,2024-07-25 00:30:00+00:00,2024,Regular Season - 19,FINISHED,Fluminense,Palmeiras,1,0,0,0
+1180543,2024-07-25 00:30:00+00:00,2024,Regular Season - 19,FINISHED,Atletico Goianiense,Bahia,1,1,0,0
+1180540,2024-07-25 23:00:00+00:00,2024,Regular Season - 19,FINISHED,Corinthians,Gremio,2,2,1,1
+1180550,2024-07-27 22:00:00+00:00,2024,Regular Season - 20,FINISHED,Palmeiras,Vitoria,0,2,0,0
+1180554,2024-07-27 22:00:00+00:00,2024,Regular Season - 20,FINISHED,Juventude,Criciuma,1,2,0,0
+1180547,2024-07-27 23:00:00+00:00,2024,Regular Season - 20,FINISHED,Bahia,Internacional,1,1,1,0
+1180549,2024-07-28 00:30:00+00:00,2024,Regular Season - 20,FINISHED,Botafogo,Cruzeiro,0,3,0,2
+1180552,2024-07-28 00:30:00+00:00,2024,Regular Season - 20,FINISHED,Fortaleza EC,Sao Paulo,1,0,1,0
+1180551,2024-07-28 14:00:00+00:00,2024,Regular Season - 20,FINISHED,RB Bragantino,Fluminense,0,1,0,1
+1180548,2024-07-28 19:00:00+00:00,2024,Regular Season - 20,FINISHED,Flamengo,Atletico Goianiense,2,0,1,0
+1180545,2024-07-28 22:00:00+00:00,2024,Regular Season - 20,FINISHED,Gremio,Vasco DA Gama,1,0,0,0
+1180546,2024-07-28 22:00:00+00:00,2024,Regular Season - 20,FINISHED,Atletico-MG,Corinthians,2,1,1,1
+1180553,2024-07-28 22:00:00+00:00,2024,Regular Season - 20,FINISHED,Cuiaba,Atletico Paranaense,1,2,0,1
+1180557,2024-08-03 19:00:00+00:00,2024,Regular Season - 21,FINISHED,Vitoria,Cuiaba,1,0,0,0
+1180559,2024-08-03 22:00:00+00:00,2024,Regular Season - 21,FINISHED,Vasco DA Gama,RB Bragantino,2,2,0,1
+1180564,2024-08-03 23:00:00+00:00,2024,Regular Season - 21,FINISHED,Criciuma,Atletico-MG,2,1,0,0
+1180563,2024-08-03 23:00:00+00:00,2024,Regular Season - 21,FINISHED,Atletico Goianiense,Botafogo,1,4,1,1
+1180561,2024-08-04 00:30:00+00:00,2024,Regular Season - 21,FINISHED,Sao Paulo,Flamengo,1,0,0,0
+1180558,2024-08-04 19:00:00+00:00,2024,Regular Season - 21,FINISHED,Fluminense,Bahia,1,0,1,0
+1180560,2024-08-04 19:00:00+00:00,2024,Regular Season - 21,FINISHED,Corinthians,Juventude,1,1,0,1
+1180562,2024-08-04 19:00:00+00:00,2024,Regular Season - 21,FINISHED,Atletico Paranaense,Gremio,0,2,0,2
+1180555,2024-08-04 20:00:00+00:00,2024,Regular Season - 21,FINISHED,Internacional,Palmeiras,1,1,1,0
+1180556,2024-08-06 00:00:00+00:00,2024,Regular Season - 21,FINISHED,Cruzeiro,Fortaleza EC,1,2,1,2
+1180572,2024-08-10 19:00:00+00:00,2024,Regular Season - 22,FINISHED,Fortaleza EC,Criciuma,1,0,0,0
+1180573,2024-08-10 22:00:00+00:00,2024,Regular Season - 22,FINISHED,Cuiaba,Gremio,1,3,0,1
+1180570,2024-08-11 00:30:00+00:00,2024,Regular Season - 22,FINISHED,Corinthians,RB Bragantino,1,1,0,1
+1180569,2024-08-11 00:30:00+00:00,2024,Regular Season - 22,FINISHED,Vasco DA Gama,Fluminense,2,0,1,0
+1180566,2024-08-11 00:30:00+00:00,2024,Regular Season - 22,FINISHED,Cruzeiro,Atletico-MG,0,0,0,0
+1180574,2024-08-11 14:00:00+00:00,2024,Regular Season - 22,FINISHED,Juventude,Botafogo,3,2,2,0
+1180567,2024-08-11 19:00:00+00:00,2024,Regular Season - 22,FINISHED,Bahia,Vitoria,2,0,1,0
+1180571,2024-08-11 19:00:00+00:00,2024,Regular Season - 22,FINISHED,Sao Paulo,Atletico Goianiense,1,0,1,0
+1180568,2024-08-11 19:00:00+00:00,2024,Regular Season - 22,FINISHED,Flamengo,Palmeiras,1,1,0,0
+1180565,2024-08-11 22:00:00+00:00,2024,Regular Season - 22,FINISHED,Internacional,Atletico Paranaense,2,2,1,1
+1180405,2024-08-14 22:30:00+00:00,2024,Regular Season - 6,FINISHED,Internacional,Juventude,2,1,0,1
+1180575,2024-08-17 19:00:00+00:00,2024,Regular Season - 23,FINISHED,Gremio,Bahia,0,2,0,1
+1180576,2024-08-17 19:00:00+00:00,2024,Regular Season - 23,FINISHED,Atletico-MG,Cuiaba,1,1,1,1
+1180581,2024-08-17 21:30:00+00:00,2024,Regular Season - 23,FINISHED,RB Bragantino,Fortaleza EC,1,2,1,1
+1180578,2024-08-18 00:00:00+00:00,2024,Regular Season - 23,FINISHED,Fluminense,Corinthians,0,0,0,0
+1180584,2024-08-18 19:00:00+00:00,2024,Regular Season - 23,FINISHED,Criciuma,Vasco DA Gama,2,2,1,2
+1180583,2024-08-18 19:00:00+00:00,2024,Regular Season - 23,FINISHED,Atletico Goianiense,Internacional,1,0,0,0
+1180580,2024-08-18 19:00:00+00:00,2024,Regular Season - 23,FINISHED,Palmeiras,Sao Paulo,2,1,0,0
+1180579,2024-08-18 21:30:00+00:00,2024,Regular Season - 23,FINISHED,Botafogo,Flamengo,4,1,1,1
+1180582,2024-08-18 21:30:00+00:00,2024,Regular Season - 23,FINISHED,Atletico Paranaense,Juventude,1,2,1,1
+1180577,2024-08-19 23:00:00+00:00,2024,Regular Season - 23,FINISHED,Vitoria,Cruzeiro,2,2,2,0
+1180593,2024-08-24 19:00:00+00:00,2024,Regular Season - 24,FINISHED,Atletico Goianiense,Juventude,2,1,0,0
+1180590,2024-08-24 21:30:00+00:00,2024,Regular Season - 24,FINISHED,Palmeiras,Cuiaba,5,0,4,0
+1180586,2024-08-25 00:00:00+00:00,2024,Regular Season - 24,FINISHED,Atletico-MG,Fluminense,0,2,0,1
+1180594,2024-08-25 19:00:00+00:00,2024,Regular Season - 24,FINISHED,Criciuma,Gremio,0,1,0,0
+1180587,2024-08-25 19:00:00+00:00,2024,Regular Season - 24,FINISHED,Bahia,Botafogo,0,0,0,0
+1180592,2024-08-25 19:00:00+00:00,2024,Regular Season - 24,FINISHED,Fortaleza EC,Corinthians,1,0,0,0
+1180591,2024-08-25 21:30:00+00:00,2024,Regular Season - 24,FINISHED,Sao Paulo,Vitoria,2,1,2,0
+1180585,2024-08-25 22:00:00+00:00,2024,Regular Season - 24,FINISHED,Internacional,Cruzeiro,1,0,0,0
+1180588,2024-08-25 23:00:00+00:00,2024,Regular Season - 24,FINISHED,Flamengo,RB Bragantino,2,1,1,0
+1180589,2024-08-27 00:00:00+00:00,2024,Regular Season - 24,FINISHED,Vasco DA Gama,Atletico Paranaense,2,1,0,1
+1180396,2024-08-28 22:30:00+00:00,2024,Regular Season - 5,FINISHED,Cruzeiro,Internacional,0,0,0,0
+1180544,2024-08-28 22:30:00+00:00,2024,Regular Season - 19,FINISHED,Criciuma,RB Bragantino,1,0,1,0
+1180603,2024-08-31 21:30:00+00:00,2024,Regular Season - 25,FINISHED,Cuiaba,Criciuma,2,1,0,1
+1180599,2024-09-01 00:00:00+00:00,2024,Regular Season - 25,FINISHED,Botafogo,Fortaleza EC,2,0,0,0
+1180596,2024-09-01 14:00:00+00:00,2024,Regular Season - 25,FINISHED,Cruzeiro,Atletico Goianiense,3,1,2,1
+1180595,2024-09-01 14:00:00+00:00,2024,Regular Season - 25,FINISHED,Gremio,Atletico-MG,2,3,2,0
+1180600,2024-09-01 19:00:00+00:00,2024,Regular Season - 25,FINISHED,Corinthians,Flamengo,2,1,1,1
+1180598,2024-09-01 21:30:00+00:00,2024,Regular Season - 25,FINISHED,Fluminense,Sao Paulo,2,0,1,0
+1180602,2024-09-01 21:30:00+00:00,2024,Regular Season - 25,FINISHED,Atletico Paranaense,Palmeiras,0,2,0,1
+1180597,2024-09-01 21:30:00+00:00,2024,Regular Season - 25,FINISHED,Vitoria,Vasco DA Gama,0,1,0,0
+1180604,2024-09-01 21:30:00+00:00,2024,Regular Season - 25,FINISHED,Juventude,Internacional,1,3,0,2
+1180601,2024-09-01 21:30:00+00:00,2024,Regular Season - 25,FINISHED,RB Bragantino,Bahia,2,1,0,0
+1180513,2024-09-05 23:00:00+00:00,2024,Regular Season - 16,FINISHED,Cuiaba,Juventude,0,0,0,0
+1180535,2024-09-11 22:30:00+00:00,2024,Regular Season - 19,FINISHED,Internacional,Fortaleza EC,2,1,1,1
+1180613,2024-09-14 19:00:00+00:00,2024,Regular Season - 26,FINISHED,Atletico Goianiense,Vitoria,0,2,0,1
+1180612,2024-09-14 21:30:00+00:00,2024,Regular Season - 26,FINISHED,Atletico Paranaense,Fortaleza EC,1,1,1,1
+1180609,2024-09-15 00:00:00+00:00,2024,Regular Season - 26,FINISHED,Botafogo,Corinthians,2,1,1,0
+1180610,2024-09-15 19:00:00+00:00,2024,Regular Season - 26,FINISHED,Palmeiras,Criciuma,5,0,3,0
+1180614,2024-09-15 19:00:00+00:00,2024,Regular Season - 26,FINISHED,Juventude,Fluminense,2,1,0,1
+1180611,2024-09-15 19:00:00+00:00,2024,Regular Season - 26,FINISHED,RB Bragantino,Gremio,2,2,1,1
+1180608,2024-09-15 21:30:00+00:00,2024,Regular Season - 26,FINISHED,Flamengo,Vasco DA Gama,1,1,0,0
+1180606,2024-09-15 21:30:00+00:00,2024,Regular Season - 26,FINISHED,Cruzeiro,Sao Paulo,0,1,0,0
+1180607,2024-09-15 21:30:00+00:00,2024,Regular Season - 26,FINISHED,Bahia,Atletico-MG,3,0,0,0
+1180605,2024-09-16 23:00:00+00:00,2024,Regular Season - 26,FINISHED,Internacional,Cuiaba,3,0,2,0
+1180620,2024-09-21 19:00:00+00:00,2024,Regular Season - 27,FINISHED,Corinthians,Atletico Goianiense,3,0,1,0
+1180617,2024-09-21 19:00:00+00:00,2024,Regular Season - 27,FINISHED,Vitoria,Juventude,1,0,1,0
+1180618,2024-09-21 21:30:00+00:00,2024,Regular Season - 27,FINISHED,Fluminense,Botafogo,0,1,0,0
+1180622,2024-09-22 00:00:00+00:00,2024,Regular Season - 27,FINISHED,Fortaleza EC,Bahia,4,1,2,1
+1180619,2024-09-22 19:00:00+00:00,2024,Regular Season - 27,FINISHED,Vasco DA Gama,Palmeiras,0,1,0,1
+1180616,2024-09-22 19:00:00+00:00,2024,Regular Season - 27,FINISHED,Atletico-MG,RB Bragantino,3,0,1,0
+1180621,2024-09-22 21:30:00+00:00,2024,Regular Season - 27,FINISHED,Sao Paulo,Internacional,1,3,1,1
+1180615,2024-09-22 21:30:00+00:00,2024,Regular Season - 27,FINISHED,Gremio,Flamengo,3,2,1,1
+1180623,2024-09-22 21:30:00+00:00,2024,Regular Season - 27,FINISHED,Cuiaba,Cruzeiro,0,0,0,0
+1180624,2024-09-23 21:30:00+00:00,2024,Regular Season - 27,FINISHED,Criciuma,Atletico Paranaense,0,0,0,0
+1180395,2024-09-25 22:00:00+00:00,2024,Regular Season - 5,FINISHED,Gremio,Criciuma,1,2,0,1
+1180511,2024-09-25 22:00:00+00:00,2024,Regular Season - 16,FINISHED,RB Bragantino,Internacional,2,2,1,1
+1180630,2024-09-28 21:30:00+00:00,2024,Regular Season - 28,FINISHED,Palmeiras,Atletico-MG,2,1,1,0
+1180629,2024-09-29 00:00:00+00:00,2024,Regular Season - 28,FINISHED,Botafogo,Gremio,0,0,0,0
+1180634,2024-09-29 14:00:00+00:00,2024,Regular Season - 28,FINISHED,Juventude,RB Bragantino,1,1,0,0
+1180632,2024-09-29 19:00:00+00:00,2024,Regular Season - 28,FINISHED,Fortaleza EC,Cuiaba,1,0,1,0
+1180631,2024-09-29 19:00:00+00:00,2024,Regular Season - 28,FINISHED,Sao Paulo,Corinthians,3,1,1,0
+1180633,2024-09-29 19:00:00+00:00,2024,Regular Season - 28,FINISHED,Atletico Goianiense,Fluminense,1,0,0,0
+1180627,2024-09-29 21:30:00+00:00,2024,Regular Season - 28,FINISHED,Bahia,Criciuma,1,0,1,0
+1180625,2024-09-29 21:30:00+00:00,2024,Regular Season - 28,FINISHED,Internacional,Vitoria,3,1,1,0
+1180626,2024-09-29 21:30:00+00:00,2024,Regular Season - 28,FINISHED,Cruzeiro,Vasco DA Gama,1,1,0,1
+1180628,2024-09-29 23:00:00+00:00,2024,Regular Season - 28,FINISHED,Flamengo,Atletico Paranaense,1,0,0,0
+1180644,2024-10-03 22:00:00+00:00,2024,Regular Season - 29,FINISHED,Criciuma,Atletico Goianiense,2,0,1,0
+1180638,2024-10-04 00:30:00+00:00,2024,Regular Season - 29,FINISHED,Fluminense,Cruzeiro,1,0,0,0
+1180635,2024-10-05 00:30:00+00:00,2024,Regular Season - 29,FINISHED,Gremio,Fortaleza EC,3,1,1,1
+1180636,2024-10-05 19:30:00+00:00,2024,Regular Season - 29,FINISHED,Atletico-MG,Vitoria,2,2,2,0
+1180642,2024-10-05 19:30:00+00:00,2024,Regular Season - 29,FINISHED,Atletico Paranaense,Botafogo,0,1,0,1
+1180641,2024-10-05 19:30:00+00:00,2024,Regular Season - 29,FINISHED,RB Bragantino,Palmeiras,0,0,0,0
+1180637,2024-10-05 22:00:00+00:00,2024,Regular Season - 29,FINISHED,Bahia,Flamengo,0,2,0,1
+1180640,2024-10-05 22:00:00+00:00,2024,Regular Season - 29,FINISHED,Corinthians,Internacional,2,2,1,1
+1180643,2024-10-05 22:00:00+00:00,2024,Regular Season - 29,FINISHED,Cuiaba,Sao Paulo,2,0,2,0
+1180639,2024-10-06 00:00:00+00:00,2024,Regular Season - 29,FINISHED,Vasco DA Gama,Juventude,1,1,1,1
+1180406,2024-10-09 22:30:00+00:00,2024,Regular Season - 6,FINISHED,Atletico-MG,Gremio,2,1,2,1
+1180652,2024-10-17 00:45:00+00:00,2024,Regular Season - 30,FINISHED,Fortaleza EC,Atletico-MG,1,1,1,0
+1180651,2024-10-17 00:45:00+00:00,2024,Regular Season - 30,FINISHED,Sao Paulo,Vasco DA Gama,3,0,1,0
+1180648,2024-10-17 23:00:00+00:00,2024,Regular Season - 30,FINISHED,Flamengo,Fluminense,0,2,0,0
+1180650,2024-10-17 23:00:00+00:00,2024,Regular Season - 30,FINISHED,Corinthians,Atletico Paranaense,5,2,2,2
+1180653,2024-10-18 22:00:00+00:00,2024,Regular Season - 30,FINISHED,Atletico Goianiense,Cuiaba,0,0,0,0
+1180649,2024-10-18 23:00:00+00:00,2024,Regular Season - 30,FINISHED,Botafogo,Criciuma,1,1,0,0
+1180646,2024-10-19 00:30:00+00:00,2024,Regular Season - 30,FINISHED,Cruzeiro,Bahia,1,1,0,0
+1180645,2024-10-19 19:00:00+00:00,2024,Regular Season - 30,FINISHED,Internacional,Gremio,1,0,0,0
+1180647,2024-10-19 19:00:00+00:00,2024,Regular Season - 30,FINISHED,Vitoria,RB Bragantino,1,0,0,0
+1180654,2024-10-20 23:00:00+00:00,2024,Regular Season - 30,FINISHED,Juventude,Palmeiras,3,5,1,2
+1180518,2024-10-22 22:30:00+00:00,2024,Regular Season - 17,FINISHED,Fluminense,Atletico Paranaense,1,0,0,0
+1180539,2024-10-25 22:00:00+00:00,2024,Regular Season - 19,FINISHED,Vasco DA Gama,Cuiaba,1,0,0,0
+1180660,2024-10-26 19:30:00+00:00,2024,Regular Season - 31,FINISHED,Palmeiras,Fortaleza EC,2,2,1,1
+1180658,2024-10-26 19:30:00+00:00,2024,Regular Season - 31,FINISHED,Flamengo,Juventude,4,2,1,1
+1180655,2024-10-26 19:30:00+00:00,2024,Regular Season - 31,FINISHED,Gremio,Atletico Goianiense,3,1,1,1
+1180657,2024-10-26 19:30:00+00:00,2024,Regular Season - 31,FINISHED,Vitoria,Fluminense,2,1,1,0
+1180662,2024-10-26 21:30:00+00:00,2024,Regular Season - 31,FINISHED,Atletico Paranaense,Cruzeiro,3,0,1,0
+1180656,2024-10-26 23:00:00+00:00,2024,Regular Season - 31,FINISHED,Atletico-MG,Internacional,1,3,1,2
+1180661,2024-10-26 23:00:00+00:00,2024,Regular Season - 31,FINISHED,RB Bragantino,Botafogo,0,1,0,0
+1180664,2024-10-27 01:00:00+00:00,2024,Regular Season - 31,FINISHED,Criciuma,Sao Paulo,1,1,1,0
+1180663,2024-10-28 22:00:00+00:00,2024,Regular Season - 31,FINISHED,Cuiaba,Corinthians,0,1,0,1
+1180659,2024-10-29 00:00:00+00:00,2024,Regular Season - 31,FINISHED,Vasco DA Gama,Bahia,3,2,3,1
+1180515,2024-10-30 22:00:00+00:00,2024,Regular Season - 17,FINISHED,Internacional,Flamengo,1,1,0,1
+1180668,2024-11-02 00:00:00+00:00,2024,Regular Season - 32,FINISHED,Fluminense,Gremio,2,2,1,1
+1180671,2024-11-02 19:00:00+00:00,2024,Regular Season - 32,FINISHED,RB Bragantino,Cuiaba,0,0,0,0
+1180672,2024-11-02 21:30:00+00:00,2024,Regular Season - 32,FINISHED,Atletico Paranaense,Vitoria,1,2,1,1
+1180674,2024-11-02 21:30:00+00:00,2024,Regular Season - 32,FINISHED,Juventude,Fortaleza EC,0,3,0,2
+1180670,2024-11-04 23:00:00+00:00,2024,Regular Season - 32,FINISHED,Corinthians,Palmeiras,2,0,1,0
+1180667,2024-11-06 00:30:00+00:00,2024,Regular Season - 32,FINISHED,Bahia,Sao Paulo,0,3,0,1
+1180665,2024-11-06 00:30:00+00:00,2024,Regular Season - 32,FINISHED,Internacional,Criciuma,2,0,1,0
+1180669,2024-11-06 00:30:00+00:00,2024,Regular Season - 32,FINISHED,Botafogo,Vasco DA Gama,3,0,2,0
+1180666,2024-11-07 00:00:00+00:00,2024,Regular Season - 32,FINISHED,Cruzeiro,Flamengo,0,1,0,0
+1180673,2024-11-07 00:00:00+00:00,2024,Regular Season - 32,FINISHED,Atletico Goianiense,Atletico-MG,1,0,0,0
+1180675,2024-11-08 22:00:00+00:00,2024,Regular Season - 33,FINISHED,Internacional,Fluminense,2,0,0,0
+1180680,2024-11-09 00:30:00+00:00,2024,Regular Season - 33,FINISHED,Palmeiras,Gremio,1,0,0,0
+1180679,2024-11-09 19:30:00+00:00,2024,Regular Season - 33,FINISHED,Botafogo,Cuiaba,0,0,0,0
+1180677,2024-11-09 19:30:00+00:00,2024,Regular Season - 33,FINISHED,Vitoria,Corinthians,1,2,1,1
+1180676,2024-11-09 22:00:00+00:00,2024,Regular Season - 33,FINISHED,Cruzeiro,Criciuma,2,1,1,0
+1180683,2024-11-09 22:00:00+00:00,2024,Regular Season - 33,FINISHED,Atletico Goianiense,RB Bragantino,0,0,0,0
+1180684,2024-11-09 22:00:00+00:00,2024,Regular Season - 33,FINISHED,Juventude,Bahia,2,1,0,1
+1180682,2024-11-09 22:00:00+00:00,2024,Regular Season - 33,FINISHED,Fortaleza EC,Vasco DA Gama,3,0,1,0
+1180681,2024-11-10 00:00:00+00:00,2024,Regular Season - 33,FINISHED,Sao Paulo,Atletico Paranaense,2,1,0,0
+1180678,2024-11-13 23:00:00+00:00,2024,Regular Season - 33,FINISHED,Flamengo,Atletico-MG,0,0,0,0
+1180542,2024-11-16 21:30:00+00:00,2024,Regular Season - 19,FINISHED,Atletico Paranaense,Atletico-MG,1,0,1,0
+1180690,2024-11-20 14:00:00+00:00,2024,Regular Season - 34,FINISHED,Corinthians,Cruzeiro,2,1,2,1
+1180692,2024-11-20 19:30:00+00:00,2024,Regular Season - 34,FINISHED,Atletico Paranaense,Atletico Goianiense,2,0,1,0
+1180694,2024-11-20 19:30:00+00:00,2024,Regular Season - 34,FINISHED,Criciuma,Vitoria,0,1,0,0
+1180691,2024-11-20 19:30:00+00:00,2024,Regular Season - 34,FINISHED,RB Bragantino,Sao Paulo,1,1,1,1
+1180687,2024-11-20 21:00:00+00:00,2024,Regular Season - 34,FINISHED,Bahia,Palmeiras,1,2,1,1
+1180685,2024-11-20 22:00:00+00:00,2024,Regular Season - 34,FINISHED,Gremio,Juventude,2,2,1,1
+1180693,2024-11-20 22:00:00+00:00,2024,Regular Season - 34,FINISHED,Cuiaba,Flamengo,1,2,0,0
+1180686,2024-11-21 00:30:00+00:00,2024,Regular Season - 34,FINISHED,Atletico-MG,Botafogo,0,0,0,0
+1180689,2024-11-21 23:00:00+00:00,2024,Regular Season - 34,FINISHED,Vasco DA Gama,Internacional,0,1,0,0
+1180688,2024-11-23 00:30:00+00:00,2024,Regular Season - 34,FINISHED,Fluminense,Fortaleza EC,2,2,1,2
+1180699,2024-11-23 22:30:00+00:00,2024,Regular Season - 35,FINISHED,Botafogo,Vitoria,1,1,0,1
+1180703,2024-11-23 22:30:00+00:00,2024,Regular Season - 35,FINISHED,Atletico Goianiense,Palmeiras,0,1,0,1
+1180704,2024-11-23 22:30:00+00:00,2024,Regular Season - 35,FINISHED,Juventude,Cuiaba,1,1,0,0
+1180701,2024-11-24 00:30:00+00:00,2024,Regular Season - 35,FINISHED,Sao Paulo,Atletico-MG,2,2,2,2
+1180697,2024-11-24 19:00:00+00:00,2024,Regular Season - 35,FINISHED,Bahia,Atletico Paranaense,1,1,0,0
+1180695,2024-11-24 19:00:00+00:00,2024,Regular Season - 35,FINISHED,Internacional,RB Bragantino,4,1,2,1
+1180700,2024-11-24 19:00:00+00:00,2024,Regular Season - 35,FINISHED,Corinthians,Vasco DA Gama,3,1,3,0
+1180698,2024-11-26 22:00:00+00:00,2024,Regular Season - 35,FINISHED,Fluminense,Criciuma,0,0,0,0
+1180702,2024-11-26 23:00:00+00:00,2024,Regular Season - 35,FINISHED,Fortaleza EC,Flamengo,0,0,0,0
+1180710,2024-11-27 00:30:00+00:00,2024,Regular Season - 36,FINISHED,Palmeiras,Botafogo,1,3,0,1
+1180706,2024-11-27 00:30:00+00:00,2024,Regular Season - 36,FINISHED,Atletico-MG,Juventude,2,3,0,1
+1180696,2024-11-28 00:00:00+00:00,2024,Regular Season - 35,FINISHED,Cruzeiro,Gremio,1,1,1,1
+1180714,2024-11-30 22:30:00+00:00,2024,Regular Season - 36,FINISHED,Criciuma,Corinthians,2,4,2,0
+1180713,2024-11-30 22:30:00+00:00,2024,Regular Season - 36,FINISHED,Cuiaba,Bahia,1,2,1,1
+1180709,2024-12-01 00:30:00+00:00,2024,Regular Season - 36,FINISHED,Vasco DA Gama,Atletico Goianiense,2,2,0,1
+1180708,2024-12-01 19:00:00+00:00,2024,Regular Season - 36,FINISHED,Flamengo,Internacional,3,2,3,0
+1180705,2024-12-01 19:00:00+00:00,2024,Regular Season - 36,FINISHED,Gremio,Sao Paulo,2,1,2,0
+1180712,2024-12-01 21:30:00+00:00,2024,Regular Season - 36,FINISHED,Atletico Paranaense,Fluminense,1,1,1,0
+1180707,2024-12-01 21:30:00+00:00,2024,Regular Season - 36,FINISHED,Vitoria,Fortaleza EC,2,0,2,0
+1180711,2024-12-01 21:30:00+00:00,2024,Regular Season - 36,FINISHED,RB Bragantino,Cruzeiro,1,1,1,0
+1180720,2024-12-03 23:00:00+00:00,2024,Regular Season - 37,FINISHED,Corinthians,Bahia,3,0,2,0
+1180719,2024-12-04 22:00:00+00:00,2024,Regular Season - 37,FINISHED,Vasco DA Gama,Atletico-MG,2,0,0,0
+1180721,2024-12-04 23:00:00+00:00,2024,Regular Season - 37,FINISHED,Sao Paulo,Juventude,1,2,0,0
+1180717,2024-12-04 23:00:00+00:00,2024,Regular Season - 37,FINISHED,Vitoria,Gremio,1,1,0,1
+1180724,2024-12-04 23:00:00+00:00,2024,Regular Season - 37,FINISHED,Criciuma,Flamengo,0,3,0,1
+1180715,2024-12-05 00:30:00+00:00,2024,Regular Season - 37,FINISHED,Internacional,Botafogo,0,1,0,1
+1180716,2024-12-05 00:30:00+00:00,2024,Regular Season - 37,FINISHED,Cruzeiro,Palmeiras,1,2,0,0
+1180723,2024-12-05 00:30:00+00:00,2024,Regular Season - 37,FINISHED,Atletico Goianiense,Fortaleza EC,3,1,1,1
+1180718,2024-12-05 23:00:00+00:00,2024,Regular Season - 37,FINISHED,Fluminense,Cuiaba,1,0,0,0
+1180722,2024-12-05 23:00:00+00:00,2024,Regular Season - 37,FINISHED,Atletico Paranaense,RB Bragantino,1,2,0,1
+1180732,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,Fortaleza EC,Internacional,3,0,2,0
+1180734,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,Juventude,Cruzeiro,0,1,0,1
+1180731,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,RB Bragantino,Criciuma,5,1,2,1
+1180725,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,Gremio,Corinthians,0,3,0,1
+1180726,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,Atletico-MG,Atletico Paranaense,1,0,0,0
+1180730,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,Palmeiras,Fluminense,0,1,0,1
+1180729,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,Botafogo,Sao Paulo,2,1,1,0
+1180727,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,Bahia,Atletico Goianiense,2,0,1,0
+1180728,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,Flamengo,Vitoria,2,2,0,1
+1180733,2024-12-08 19:00:00+00:00,2024,Regular Season - 38,FINISHED,Cuiaba,Vasco DA Gama,1,2,1,2

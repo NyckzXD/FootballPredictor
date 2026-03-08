@@ -7,8 +7,8 @@ from sklearn.isotonic import IsotonicRegression
 import lightgbm as lgb
 import joblib
 
-DATA_PATH  = r"C:\PREDICTOR\scraping\data\processed\features.csv"
-MODEL_PATH = r"C:\PREDICTOR\models\match_model.pkl"
+DATA_PATH  = r"C:\PREDICTOR\REPO\scraping\data\processed\features.csv"
+MODEL_PATH = r"C:\PREDICTOR\REPO\modelos\match_model.pkl"
 
 FEATURE_COLS = [
     "elo_diff", "home_elo", "away_elo",

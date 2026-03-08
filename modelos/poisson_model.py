@@ -5,8 +5,8 @@ from sklearn.preprocessing import StandardScaler
 import joblib
 from pathlib import Path
 
-DATA_PATH        = r"C:\PREDICTOR\scraping\data\processed\features.csv"
-POISSON_MODEL_PATH = r"C:\PREDICTOR\models\poisson_model.pkl"
+DATA_PATH        = r"C:\PREDICTOR\REPO\scraping\data\processed\features.csv"
+POISSON_MODEL_PATH = r"C:\PREDICTOR\REPO\models\poisson_model.pkl"
 
 GOAL_FEATURES = [
     "elo_diff", "home_elo", "away_elo",

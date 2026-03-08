@@ -10,7 +10,7 @@ load_dotenv()
 # Registre em https://the-odds-api.com (gratuito)
 API_KEY     = os.getenv("ODDS_API_KEY")
 BASE_URL    = "https://api.the-odds-api.com/v4"
-OUTPUT_PATH = r"C:\PREDICTOR\scraping\data\external\odds.csv"
+OUTPUT_PATH = r"C:\PREDICTOR\REPO\scraping\data\external\odds.csv"
 
 # ID do Brasileirão na Odds API
 SPORT = "soccer_brazil_campeonato"

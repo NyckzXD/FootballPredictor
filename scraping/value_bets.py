@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 import joblib
 
-MODEL_PATH  = r"C:\PREDICTOR\models\match_model.pkl"
-ODDS_PATH   = r"C:\PREDICTOR\scraping\data\external\odds.csv"
-FEATURES_PATH = r"C:\PREDICTOR\scraping\data\processed\features.csv"
-MARKET_PATH = r"C:\PREDICTOR\scraping\data\external\market_values.csv"
-OUTPUT_PATH = r"C:\PREDICTOR\scraping\data\external\value_bets.csv"
+MODEL_PATH  = r"C:\PREDICTOR\REPO\models\match_model.pkl"
+ODDS_PATH   = r"C:\PREDICTOR\REPO\scraping\data\external\odds.csv"
+FEATURES_PATH = r"C:\PREDICTOR\REPO\scraping\data\processed\features.csv"
+MARKET_PATH = r"C:\PREDICTOR\REPO\scraping\data\external\market_values.csv"
+OUTPUT_PATH = r"C:\PREDICTOR\REPO\scraping\data\external\value_bets.csv"
 
 # Mapeamento nomes Odds API → football-data.org
 TEAM_MAP = {

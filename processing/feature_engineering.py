@@ -2,9 +2,9 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-DATA_PATH   = r"C:\PREDICTOR\scraping\data\raw\matches.csv"
-OUTPUT_PATH = r"C:\PREDICTOR\scraping\data\processed\features.csv"
-MARKET_VALUES_PATH = r"C:\PREDICTOR\scraping\data\external\market_values.csv"
+DATA_PATH   = r"C:\PREDICTOR\REPO\scraping\data\raw\matches_merged.csv"
+OUTPUT_PATH = r"C:\PREDICTOR\REPO\scraping\data\processed\features.csv"
+MARKET_VALUES_PATH = r"C:\PREDICTOR\REPO\scraping\data\external\market_values.csv"
 
 # ──────────────────────────────────────────────
 # ELO

@@ -7,7 +7,7 @@ import os
 
 load_dotenv()
 
-API_KEY = os.getenv("DATA_API_KEY")  # Registre em football-data.org (gratuito)
+API_KEY = os.getenv("DATA_API_KEY")
 BASE_URL = "https://api.football-data.org/v4/"
 HEADERS = {"X-Auth-Token": API_KEY}
 

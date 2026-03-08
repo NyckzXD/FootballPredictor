@@ -5,7 +5,7 @@ import time
 import re
 from pathlib import Path
 
-OUTPUT_PATH = r"C:\PREDICTOR\scraping\data\external\market_values.csv"
+OUTPUT_PATH = r"C:\PREDICTOR\REPO\scraping\data\external\market_values.csv"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
