@@ -1,5 +1,5 @@
 date,time_utc,home_team,away_team,aposta,outcome,prob_modelo,prob_mercado,odd_bet365,value,edge_pct,kelly_pct,pred_modelo,prob_h,prob_d,prob_a,odd_h,odd_d,odd_a,margin_pct
-2026-03-14,23:30,Botafogo FR,CR Flamengo,Botafogo FR vence,H,0.414,0.23,4.2,1.74,74.0,5.0,Botafogo FR vence,0.414,0.334,0.252,4.2,3.33,2.02,3.34
+2026-03-14,23:30,Botafogo FR,CR Flamengo,Botafogo FR vence,H,0.414,0.232,4.18,1.732,73.2,5.0,Botafogo FR vence,0.414,0.334,0.252,4.18,3.32,2.03,3.31
 2026-03-15,23:30,Cruzeiro EC,CR Vasco da Gama,Empate,D,0.41,0.253,3.76,1.541,54.1,4.9,Cruzeiro EC vence,0.536,0.41,0.054,1.82,3.76,4.25,5.07
 2026-03-16,23:00,Chapecoense AF,Grêmio,Empate,D,0.407,0.287,3.32,1.353,35.3,3.8,Empate,0.285,0.407,0.308,2.91,3.32,2.48,4.81
 2026-03-14,21:30,EC Vitória,CA Mineiro,EC Vitória vence,H,0.513,0.402,2.41,1.236,23.6,4.19,EC Vitória vence,0.513,0.277,0.21,2.41,3.16,3.32,3.26

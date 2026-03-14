@@ -776,3 +776,15 @@ with tab5:
             height=500, margin=dict(l=0, r=0, t=20, b=0),
         )
         st.plotly_chart(fig, use_container_width=True)
+
+# ── Footer ────────────────────────────────────────────────────────────────────
+st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("""
+<div style='text-align:center;padding:20px 0;border-top:1px solid #1c2333;
+            font-family:JetBrains Mono,monospace;font-size:12px;color:#8b949e;'>
+  © 2026 PREDICTOR · Todos os direitos reservados · Desenvolvido por <b style='color:#e6edf3;'>Nycolas F. Oliveira</b>
+  <br><span style='font-size:10px;color:#555577;margin-top:4px;display:block;'>
+    Modelo LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
+  </span>
+</div>
+""", unsafe_allow_html=True)
