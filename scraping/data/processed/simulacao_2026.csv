@@ -1,21 +1,21 @@
-time,titulo_%,libertadores_%,sulamericana_%,rebaixamento_%,pts_esperados
-SE Palmeiras,30.3,64.1,75.7,1.4,61.6
-CR Flamengo,11.3,41.8,56.1,4.1,57.2
-São Paulo FC,11.0,40.5,55.9,4.1,57.0
-EC Bahia,7.6,30.4,43.3,8.7,54.9
-SC Corinthians Paulista,5.4,25.0,38.1,9.8,53.7
-Fluminense FC,4.9,24.2,37.1,10.7,53.6
-Botafogo FR,4.7,20.8,32.8,15.2,52.3
-Grêmio FBPA,4.5,22.4,34.1,13.9,52.9
-RB Bragantino,4.2,21.9,34.0,12.7,53.0
-CA Paranaense,3.2,18.2,29.6,16.1,51.8
-Mirassol FC,1.8,12.1,20.8,25.9,49.3
-Chapecoense AF,1.8,11.2,18.8,27.1,49.0
-Cruzeiro EC,1.7,10.5,18.9,26.2,49.4
-Santos FC,1.4,10.2,17.9,25.9,49.2
-CA Mineiro,1.4,9.4,16.8,28.6,48.6
-SC Internacional,1.3,9.7,18.0,26.2,49.1
-EC Vitória,1.0,8.2,15.3,29.9,48.4
-Coritiba FBC,1.0,7.8,14.6,35.3,47.4
-Clube do Remo,0.7,5.7,10.9,38.6,46.5
-CR Vasco da Gama,0.7,5.9,11.1,39.5,46.4
+time,titulo_pct,libertadores_pct,sulamericana_pct,rebaixamento_pct,pts_esperados,pts_std,pos_esperada
+SE Palmeiras,26.2,83.5,98.3,0.1,62.9,6.6,3.7
+São Paulo FC,22.8,81.4,97.5,0.2,62.2,6.6,4.1
+CR Flamengo,21.6,80.9,97.2,0.1,61.8,6.5,4.1
+SC Corinthians Paulista,11.6,68.1,94.6,0.9,59.5,6.5,5.4
+Grêmio FBPA,6.0,53.6,88.9,1.9,57.2,6.4,6.8
+Fluminense FC,3.2,38.2,78.5,6.8,54.7,6.8,8.6
+CA Mineiro,3.1,39.9,79.4,5.7,54.5,6.7,8.3
+CA Paranaense,1.2,22.4,64.5,10.8,51.8,6.6,10.6
+Santos FC,0.9,20.6,65.1,12.5,51.5,6.4,10.6
+SC Internacional,0.7,19.9,60.5,13.5,51.0,6.5,10.9
+RB Bragantino,0.7,18.5,58.6,14.8,50.9,6.5,11.2
+EC Bahia,1.0,15.3,52.1,22.6,49.9,7.1,12.0
+Botafogo FR,0.2,14.3,52.7,18.8,49.8,6.5,11.9
+Cruzeiro EC,0.3,13.3,50.5,18.4,49.4,6.4,12.0
+Mirassol FC,0.3,10.1,46.4,23.5,48.8,6.4,12.6
+Clube do Remo,0.1,6.1,32.6,35.1,46.4,6.4,14.1
+Chapecoense AF,0.0,4.3,26.3,45.2,45.3,6.8,15.0
+EC Vitória,0.1,4.1,22.8,48.7,44.8,6.8,15.3
+Coritiba FBC,0.0,2.8,17.4,59.7,43.3,6.6,16.2
+CR Vasco da Gama,0.0,2.7,16.1,60.7,42.5,6.9,16.4
