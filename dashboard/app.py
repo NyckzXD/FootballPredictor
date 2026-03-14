@@ -2,589 +2,777 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
-import plotly.express as px
-import plotly.graph_objects as go
 import sys
 import os
+import warnings
+warnings.filterwarnings("ignore")
 
-sys.path.append(r"C:\PREDICTOR\models")
-sys.path.append(r"C:\PREDICTOR\processing")
+# ── Paths ─────────────────────────────────────────────────────────────────────
+BASE          = r"C:\PREDICTOR\REPO"
+SCRAPING      = os.path.join(BASE, "scraping")
+DATA_RAW      = os.path.join(SCRAPING, "data", "raw")
+DATA_PROC     = os.path.join(SCRAPING, "data", "processed")
+DATA_EXT      = os.path.join(SCRAPING, "data", "external")
+MODELOS       = os.path.join(BASE, "modelos")
 
-# ── Configuração da página ──
+sys.path.append(SCRAPING)
+sys.path.append(MODELOS)
+
+MODEL_PATH         = os.path.join(MODELOS, "match_model.pkl")
+POISSON_PATH       = os.path.join(MODELOS, "poisson_model.pkl")
+FEATURES_PATH      = os.path.join(DATA_PROC, "features_odds.csv")
+MATCHES_PATH       = os.path.join(DATA_RAW,  "matches_final.csv")
+MATCHES_CSV        = os.path.join(DATA_RAW,  "matches.csv")
+MARKET_PATH        = os.path.join(DATA_EXT,  "market_values.csv")
+SIM_PATH           = os.path.join(DATA_PROC, "simulacao_2026.csv")
+VALUE_BETS_PATH    = os.path.join(DATA_EXT,  "value_bets.csv")
+ODDS_LIVE_PATH     = os.path.join(DATA_EXT,  "odds_live.csv")
+BACKTESTING_PATH   = os.path.join(DATA_EXT,  "backtesting_results.csv")
+
+# ── Config ────────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Brasileirão 2026 Predictor",
+    page_title="PREDICTOR — Brasileirão 2026",
     page_icon="⚽",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed",
 )
 
-# ── Paths ──
-MODEL_PATH         = r"C:\PREDICTOR\models\match_model.pkl"
-POISSON_MODEL_PATH = r"C:\PREDICTOR\models\poisson_model.pkl"
-MATCHES_PATH       = r"C:\PREDICTOR\scraping\data\raw\matches.csv"
-FEATURES_PATH      = r"C:\PREDICTOR\scraping\data\processed\features.csv"
-MARKET_PATH        = r"C:\PREDICTOR\scraping\data\external\market_values.csv"
-SIMULATION_PATH    = r"C:\PREDICTOR\scraping\data\processed\simulacao_2026.csv"
-
-# ── CSS customizado ──
 st.markdown("""
 <style>
-    .main { background-color: #0e1117; }
-    .metric-card {
-        background: linear-gradient(135deg, #1e3a5f, #0d2137);
-        border-radius: 12px;
-        padding: 20px;
-        border: 1px solid #2d5986;
-        text-align: center;
-    }
-    .title-green  { color: #00c853; font-weight: bold; }
-    .title-red    { color: #ff1744; font-weight: bold; }
-    .title-yellow { color: #ffd600; font-weight: bold; }
-    .stTabs [data-baseweb="tab"] { font-size: 16px; }
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+    --green:   #00e676;
+    --red:     #ff1744;
+    --yellow:  #ffd600;
+    --blue:    #2979ff;
+    --bg:      #080c12;
+    --card:    #0d1117;
+    --border:  #1c2333;
+    --text:    #e6edf3;
+    --muted:   #8b949e;
+}
+
+html, body, [class*="css"] {
+    background-color: var(--bg) !important;
+    color: var(--text) !important;
+    font-family: 'DM Sans', sans-serif !important;
+}
+
+h1, h2, h3 { font-family: 'Bebas Neue', sans-serif !important; letter-spacing: 2px; }
+
+.stTabs [data-baseweb="tab-list"] {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 4px;
+    border: 1px solid var(--border);
+    gap: 2px;
+}
+.stTabs [data-baseweb="tab"] {
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--muted) !important;
+    border-radius: 6px;
+    padding: 8px 18px;
+}
+.stTabs [aria-selected="true"] {
+    background: var(--border) !important;
+    color: var(--text) !important;
+}
+
+.metric-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-align: center;
+}
+.metric-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+.metric-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--text);
+    line-height: 1;
+}
+
+.vbet-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s;
+}
+.vbet-card:hover { border-left-color: var(--yellow); }
+.vbet-card.high  { border-left-color: #ff6d00; }
+.vbet-card.top   { border-left-color: var(--red); }
+
+.team-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+.vs-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+.edge-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 5px;
+    background: rgba(0,230,118,0.12);
+    color: var(--green);
+    border: 1px solid rgba(0,230,118,0.25);
+}
+.edge-badge.high {
+    background: rgba(255,109,0,0.12);
+    color: #ff6d00;
+    border-color: rgba(255,109,0,0.25);
+}
+.edge-badge.top {
+    background: rgba(255,23,68,0.12);
+    color: var(--red);
+    border-color: rgba(255,23,68,0.25);
+}
+.prob-bar-wrap {
+    background: var(--border);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+.prob-bar { height: 100%; border-radius: 4px; }
+
+.standings-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    font-size: 14px;
+}
+.pos-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    width: 32px;
+    text-align: center;
+    margin-right: 12px;
+}
+.pos-liberta  { color: var(--blue); }
+.pos-sul      { color: var(--yellow); }
+.pos-rebaixa  { color: var(--red); }
+.pos-normal   { color: var(--muted); }
+
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+
+div[data-testid="stMetric"] {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+}
+div[data-testid="stMetricValue"] {
+    font-family: 'Bebas Neue', sans-serif !important;
+    font-size: 28px !important;
+}
+
+.stButton > button {
+    background: var(--green) !important;
+    color: #000 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 700 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px 24px !important;
+}
+.stButton > button:hover { opacity: 0.85; }
+
+.stSelectbox > div, .stMultiSelect > div {
+    background: var(--card) !important;
+    border-color: var(--border) !important;
+}
+
+hr { border-color: var(--border) !important; }
 </style>
 """, unsafe_allow_html=True)
 
 
-# ── Carregar dados ──
+# ── Loaders ───────────────────────────────────────────────────────────────────
 @st.cache_resource
-def load_models():
-    saved        = joblib.load(MODEL_PATH)
-    poisson_saved = joblib.load(POISSON_MODEL_PATH)
-    return saved["model"], saved["features"], saved["label_encoder"], poisson_saved
+def load_model():
+    return joblib.load(MODEL_PATH)
+
+@st.cache_resource
+def load_poisson():
+    return joblib.load(POISSON_PATH)
 
 @st.cache_data
-def load_data():
-    matches  = pd.read_csv(MATCHES_PATH)
-    features = pd.read_csv(FEATURES_PATH)
-    market   = pd.read_csv(MARKET_PATH)
-    sim      = pd.read_csv(SIMULATION_PATH)
-    return matches, features, market, sim
+def load_features():
+    df = pd.read_csv(FEATURES_PATH)
+    if "season_x" in df.columns: df = df.rename(columns={"season_x": "season"})
+    if "result_x" in df.columns: df = df.rename(columns={"result_x": "result"})
+    return df
 
-model, feature_cols, le, poisson_saved = load_models()
-matches, features, market, sim = load_data()
+@st.cache_data
+def load_matches():
+    return pd.read_csv(MATCHES_PATH)
 
-df_2026  = matches[matches["season"] == 2026].copy()
-played   = df_2026[df_2026["status"] == "FINISHED"].copy()
-fixtures = df_2026[df_2026["status"] != "FINISHED"].copy()
-mv_dict  = market.set_index("team").to_dict("index")
+@st.cache_data
+def load_market():
+    try: return pd.read_csv(MARKET_PATH)
+    except: return pd.DataFrame()
 
-# ── Tabela real ──
-def build_real_table():
-    table = {}
-    for _, row in played.iterrows():
-        home, away = row["home_team"], row["away_team"]
-        hg, ag = int(row["home_goals"]), int(row["away_goals"])
-        for t in [home, away]:
-            if t not in table:
-                table[t] = {"pts":0,"gf":0,"ga":0,"w":0,"d":0,"l":0,"played":0}
-        table[home]["gf"]+=hg; table[home]["ga"]+=ag; table[home]["played"]+=1
-        table[away]["gf"]+=ag; table[away]["ga"]+=hg; table[away]["played"]+=1
-        if hg>ag:   table[home]["pts"]+=3; table[home]["w"]+=1; table[away]["l"]+=1
-        elif hg==ag: table[home]["pts"]+=1; table[away]["pts"]+=1; table[home]["d"]+=1; table[away]["d"]+=1
-        else:        table[away]["pts"]+=3; table[away]["w"]+=1; table[home]["l"]+=1
-    df = pd.DataFrame(table).T.reset_index()
-    df.columns = ["team","pts","gf","ga","w","d","l","played"]
-    df["gd"] = df["gf"] - df["ga"]
-    return df.sort_values(["pts","gd","gf"], ascending=False).reset_index(drop=True)
+@st.cache_data
+def load_sim():
+    try: return pd.read_csv(SIM_PATH)
+    except: return pd.DataFrame()
 
-real_table = build_real_table()
-real_table.index += 1
 
-# ── Previsão de partida ──
-def predict_match(home, away):
-    def get_mv(team):
-        return mv_dict.get(team, {"market_value_log":3.0,"market_value_norm":0.3,"squad_size":25})
+# ── Predict helpers ───────────────────────────────────────────────────────────
+def add_derived(X_):
+    X_ = X_.copy()
+    X_["form_diff"]       = X_["home_form_pts"]       - X_["away_form_pts"]
+    X_["form_diff_10"]    = X_["home_form_pts_10"]    - X_["away_form_pts_10"]
+    X_["gf_diff"]         = X_["home_avg_gf"]         - X_["away_avg_gf"]
+    X_["ga_diff"]         = X_["home_avg_ga"]         - X_["away_avg_ga"]
+    X_["win_rate_diff"]   = X_["home_win_rate"]       - X_["away_win_rate"]
+    X_["aproveit_diff"]   = X_["home_aproveitamento"] - X_["away_aproveitamento"]
+    X_["home_in_crisis"]  = (X_["home_form_pts"] < 0.5).astype(int)
+    X_["away_in_form"]    = (X_["away_form_pts"] > 2.0).astype(int)
+    X_["elo_similarity"]      = 1 / (1 + np.abs(X_["elo_diff"]))
+    X_["form_similarity"]     = 1 / (1 + np.abs(X_["form_diff"]))
+    X_["value_similarity"]    = 1 / (1 + np.abs(X_["market_value_diff"]))
+    X_["overall_balance"]     = (X_["elo_similarity"] + X_["form_similarity"] + X_["value_similarity"]) / 3
+    X_["home_draw_tendency"]  = X_["home_draw_rate"]
+    X_["away_draw_tendency"]  = X_["away_draw_rate"]
+    X_["combined_draw_rate"]  = (X_["home_draw_rate"] + X_["away_draw_rate"]) / 2
+    X_["both_low_scoring"]    = ((X_["home_avg_gf"] < 1.2) & (X_["away_avg_gf"] < 1.2)).astype(int)
+    X_["both_good_defense"]   = ((X_["home_avg_ga"] < 1.0) & (X_["away_avg_ga"] < 1.0)).astype(int)
+    total_h2h                 = X_["h2h_home_wins"] + X_["h2h_away_wins"] + X_["h2h_draws"] + 1
+    X_["h2h_draw_rate"]       = X_["h2h_draws"] / total_h2h
+    X_["h2h_decisividade"]    = (X_["h2h_home_wins"] + X_["h2h_away_wins"]) / total_h2h
+    X_["position_similarity"] = 1 / (1 + np.abs(X_["position_diff"]))
+    X_["elo_vs_mkt_h"]        = X_["elo_similarity"] - X_["prob_h_mkt"]
+    X_["elo_vs_mkt_a"]        = (1 - X_["elo_similarity"]) - X_["prob_a_mkt"]
+    return X_
 
-    def get_team_stats_from_features(team):
-        team_feats = features[
-            (features["home_team"] == team) | (features["away_team"] == team)
-        ].tail(1)
-        if team_feats.empty:
-            return {
-                "form_pts":1.0,"avg_gf":1.2,"avg_ga":1.2,"goal_diff":0.0,
-                "win_rate":0.33,"draw_rate":0.33,"home_form":1.0,"away_form":1.0,
-                "form_pts_10":1.0,"avg_gf_10":1.2,"avg_ga_10":1.2,"win_rate_10":0.33,
-                "elo":1500.0,
-            }
-        row = team_feats.iloc[0]
-        if row["home_team"] == team:
-            return {
-                "form_pts":   row.get("home_form_pts",1.0),
-                "avg_gf":     row.get("home_avg_gf",1.2),
-                "avg_ga":     row.get("home_avg_ga",1.2),
-                "goal_diff":  row.get("home_goal_diff",0.0),
-                "win_rate":   row.get("home_win_rate",0.33),
-                "draw_rate":  row.get("home_draw_rate",0.33),
-                "home_form":  row.get("home_home_form",1.0),
-                "away_form":  row.get("away_away_form",1.0),
-                "form_pts_10":row.get("home_form_pts_10",1.0),
-                "avg_gf_10":  row.get("home_avg_gf_10",1.2),
-                "avg_ga_10":  row.get("home_avg_ga_10",1.2),
-                "win_rate_10":row.get("home_win_rate_10",0.33),
-                "elo":        row.get("home_elo",1500.0),
-            }
-        else:
-            return {
-                "form_pts":   row.get("away_form_pts",1.0),
-                "avg_gf":     row.get("away_avg_gf",1.2),
-                "avg_ga":     row.get("away_avg_ga",1.2),
-                "goal_diff":  row.get("away_goal_diff",0.0),
-                "win_rate":   row.get("away_win_rate",0.33),
-                "draw_rate":  row.get("away_draw_rate",0.33),
-                "home_form":  row.get("home_home_form",1.0),
-                "away_form":  row.get("away_away_form",1.0),
-                "form_pts_10":row.get("away_form_pts_10",1.0),
-                "avg_gf_10":  row.get("away_avg_gf_10",1.2),
-                "avg_ga_10":  row.get("away_avg_ga_10",1.2),
-                "win_rate_10":row.get("away_win_rate_10",0.33),
-                "elo":        row.get("away_elo",1500.0),
-            }
 
-    hs  = get_team_stats_from_features(home)
-    as_ = get_team_stats_from_features(away)
-    h_mv = get_mv(home)
-    a_mv = get_mv(away)
+def predict_match(home, away, features_df, model_data,
+                  odd_h=None, odd_d=None, odd_a=None):
+    hf = features_df[features_df["home_team"] == home].tail(1)
+    af = features_df[features_df["away_team"] == away].tail(1)
+    if hf.empty or af.empty:
+        return None
 
-    row = {
-        "elo_diff":           hs["elo"] - as_["elo"],
-        "home_elo":           hs["elo"],
-        "away_elo":           as_["elo"],
-        "home_market_value_log":  h_mv["market_value_log"],
-        "home_market_value_norm": h_mv["market_value_norm"],
-        "home_squad_size":        h_mv["squad_size"],
-        "away_market_value_log":  a_mv["market_value_log"],
-        "away_market_value_norm": a_mv["market_value_norm"],
-        "away_squad_size":        a_mv["squad_size"],
-        "market_value_diff":      h_mv["market_value_log"] - a_mv["market_value_log"],
-        "home_position":      5, "away_position":    10,
-        "home_aproveitamento":0.5,"away_aproveitamento":0.4,
-        "home_table_gd":      0, "away_table_gd":    0,
-        "position_diff":      5,
-        "home_form_pts":   hs["form_pts"],   "home_avg_gf":     hs["avg_gf"],
-        "home_avg_ga":     hs["avg_ga"],     "home_goal_diff":  hs["goal_diff"],
-        "home_win_rate":   hs["win_rate"],   "home_draw_rate":  hs["draw_rate"],
-        "home_home_form":  hs["home_form"],
-        "away_form_pts":   as_["form_pts"],  "away_avg_gf":     as_["avg_gf"],
-        "away_avg_ga":     as_["avg_ga"],    "away_goal_diff":  as_["goal_diff"],
-        "away_win_rate":   as_["win_rate"],  "away_draw_rate":  as_["draw_rate"],
-        "away_away_form":  as_["away_form"],
-        "home_form_pts_10":hs["form_pts_10"],"home_avg_gf_10":  hs["avg_gf_10"],
-        "home_avg_ga_10":  hs["avg_ga_10"],  "home_win_rate_10":hs["win_rate_10"],
-        "away_form_pts_10":as_["form_pts_10"],"away_avg_gf_10": as_["avg_gf_10"],
-        "away_avg_ga_10":  as_["avg_ga_10"], "away_win_rate_10":as_["win_rate_10"],
-        "h2h_home_wins":0, "h2h_away_wins":0, "h2h_draws":0,
+    hr = hf.iloc[0]; ar = af.iloc[0]
+
+    if odd_h and odd_d and odd_a:
+        p_h = 1/odd_h; p_d = 1/odd_d; p_a = 1/odd_a
+        tot = p_h + p_d + p_a
+        prob_h_mkt = p_h/tot; prob_d_mkt = p_d/tot; prob_a_mkt = p_a/tot
+        odds_draw_factor = odd_d / ((odd_h + odd_a) / 2)
+        odds_har = odd_h / odd_a
+        market_entropy = -(prob_h_mkt*np.log(prob_h_mkt+1e-9) +
+                           prob_d_mkt*np.log(prob_d_mkt+1e-9) +
+                           prob_a_mkt*np.log(prob_a_mkt+1e-9))
+    else:
+        prob_h_mkt = hr.get("home_aproveitamento", 0.5)
+        prob_d_mkt = 0.27
+        prob_a_mkt = ar.get("away_aproveitamento", 0.23)
+        odds_draw_factor = 1.0; odds_har = 1.2; market_entropy = 1.0
+
+    feat = {
+        "elo_diff": hr.get("home_elo",1500) - ar.get("away_elo",1500),
+        "home_elo": hr.get("home_elo",1500), "away_elo": ar.get("away_elo",1500),
+        "home_market_value_log": hr.get("home_market_value_log",4),
+        "away_market_value_log": ar.get("away_market_value_log",4),
+        "market_value_diff": hr.get("home_market_value_log",4) - ar.get("away_market_value_log",4),
+        "home_market_value_norm": hr.get("home_market_value_norm",0.5),
+        "away_market_value_norm": ar.get("away_market_value_norm",0.5),
+        "home_squad_size": 20, "away_squad_size": 20,
+        "home_aproveitamento": hr.get("home_aproveitamento",0.4),
+        "away_aproveitamento": ar.get("away_aproveitamento",0.4),
+        "position_diff": hr.get("position_diff",0),
+        "home_form_pts": hr.get("home_form_pts",1),
+        "home_avg_gf": hr.get("home_avg_gf",1.2),
+        "home_avg_ga": hr.get("home_avg_ga",1.0),
+        "home_goal_diff": hr.get("home_goal_diff",0),
+        "home_win_rate": hr.get("home_win_rate",0.4),
+        "home_draw_rate": hr.get("home_draw_rate",0.25),
+        "home_home_form": hr.get("home_home_form",0),
+        "away_form_pts": ar.get("away_form_pts",1),
+        "away_avg_gf": ar.get("away_avg_gf",1.2),
+        "away_avg_ga": ar.get("away_avg_ga",1.0),
+        "away_goal_diff": ar.get("away_goal_diff",0),
+        "away_win_rate": ar.get("away_win_rate",0.4),
+        "away_draw_rate": ar.get("away_draw_rate",0.25),
+        "away_away_form": ar.get("away_away_form",0),
+        "home_form_pts_10": hr.get("home_form_pts_10",1),
+        "home_avg_gf_10": hr.get("home_avg_gf_10",1.2),
+        "home_avg_ga_10": hr.get("home_avg_ga_10",1.0),
+        "home_win_rate_10": hr.get("home_win_rate_10",0.4),
+        "away_form_pts_10": ar.get("away_form_pts_10",1),
+        "away_avg_gf_10": ar.get("away_avg_gf_10",1.2),
+        "away_avg_ga_10": ar.get("away_avg_ga_10",1.0),
+        "away_win_rate_10": ar.get("away_win_rate_10",0.4),
+        "h2h_home_wins": hr.get("h2h_home_wins",0),
+        "h2h_away_wins": hr.get("h2h_away_wins",0),
+        "h2h_draws": hr.get("h2h_draws",0),
+        "prob_h_mkt": prob_h_mkt, "prob_d_mkt": prob_d_mkt, "prob_a_mkt": prob_a_mkt,
+        "odds_draw_factor": odds_draw_factor,
+        "odds_home_away_ratio": odds_har,
+        "market_entropy": market_entropy,
     }
 
-    X         = pd.DataFrame([row])[feature_cols]
-    probs_enc = model.predict_proba(X)[0]
-    probs     = {le.classes_[i]: probs_enc[i] for i in range(len(le.classes_))}
+    df_feat = add_derived(pd.DataFrame([feat]))
+    X = np.array([[df_feat.iloc[0].get(f, 0) for f in model_data["features"]]])
 
-    # Gols esperados via Poisson
-    pf = {
-        "elo_diff":       hs["elo"]-as_["elo"], "home_elo": hs["elo"], "away_elo": as_["elo"],
-        "home_avg_gf":    hs["avg_gf"],  "home_avg_ga":    hs["avg_ga"],
-        "home_goal_diff": hs["goal_diff"],"away_avg_gf":    as_["avg_gf"],
-        "away_avg_ga":    as_["avg_ga"], "away_goal_diff": as_["goal_diff"],
-        "home_form_pts":  hs["form_pts"],"away_form_pts":  as_["form_pts"],
-        "home_avg_gf_10": hs["avg_gf_10"],"home_avg_ga_10": hs["avg_ga_10"],
-        "away_avg_gf_10": as_["avg_gf_10"],"away_avg_ga_10": as_["avg_ga_10"],
-        "home_aproveitamento":0.5,"away_aproveitamento":0.4,"position_diff":5,
-    }
-    pm    = poisson_saved["model_home"]
-    pa    = poisson_saved["model_away"]
-    sc    = poisson_saved["scaler"]
-    feats = poisson_saved["features"]
-    Xp    = pd.DataFrame([pf])[feats]
-    Xpa   = Xp.copy(); Xpa["elo_diff"] = -Xpa["elo_diff"]; Xpa["position_diff"] = -Xpa["position_diff"]
-    lam_h = max(0.2, pm.predict(sc.transform(Xp))[0])
-    lam_a = max(0.2, pa.predict(sc.transform(Xpa))[0])
-
-    return probs, lam_h, lam_a
+    ph  = model_data["cal_h"].predict(model_data["model_h"].predict_proba(X)[:, 1])[0]
+    pd_ = model_data["cal_d"].predict(model_data["model_d"].predict_proba(X)[:, 1])[0]
+    pa  = model_data["cal_a"].predict(model_data["model_a"].predict_proba(X)[:, 1])[0]
+    tot = ph + pd_ + pa
+    return ph/tot, pd_/tot, pa/tot
 
 
-# ════════════════════════════════════════════
-# LAYOUT
-# ════════════════════════════════════════════
-
-st.title("⚽ Brasileirão 2026 — Predictor & Simulador")
-st.caption("Modelo preditivo com LightGBM calibrado + Monte Carlo | Acurácia: 50.3%")
+# ── Header ────────────────────────────────────────────────────────────────────
+st.markdown("""
+<div style='padding: 24px 0 8px 0;'>
+  <span style='font-family:Bebas Neue,sans-serif;font-size:42px;letter-spacing:4px;'>
+    ⚽ PREDICTOR
+  </span>
+  <span style='font-family:JetBrains Mono,monospace;font-size:13px;color:#8b949e;
+               margin-left:16px;background:#1c2333;padding:4px 10px;border-radius:5px;'>
+    BRASILEIRÃO 2026 · v3.0
+  </span>
+</div>
+""", unsafe_allow_html=True)
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "📊 Tabela & Simulação",
-    "🔮 Prever Partida",
-    "📈 Análise de Times",
-    "💰 Valor de Mercado",
-    "💎 Value bets"
+    "🏆 Simulação", "🎯 Prever Partida", "📊 Value Bets",
+    "📈 Backtesting", "💰 Valor de Mercado"
 ])
 
 
-# ════════════════════════════════════════════
-# TAB 1 — TABELA & SIMULAÇÃO
-# ════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 1 — SIMULAÇÃO
+# ══════════════════════════════════════════════════════════════════════════════
 with tab1:
-    col1, col2 = st.columns(2)
+    st.markdown("### TABELA BRASILEIRÃO 2026")
+    df_sim = load_sim()
 
-    with col1:
-        st.subheader("📋 Tabela Atual")
-        def color_table(df):
-            colors = []
-            for i in range(len(df)):
-                if i < 4:   colors.append("background-color: #0d3b0d")    # Libertadores
-                elif i < 6: colors.append("background-color: #1a3a0d")    # Sul-Americana
-                elif i >= len(df)-4: colors.append("background-color: #3b0d0d")  # Rebaixamento
-                else:       colors.append("")
-            return colors
-
-        st.dataframe(
-            real_table[["team","pts","played","w","d","l","gf","ga","gd"]].rename(columns={
-                "team":"Time","pts":"Pts","played":"J","w":"V","d":"E","l":"D",
-                "gf":"GM","ga":"GS","gd":"SG"
-            }),
-            use_container_width=True, height=720, hide_index=False
-        )
-        st.caption("🟢 Libertadores | 🟡 Sul-Americana | 🔴 Rebaixamento")
-
-    with col2:
-        st.subheader("🎲 Probabilidades Monte Carlo")
-
-        sim_display = sim.copy()
-        sim_display.index = range(1, len(sim_display)+1)
-
-        # Gráfico título
-        fig_title = px.bar(
-            sim_display.head(10),
-            x="time", y="titulo_%",
-            color="titulo_%",
-            color_continuous_scale="Greens",
-            title="% Probabilidade de Título",
-            labels={"titulo_%": "%", "time": ""},
-        )
-        fig_title.update_layout(
-            plot_bgcolor="#0e1117", paper_bgcolor="#0e1117",
-            font_color="white", showlegend=False,
-            coloraxis_showscale=False
-        )
-        st.plotly_chart(fig_title, use_container_width=True)
-
-        # Gráfico rebaixamento
-        fig_rell = px.bar(
-            sim_display.sort_values("rebaixamento_%", ascending=False).head(8),
-            x="time", y="rebaixamento_%",
-            color="rebaixamento_%",
-            color_continuous_scale="Reds",
-            title="% Probabilidade de Rebaixamento",
-            labels={"rebaixamento_%": "%", "time": ""},
-        )
-        fig_rell.update_layout(
-            plot_bgcolor="#0e1117", paper_bgcolor="#0e1117",
-            font_color="white", showlegend=False,
-            coloraxis_showscale=False
-        )
-        st.plotly_chart(fig_rell, use_container_width=True)
-
-    # Tabela completa Monte Carlo
-    st.subheader("📊 Tabela Completa de Probabilidades")
-    st.dataframe(
-        sim_display.rename(columns={
-            "time":"Time","titulo_%":"Título %","libertadores_%":"Libertadores %",
-            "sulamericana_%":"Sul-Americana %","rebaixamento_%":"Rebaixamento %",
-            "pts_esperados":"Pts Esperados"
-        }),
-        use_container_width=True, height=400
-    )
-
-
-# ════════════════════════════════════════════
-# TAB 2 — PREVER PARTIDA
-# ════════════════════════════════════════════
-with tab2:
-    st.subheader("🔮 Previsão de Partida")
-
-    teams = sorted(df_2026["home_team"].unique())
-
-    col1, col2, col3 = st.columns([2,1,2])
-    with col1:
-        home_team = st.selectbox("🏠 Time Mandante", teams, index=0)
-    with col2:
-        st.markdown("<br><h3 style='text-align:center'>VS</h3>", unsafe_allow_html=True)
-    with col3:
-        away_team = st.selectbox("✈️ Time Visitante", teams, index=1)
-
-    if home_team == away_team:
-        st.warning("Selecione times diferentes!")
+    if df_sim.empty:
+        st.warning("Rode o season_simulator.py para gerar a simulação.")
     else:
-        if st.button("🔮 Prever Partida", type="primary", use_container_width=True):
-            with st.spinner("Calculando previsões..."):
-                probs, lam_h, lam_a = predict_match(home_team, away_team)
+        c1, c2, c3, c4 = st.columns(4)
+        top = df_sim.iloc[0]
+        with c1:
+            st.metric("🥇 Favorito ao Título", top["time"], f"{top['titulo_pct']:.1f}%")
+        with c2:
+            rebaixa = df_sim[df_sim["rebaixamento_pct"] > 50].iloc[0] if len(df_sim[df_sim["rebaixamento_pct"] > 50]) > 0 else df_sim.iloc[-1]
+            st.metric("⬇️ Maior risco rebaixamento", rebaixa["time"], f"{rebaixa['rebaixamento_pct']:.1f}%")
+        with c3:
+            st.metric("🏟️ Times simulados", len(df_sim))
+        with c4:
+            st.metric("🎲 Simulações", "10.000")
 
-            st.markdown("---")
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.metric(f"🏠 {home_team}", f"{probs.get('H',0):.1%}", "Vitória mandante")
-            with c2:
-                st.metric("🤝 Empate", f"{probs.get('D',0):.1%}", "")
-            with c3:
-                st.metric(f"✈️ {away_team}", f"{probs.get('A',0):.1%}", "Vitória visitante")
+        st.markdown("<br>", unsafe_allow_html=True)
 
-            st.markdown("---")
-            c1, c2 = st.columns(2)
-            with c1:
-                st.metric("⚽ Gols esperados mandante", f"{lam_h:.2f}")
-            with c2:
-                st.metric("⚽ Gols esperados visitante", f"{lam_a:.2f}")
+        for i, row in df_sim.reset_index(drop=True).iterrows():
+            pos = i + 1
+            if pos <= 6:    pos_class, pos_color = "pos-liberta", "#2979ff"
+            elif pos <= 12: pos_class, pos_color = "pos-sul",     "#ffd600"
+            elif pos <= 17: pos_class, pos_color = "pos-normal",  "#8b949e"
+            else:           pos_class, pos_color = "pos-rebaixa", "#ff1744"
 
-            # Gráfico de probabilidades
-            fig = go.Figure(go.Bar(
-                x=[home_team, "Empate", away_team],
-                y=[probs.get("H",0)*100, probs.get("D",0)*100, probs.get("A",0)*100],
-                marker_color=["#00c853", "#ffd600", "#ff1744"],
-                text=[f"{probs.get('H',0):.1%}", f"{probs.get('D',0):.1%}", f"{probs.get('A',0):.1%}"],
-                textposition="outside"
-            ))
+            titulo_bar  = min(row["titulo_pct"] * 2, 100)
+            liberta_bar = min(row["libertadores_pct"], 100)
+            rebaixa_bar = min(row["rebaixamento_pct"], 100)
+
+            st.markdown(f"""
+            <div class='standings-row'>
+              <span class='pos-badge {pos_class}'>{pos}</span>
+              <span style='flex:1;font-weight:600;font-size:15px;'>{row['time']}</span>
+              <span class='mono' style='width:60px;text-align:right;color:#e6edf3;'>{row['pts_esperados']:.1f} pts</span>
+              <div style='width:200px;margin-left:20px;'>
+                <div style='display:flex;justify-content:space-between;font-size:10px;color:#8b949e;margin-bottom:2px;'>
+                  <span>🏆 {row['titulo_pct']:.1f}%</span>
+                  <span>🌎 {row['libertadores_pct']:.1f}%</span>
+                  <span>⬇️ {row['rebaixamento_pct']:.1f}%</span>
+                </div>
+                <div class='prob-bar-wrap'>
+                  <div class='prob-bar' style='width:{liberta_bar}%;background:{pos_color};'></div>
+                </div>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 2 — PREVER PARTIDA
+# ══════════════════════════════════════════════════════════════════════════════
+with tab2:
+    st.markdown("### PREVER PARTIDA")
+    features_df = load_features()
+    model_data  = load_model()
+    all_teams   = sorted(features_df["home_team"].unique().tolist())
+
+    col1, col2 = st.columns(2)
+    with col1:
+        home = st.selectbox("🏠 Mandante", all_teams, key="pred_home")
+    with col2:
+        away_opts = [t for t in all_teams if t != home]
+        away = st.selectbox("✈️ Visitante", away_opts, key="pred_away")
+
+    with st.expander("⚙️ Inserir odds (opcional)"):
+        oc1, oc2, oc3 = st.columns(3)
+        with oc1: oh = st.number_input("Odd Mandante", min_value=1.01, value=2.10, step=0.05)
+        with oc2: od = st.number_input("Odd Empate",   min_value=1.01, value=3.30, step=0.05)
+        with oc3: oa = st.number_input("Odd Visitante",min_value=1.01, value=3.50, step=0.05)
+        use_odds = st.checkbox("Usar odds na predição", value=False)
+
+    if st.button("⚡ PREVER", use_container_width=True):
+        result = predict_match(
+            home, away, features_df, model_data,
+            odd_h=oh if use_odds else None,
+            odd_d=od if use_odds else None,
+            odd_a=oa if use_odds else None,
+        )
+        if result:
+            ph, pd_, pa = result
+            outcomes   = {"H": ph, "D": pd_, "A": pa}
+            pred       = max(outcomes, key=outcomes.get)
+            pred_label = {
+                "H": f"🏠 {home} vence",
+                "D": "🤝 Empate",
+                "A": f"✈️ {away} vence"
+            }[pred]
+
+            st.markdown("<br>", unsafe_allow_html=True)
+            m1, m2, m3 = st.columns(3)
+            with m1: st.metric(f"🏠 {home}", f"{ph:.1%}")
+            with m2: st.metric("🤝 Empate", f"{pd_:.1%}")
+            with m3: st.metric(f"✈️ {away}", f"{pa:.1%}")
+
+            st.markdown(f"""
+            <div style='background:#0d1117;border:1px solid #1c2333;border-left:4px solid #00e676;
+                        border-radius:10px;padding:20px;margin-top:16px;text-align:center;'>
+              <div style='font-size:12px;color:#8b949e;text-transform:uppercase;
+                          letter-spacing:2px;margin-bottom:8px;'>Previsão do Modelo</div>
+              <div style='font-family:Bebas Neue,sans-serif;font-size:28px;
+                          letter-spacing:2px;color:#00e676;'>{pred_label}</div>
+              <div style='font-size:13px;color:#8b949e;margin-top:6px;'>
+                Confiança: {outcomes[pred]:.1%}
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            if use_odds:
+                st.markdown("<br>**Value vs odds inseridas:**", unsafe_allow_html=True)
+                for outcome, odd, label in [("H", oh, home), ("D", od, "Empate"), ("A", oa, away)]:
+                    prob  = outcomes[outcome]
+                    value = prob * odd
+                    edge  = (value - 1) * 100
+                    color = "#00e676" if value >= 1.05 else "#8b949e"
+                    st.markdown(f"""
+                    <div style='display:flex;justify-content:space-between;align-items:center;
+                                background:#0d1117;border:1px solid #1c2333;border-radius:8px;
+                                padding:10px 16px;margin-bottom:6px;'>
+                      <span style='font-weight:600;'>{label}</span>
+                      <span class='mono'>odd {odd:.2f}</span>
+                      <span style='color:{color};font-family:JetBrains Mono,monospace;font-weight:600;'>
+                        value {value:.3f} ({edge:+.1f}%)
+                      </span>
+                    </div>
+                    """, unsafe_allow_html=True)
+        else:
+            st.error("Times sem dados suficientes no histórico.")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 3 — VALUE BETS
+# ══════════════════════════════════════════════════════════════════════════════
+with tab3:
+    st.markdown("### VALUE BETS — PRÓXIMA RODADA")
+
+    col_btn1, col_btn2, col_space = st.columns([1, 1, 4])
+    with col_btn1:
+        refresh = st.button("🔄 Atualizar Odds", use_container_width=True)
+    with col_btn2:
+        recalc  = st.button("⚡ Recalcular Value", use_container_width=True)
+
+    if refresh or recalc:
+        try:
+            from odds_api import fetch_odds
+            from value_bets import run_value_bets
+            with st.spinner("Buscando odds e calculando value bets..."):
+                if refresh:
+                    fetch_odds()
+                df_vb = run_value_bets()
+            st.cache_data.clear()
+            st.success(f"✅ {len(df_vb)} value bets encontrados!")
+        except Exception as e:
+            st.error(f"Erro: {e}")
+
+    # Carregar value bets salvos
+    try:
+        df_vb = pd.read_csv(VALUE_BETS_PATH)
+    except:
+        df_vb = pd.DataFrame()
+
+    if df_vb.empty:
+        st.info("Nenhum value bet disponível. Clique em **Atualizar Odds** para buscar.")
+    else:
+        # Métricas resumo
+        m1, m2, m3, m4 = st.columns(4)
+        with m1: st.metric("🎯 Value Bets", len(df_vb))
+        with m2: st.metric("📊 Edge Médio", f"+{df_vb['edge_pct'].mean():.1f}%")
+        with m3: st.metric("💎 Melhor Edge", f"+{df_vb['edge_pct'].max():.1f}%")
+        with m4: st.metric("🏦 Kelly Médio", f"{df_vb['kelly_pct'].mean():.2f}%")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        for _, r in df_vb.sort_values("value", ascending=False).iterrows():
+            edge = r["edge_pct"]
+            if edge >= 50:   card_class, badge_class = "top",  "top"
+            elif edge >= 25: card_class, badge_class = "high", "high"
+            else:            card_class, badge_class = "",      ""
+
+            stars = "⭐" * min(int(edge / 15) + 1, 5)
+
+            ph_w  = int(r["prob_h"] * 100)
+            pd_w  = int(r["prob_d"] * 100)
+            pa_w  = int(r["prob_a"] * 100)
+
+            st.markdown(f"""
+            <div class='vbet-card {card_class}'>
+              <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;'>
+                <div>
+                  <span class='team-name'>{r['home_team']}</span>
+                  <span class='vs-badge' style='margin:0 10px;'>VS</span>
+                  <span class='team-name'>{r['away_team']}</span>
+                </div>
+                <div style='text-align:right;'>
+                  <span class='mono' style='color:#8b949e;font-size:12px;'>
+                    📅 {r['date']} · {r['time_utc']} UTC
+                  </span>
+                </div>
+              </div>
+
+              <div style='display:flex;gap:12px;align-items:center;flex-wrap:wrap;'>
+                <div style='background:#1c2333;border-radius:8px;padding:10px 16px;'>
+                  <div style='font-size:10px;color:#8b949e;text-transform:uppercase;
+                              letter-spacing:1px;margin-bottom:4px;'>Apostar</div>
+                  <div style='font-weight:700;font-size:15px;color:#e6edf3;'>{r['aposta']}</div>
+                </div>
+
+                <div style='background:#1c2333;border-radius:8px;padding:10px 16px;'>
+                  <div style='font-size:10px;color:#8b949e;text-transform:uppercase;
+                              letter-spacing:1px;margin-bottom:4px;'>Odd Pinnacle</div>
+                  <div class='mono' style='font-size:18px;font-weight:600;
+                               color:#e6edf3;'>{r['odd_bet365']:.2f}</div>
+                </div>
+
+                <div style='background:#1c2333;border-radius:8px;padding:10px 16px;'>
+                  <div style='font-size:10px;color:#8b949e;text-transform:uppercase;
+                              letter-spacing:1px;margin-bottom:4px;'>Prob Modelo</div>
+                  <div class='mono' style='font-size:18px;font-weight:600;
+                               color:#e6edf3;'>{r['prob_modelo']:.1%}</div>
+                </div>
+
+                <div style='background:#1c2333;border-radius:8px;padding:10px 16px;'>
+                  <div style='font-size:10px;color:#8b949e;text-transform:uppercase;
+                              letter-spacing:1px;margin-bottom:4px;'>Prob Mercado</div>
+                  <div class='mono' style='font-size:18px;font-weight:600;
+                               color:#8b949e;'>{r['prob_mercado']:.1%}</div>
+                </div>
+
+                <div>
+                  <span class='edge-badge {badge_class}'>
+                    EDGE +{r['edge_pct']:.1f}% {stars}
+                  </span>
+                  <br><br>
+                  <span style='font-size:12px;color:#8b949e;'>
+                    Kelly: <b style='color:#e6edf3;'>{r['kelly_pct']:.2f}%</b> do bankroll
+                  </span>
+                </div>
+              </div>
+
+              <div style='margin-top:14px;'>
+                <div style='font-size:11px;color:#8b949e;margin-bottom:6px;'>
+                  Distribuição de probabilidades do modelo:
+                </div>
+                <div style='display:flex;gap:6px;align-items:center;'>
+                  <span style='font-size:11px;color:#8b949e;width:30px;'>H</span>
+                  <div class='prob-bar-wrap' style='flex:1;'>
+                    <div class='prob-bar' style='width:{ph_w}%;background:#2979ff;'></div>
+                  </div>
+                  <span class='mono' style='font-size:11px;width:40px;'>{r['prob_h']:.0%}</span>
+                </div>
+                <div style='display:flex;gap:6px;align-items:center;margin-top:4px;'>
+                  <span style='font-size:11px;color:#8b949e;width:30px;'>D</span>
+                  <div class='prob-bar-wrap' style='flex:1;'>
+                    <div class='prob-bar' style='width:{pd_w}%;background:#ffd600;'></div>
+                  </div>
+                  <span class='mono' style='font-size:11px;width:40px;'>{r['prob_d']:.0%}</span>
+                </div>
+                <div style='display:flex;gap:6px;align-items:center;margin-top:4px;'>
+                  <span style='font-size:11px;color:#8b949e;width:30px;'>A</span>
+                  <div class='prob-bar-wrap' style='flex:1;'>
+                    <div class='prob-bar' style='width:{pa_w}%;background:#ff1744;'></div>
+                  </div>
+                  <span class='mono' style='font-size:11px;width:40px;'>{r['prob_a']:.0%}</span>
+                </div>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Tabela compacta
+        with st.expander("📋 Ver tabela completa"):
+            cols_show = ["date", "home_team", "away_team", "aposta",
+                         "prob_modelo", "odd_bet365", "value", "edge_pct", "kelly_pct"]
+            st.dataframe(
+                df_vb[cols_show].sort_values("value", ascending=False),
+                use_container_width=True, hide_index=True,
+            )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 4 — BACKTESTING
+# ══════════════════════════════════════════════════════════════════════════════
+with tab4:
+    st.markdown("### BACKTESTING — BRASILEIRÃO 2025/2026")
+
+    try:
+        df_bt = pd.read_csv(BACKTESTING_PATH)
+        bets  = df_bt[df_bt["bet_on"].notna()].copy()
+
+        if len(bets) == 0:
+            st.warning("Nenhuma aposta no backtesting. Rode backtesting.py.")
+        else:
+            # KPIs
+            roi_f    = (df_bt["bankroll_flat"].iloc[-1]  - 1000) / 1000 * 100
+            roi_k    = (df_bt["bankroll_kelly"].iloc[-1] - 1000) / 1000 * 100
+            hit_rate = bets["won"].mean()
+            yld_f    = bets["pl_flat"].sum() / bets["stake_flat"].sum() * 100
+
+            k1, k2, k3, k4, k5 = st.columns(5)
+            with k1: st.metric("📊 Apostas",    len(bets))
+            with k2: st.metric("✅ Hit Rate",   f"{hit_rate:.1%}")
+            with k3: st.metric("💰 ROI Flat",   f"{roi_f:+.1f}%")
+            with k4: st.metric("🚀 ROI Kelly",  f"{roi_k:+.1f}%")
+            with k5: st.metric("📈 Yield",      f"{yld_f:+.1f}%")
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # Evolução bankroll
+            import plotly.graph_objects as go
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(
+                y=df_bt["bankroll_flat"], mode="lines",
+                name="Flat (2%)", line=dict(color="#4fc3f7", width=2)))
+            fig.add_trace(go.Scatter(
+                y=df_bt["bankroll_kelly"], mode="lines",
+                name="Kelly (25%)", line=dict(color="#81c784", width=2)))
+            fig.add_hline(y=1000, line_dash="dash",
+                          line_color="#555577", annotation_text="Bankroll inicial")
             fig.update_layout(
-                title="Probabilidades da Partida",
-                plot_bgcolor="#0e1117", paper_bgcolor="#0e1117",
-                font_color="white", yaxis_title="%",
-                yaxis=dict(range=[0,100])
+                paper_bgcolor="#080c12", plot_bgcolor="#0d1117",
+                font=dict(color="#e6edf3", family="DM Sans"),
+                title="Evolução do Bankroll",
+                legend=dict(bgcolor="#0d1117", bordercolor="#1c2333"),
+                xaxis=dict(gridcolor="#1c2333"),
+                yaxis=dict(gridcolor="#1c2333"),
+                height=350, margin=dict(l=0, r=0, t=40, b=0),
             )
             st.plotly_chart(fig, use_container_width=True)
 
-            # Matriz de placar mais provável
-            st.subheader("🎯 Placares Mais Prováveis")
-            from scipy.stats import poisson
-            max_goals = 5
-            prob_matrix = np.zeros((max_goals+1, max_goals+1))
-            for i in range(max_goals+1):
-                for j in range(max_goals+1):
-                    prob_matrix[i][j] = poisson.pmf(i, lam_h) * poisson.pmf(j, lam_a)
+            # P&L por aposta
+            fig2 = go.Figure()
+            colors_pl = ["#66bb6a" if v >= 0 else "#ef5350" for v in bets["pl_flat"]]
+            fig2.add_trace(go.Bar(
+                y=bets["pl_flat"], marker_color=colors_pl,
+                name="P&L por aposta", opacity=0.8))
+            fig2.add_trace(go.Scatter(
+                y=bets["pl_flat"].cumsum(), mode="lines",
+                name="P&L acumulado", line=dict(color="white", width=2)))
+            fig2.add_hline(y=0, line_dash="dash", line_color="#555577")
+            fig2.update_layout(
+                paper_bgcolor="#080c12", plot_bgcolor="#0d1117",
+                font=dict(color="#e6edf3", family="DM Sans"),
+                title="P&L por Aposta (Flat)",
+                legend=dict(bgcolor="#0d1117", bordercolor="#1c2333"),
+                xaxis=dict(gridcolor="#1c2333"),
+                yaxis=dict(gridcolor="#1c2333"),
+                height=300, margin=dict(l=0, r=0, t=40, b=0),
+            )
+            st.plotly_chart(fig2, use_container_width=True)
 
-            score_probs = []
-            for i in range(max_goals+1):
-                for j in range(max_goals+1):
-                    score_probs.append({
-                        "Placar": f"{i} x {j}",
-                        "Prob %": round(prob_matrix[i][j]*100, 2)
-                    })
-
-            score_df = pd.DataFrame(score_probs).sort_values("Prob %", ascending=False).head(10)
-            st.dataframe(score_df, use_container_width=True, hide_index=True)
-
-
-# ════════════════════════════════════════════
-# TAB 3 — ANÁLISE DE TIMES
-# ════════════════════════════════════════════
-with tab3:
-    st.subheader("📈 Análise de Time")
-
-    team_sel = st.selectbox("Selecione o time", sorted(df_2026["home_team"].unique()))
-
-    team_matches = matches[
-        ((matches["home_team"] == team_sel) | (matches["away_team"] == team_sel)) &
-        (matches["status"] == "FINISHED")
-    ].copy()
-    team_matches["date"] = pd.to_datetime(team_matches["date"])
-    team_matches = team_matches.sort_values("date")
-
-    # Calcular resultado para o time
-    def get_result(row):
-        if row["home_team"] == team_sel:
-            if row["home_goals"] > row["away_goals"]: return "V"
-            if row["home_goals"] < row["away_goals"]: return "D"
-            return "E"
-        else:
-            if row["away_goals"] > row["home_goals"]: return "V"
-            if row["away_goals"] < row["home_goals"]: return "D"
-            return "E"
-
-    def get_gf(row):
-        return row["home_goals"] if row["home_team"] == team_sel else row["away_goals"]
-
-    def get_ga(row):
-        return row["away_goals"] if row["home_team"] == team_sel else row["home_goals"]
-
-    team_matches["resultado"] = team_matches.apply(get_result, axis=1)
-    team_matches["gf"]        = team_matches.apply(get_gf, axis=1)
-    team_matches["ga"]        = team_matches.apply(get_ga, axis=1)
-    team_matches["pts"]       = team_matches["resultado"].map({"V":3,"E":1,"D":0})
-    team_matches["pts_acc"]   = team_matches["pts"].cumsum()
-    team_matches["oponente"]  = team_matches.apply(
-        lambda r: r["away_team"] if r["home_team"]==team_sel else r["home_team"], axis=1
-    )
-
-    # Métricas gerais
-    total = len(team_matches)
-    wins  = (team_matches["resultado"]=="V").sum()
-    draws = (team_matches["resultado"]=="E").sum()
-    losses= (team_matches["resultado"]=="D").sum()
-
-    c1,c2,c3,c4 = st.columns(4)
-    c1.metric("Jogos", total)
-    c2.metric("Vitórias", wins)
-    c3.metric("Empates", draws)
-    c4.metric("Derrotas", losses)
-
-    # Gráfico de pontos acumulados
-    fig_pts = px.line(
-        team_matches, x="date", y="pts_acc",
-        title=f"Pontos Acumulados — {team_sel}",
-        labels={"pts_acc":"Pontos","date":"Data"},
-        markers=True
-    )
-    fig_pts.update_layout(
-        plot_bgcolor="#0e1117", paper_bgcolor="#0e1117", font_color="white"
-    )
-    st.plotly_chart(fig_pts, use_container_width=True)
-
-    # Gols por jogo
-    fig_gols = go.Figure()
-    fig_gols.add_trace(go.Bar(
-        x=team_matches["date"], y=team_matches["gf"],
-        name="Gols Marcados", marker_color="#00c853"
-    ))
-    fig_gols.add_trace(go.Bar(
-        x=team_matches["date"], y=-team_matches["ga"],
-        name="Gols Sofridos", marker_color="#ff1744"
-    ))
-    fig_gols.update_layout(
-        title=f"Gols por Jogo — {team_sel}",
-        plot_bgcolor="#0e1117", paper_bgcolor="#0e1117",
-        font_color="white", barmode="relative"
-    )
-    st.plotly_chart(fig_gols, use_container_width=True)
-
-    # Últimos 10 jogos
-    st.subheader("📋 Últimos 10 Jogos")
-    last10 = team_matches.tail(10)[["date","oponente","gf","ga","resultado","pts"]].copy()
-    last10["date"] = last10["date"].dt.strftime("%d/%m/%Y")
-    last10.columns = ["Data","Oponente","GM","GS","Resultado","Pts"]
-    st.dataframe(last10, use_container_width=True, hide_index=True)
-
-
-# ════════════════════════════════════════════
-# TAB 4 — VALOR DE MERCADO
-# ════════════════════════════════════════════
-with tab4:
-    st.subheader("💰 Valor de Mercado dos Elencos")
-
-    market_sorted = market.sort_values("market_value", ascending=False)
-
-    fig_mv = px.bar(
-        market_sorted,
-        x="team", y="market_value",
-        color="market_value",
-        color_continuous_scale="Blues",
-        title="Valor de Mercado por Time (€ Milhões)",
-        labels={"market_value":"Valor (€M)","team":""},
-        text="market_value"
-    )
-    fig_mv.update_traces(texttemplate="€%{text:.1f}M", textposition="outside")
-    fig_mv.update_layout(
-        plot_bgcolor="#0e1117", paper_bgcolor="#0e1117",
-        font_color="white", coloraxis_showscale=False,
-        xaxis_tickangle=-45
-    )
-    st.plotly_chart(fig_mv, use_container_width=True)
-
-    # Correlação valor de mercado vs desempenho
-    perf = real_table[["team","pts"]].copy()
-    mv_perf = perf.merge(market[["team","market_value"]], on="team", how="left")
-
-    fig_corr = px.scatter(
-        mv_perf, x="market_value", y="pts",
-        text="team", size="market_value",
-        color="pts", color_continuous_scale="RdYlGn",
-        title="Correlação: Valor de Mercado vs Pontos",
-        labels={"market_value":"Valor (€M)","pts":"Pontos"}
-    )
-    fig_corr.update_traces(textposition="top center")
-    fig_corr.update_layout(
-        plot_bgcolor="#0e1117", paper_bgcolor="#0e1117",
-        font_color="white", coloraxis_showscale=False
-    )
-    st.plotly_chart(fig_corr, use_container_width=True)
-
-    st.subheader("📋 Tabela Completa")
-    st.dataframe(
-        market_sorted[["team","market_value","squad_size","top_player_value","market_value_norm"]].rename(columns={
-            "team":"Time","market_value":"Valor (€M)","squad_size":"Elenco",
-            "top_player_value":"Top Jogador (€M)","market_value_norm":"Norm"
-        }),
-        use_container_width=True, hide_index=True
-    )
-
-with tab5:
-    st.subheader("💎 Value Bets — Modelo vs Mercado")
-    st.caption("Jogos onde o modelo vê probabilidade significativamente maior que as odds implícitas")
-
-    try:
-        vb = pd.read_csv(r"C:\PREDICTOR\scraping\data\external\value_bets.csv")
-
-        if vb.empty:
-            st.info("Nenhum value bet encontrado no momento.")
-        else:
-            # Métricas resumo
-            fortes = len(vb[vb["⭐ valor"] == "🔥 FORTE"])
-            bons   = len(vb[vb["⭐ valor"] == "✅ BOM"])
-
-            c1, c2, c3 = st.columns(3)
-            c1.metric("Total Value Bets", len(vb))
-            c2.metric("🔥 Fortes (edge > 10%)", fortes)
-            c3.metric("✅ Bons (edge 5-10%)", bons)
-
-            st.markdown("---")
-
-            # Filtros
-            col1, col2 = st.columns(2)
-            with col1:
-                filtro_valor = st.multiselect(
-                    "Filtrar por força",
-                    ["🔥 FORTE", "✅ BOM"],
-                    default=["🔥 FORTE", "✅ BOM"]
+            # Tabela de apostas
+            with st.expander("📋 Ver todas as apostas"):
+                cols_bt = ["date", "home_team", "away_team", "bet_on",
+                           "result", "won", "odd", "prob_model",
+                           "value", "pl_flat", "bankroll_flat"]
+                st.dataframe(
+                    bets[cols_bt].sort_values("date", ascending=False),
+                    use_container_width=True, hide_index=True,
                 )
-            with col2:
-                filtro_resultado = st.multiselect(
-                    "Filtrar por resultado",
-                    ["Casa", "Empate", "Fora"],
-                    default=["Casa", "Empate", "Fora"]
-                )
-
-            vb_filtered = vb[
-                (vb["⭐ valor"].isin(filtro_valor)) &
-                (vb["resultado"].isin(filtro_resultado))
-            ]
-
-            st.dataframe(
-                vb_filtered.rename(columns={
-                    "data":         "Data",
-                    "partida":      "Partida",
-                    "casa":         "Casa de Aposta",
-                    "resultado":    "Resultado",
-                    "odd":          "Odd",
-                    "prob_modelo":  "Prob Modelo",
-                    "prob_mercado": "Prob Mercado",
-                    "edge":         "Edge",
-                    "roi_esperado": "ROI Esperado",
-                    "⭐ valor":     "Força",
-                }),
-                use_container_width=True,
-                hide_index=True
-            )
-
-            # Gráfico de edges
-            fig_edge = px.bar(
-                vb_filtered.head(15),
-                x="partida", y="edge",
-                color="⭐ valor",
-                color_discrete_map={"🔥 FORTE": "#ff6b00", "✅ BOM": "#00c853"},
-                title="Top Value Bets por Edge",
-                labels={"edge": "Edge %", "partida": ""},
-            )
-            fig_edge.update_layout(
-                plot_bgcolor="#0e1117", paper_bgcolor="#0e1117",
-                font_color="white", xaxis_tickangle=-45
-            )
-            st.plotly_chart(fig_edge, use_container_width=True)
 
     except FileNotFoundError:
-        st.warning("⚠️ Rode primeiro: `python scraping/value_bets.py`")
-        st.code("cd C:\\PREDICTOR\\scraping\npython value_bets.py")
+        st.warning("Rode `python backtesting.py` para gerar os dados.")
+    except Exception as e:
+        st.error(f"Erro ao carregar backtesting: {e}")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 5 — VALOR DE MERCADO
+# ══════════════════════════════════════════════════════════════════════════════
+with tab5:
+    st.markdown("### VALOR DE MERCADO — BRASILEIRÃO 2026")
+    df_mv = load_market()
+
+    if df_mv.empty:
+        st.warning("market_values.csv não encontrado.")
+    else:
+        df_mv = df_mv.sort_values("market_value", ascending=False)
+
+        total = df_mv["market_value"].sum()
+        top_team = df_mv.iloc[0]
+
+        c1, c2, c3 = st.columns(3)
+        with c1: st.metric("💎 Time mais valioso", top_team["team"], f"€{top_team['market_value']:.1f}M")
+        with c2: st.metric("💰 Total da liga", f"€{total:.1f}M")
+        with c3: st.metric("📊 Média por time", f"€{total/len(df_mv):.1f}M")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        import plotly.express as px
+        fig = px.bar(
+            df_mv.head(20), x="market_value", y="team",
+            orientation="h", color="market_value",
+            color_continuous_scale=["#1c2333", "#2979ff", "#00e676"],
+            labels={"market_value": "Valor (€M)", "team": ""},
+        )
+        fig.update_layout(
+            paper_bgcolor="#080c12", plot_bgcolor="#0d1117",
+            font=dict(color="#e6edf3", family="DM Sans"),
+            coloraxis_showscale=False,
+            yaxis=dict(autorange="reversed"),
+            height=500, margin=dict(l=0, r=0, t=20, b=0),
+        )
+        st.plotly_chart(fig, use_container_width=True)
