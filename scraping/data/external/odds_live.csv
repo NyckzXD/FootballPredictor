@@ -1,11 +1,9 @@
 date,time_utc,home_team,away_team,home_raw,away_raw,odd_h,odd_d,odd_a,prob_h_mkt,prob_d_mkt,prob_a_mkt,margin
-2026-03-14,21:30,EC Vitória,CA Mineiro,Vitoria,Atletico Mineiro,2.41,3.16,3.32,0.4018,0.3065,0.2917,3.26
-2026-03-14,23:30,Botafogo FR,CR Flamengo,Botafogo,Flamengo,4.18,3.32,2.03,0.2316,0.2916,0.4769,3.31
-2026-03-15,19:00,Fluminense FC,Atletico Paranaense,Fluminense,Atletico Paranaense,1.75,3.83,4.82,0.5495,0.2511,0.1995,4.0
-2026-03-15,19:00,SC Internacional,EC Bahia,Internacional,Bahia,1.99,3.53,3.93,0.4831,0.2723,0.2446,4.03
-2026-03-15,19:00,Santos FC,SC Corinthians Paulista,Santos,Corinthians,2.34,2.97,3.66,0.412,0.3246,0.2634,3.73
-2026-03-15,21:30,Coritiba FBC,Remo,Coritiba,Remo,1.76,3.58,4.94,0.5412,0.266,0.1928,4.99
-2026-03-15,21:30,SE Palmeiras,Mirassol FC,Palmeiras,Mirassol,1.61,4.08,5.33,0.5894,0.2326,0.178,5.38
-2026-03-15,23:30,Bragantino-SP,São Paulo FC,Bragantino-SP,Sao Paulo,2.36,3.17,3.25,0.4048,0.3013,0.2939,4.69
-2026-03-15,23:30,Cruzeiro EC,CR Vasco da Gama,Cruzeiro,Vasco da Gama,1.82,3.76,4.25,0.5229,0.2531,0.2239,5.07
-2026-03-16,23:00,Chapecoense AF,Grêmio,Chapecoense,Grêmio,2.91,3.32,2.48,0.3279,0.2874,0.3847,4.81
+2026-03-15,19:00,Fluminense FC,Atletico Paranaense,Fluminense,Atletico Paranaense,1.78,3.69,4.98,0.5435,0.2622,0.1943,3.36
+2026-03-15,19:00,SC Internacional,EC Bahia,Internacional,Bahia,1.87,3.75,4.31,0.5175,0.258,0.2245,3.34
+2026-03-15,19:00,Santos FC,SC Corinthians Paulista,Santos,Corinthians,2.4,3.05,3.46,0.4031,0.3172,0.2796,3.36
+2026-03-15,21:30,Coritiba FBC,Remo,Coritiba,Remo,1.78,3.65,5.0,0.5424,0.2645,0.1931,3.58
+2026-03-15,21:30,SE Palmeiras,Mirassol FC,Palmeiras,Mirassol,1.62,4.16,5.55,0.5948,0.2316,0.1736,3.78
+2026-03-15,23:30,Bragantino-SP,São Paulo FC,Bragantino-SP,Sao Paulo,2.38,3.25,3.28,0.4068,0.2979,0.2952,3.27
+2026-03-15,23:30,Cruzeiro EC,CR Vasco da Gama,Cruzeiro,Vasco da Gama,1.88,3.68,4.37,0.5152,0.2632,0.2216,3.25
+2026-03-16,23:00,Chapecoense AF,Grêmio,Chapecoense,Grêmio,2.96,3.27,2.48,0.3227,0.2921,0.3852,4.69

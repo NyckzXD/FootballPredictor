@@ -1,29 +1,43 @@
+"""
+value_bets_v2.py — Detecção de value bets com modelo v2
+=========================================================
+
+MUDANÇAS vs v1:
+  1. Usa modelo v2 (ensemble multiclass + calibração Platt)
+  2. MIN_PROB elevado para 0.55 (evita faixa de baixa confiança)
+  3. MIN_VALUE elevado para 1.08
+  4. Mesmas features derivadas do match_model_v2
+"""
+
 import pandas as pd
 import numpy as np
+import math
 import joblib
 import warnings
 warnings.filterwarnings("ignore")
 from odds_api import fetch_odds
 
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PATHS — ajuste para seu ambiente
+# ═══════════════════════════════════════════════════════════════════════════════
 FEATURES_PATH  = r"C:\PREDICTOR\REPO\scraping\data\processed\features_odds.csv"
 MATCHES_PATH   = r"C:\PREDICTOR\REPO\scraping\data\raw\matches_final.csv"
-MODEL_PATH     = r"C:\PREDICTOR\REPO\modelos\match_model.pkl"
+MODEL_PATH     = r"C:\PREDICTOR\REPO\modelos\match_model_v2.pkl"
 MARKET_PATH    = r"C:\PREDICTOR\REPO\scraping\data\external\market_values.csv"
 OUTPUT_PATH    = r"C:\PREDICTOR\REPO\scraping\data\external\value_bets.csv"
 
-MIN_VALUE      = 1.05   # prob_modelo * odd >= 1.05
-MIN_PROB       = 0.40   # confiança mínima do modelo
-KELLY_FRACTION = 0.25   # Kelly fracionado conservador
+MIN_VALUE      = 1.08   # prob_modelo * odd >= 1.08
+MIN_PROB       = 0.55   # confiança mínima do modelo
+KELLY_FRACTION = 0.20   # Kelly fracionado 20%
 
 FEATURE_COLS = [
     "elo_diff", "home_elo", "away_elo",
     "home_market_value_log", "away_market_value_log", "market_value_diff",
-    "home_market_value_norm", "away_market_value_norm",
-    "home_squad_size", "away_squad_size",
     "home_aproveitamento", "away_aproveitamento", "position_diff",
-    "home_form_pts", "home_avg_gf", "home_avg_ga", "home_goal_diff",
+    "home_form_pts", "home_avg_gf", "home_avg_ga",
     "home_win_rate", "home_draw_rate", "home_home_form",
-    "away_form_pts", "away_avg_gf", "away_avg_ga", "away_goal_diff",
+    "away_form_pts", "away_avg_gf", "away_avg_ga",
     "away_win_rate", "away_draw_rate", "away_away_form",
     "home_form_pts_10", "home_avg_gf_10", "home_avg_ga_10", "home_win_rate_10",
     "away_form_pts_10", "away_avg_gf_10", "away_avg_ga_10", "away_win_rate_10",
@@ -33,31 +47,57 @@ FEATURE_COLS = [
 ]
 
 
-def add_derived(X_):
+def add_derived_v2(X_):
+    """Mesma função do match_model_v2.py — DEVE ser idêntica."""
     X_ = X_.copy()
-    X_["form_diff"]       = X_["home_form_pts"]       - X_["away_form_pts"]
-    X_["form_diff_10"]    = X_["home_form_pts_10"]    - X_["away_form_pts_10"]
-    X_["gf_diff"]         = X_["home_avg_gf"]         - X_["away_avg_gf"]
-    X_["ga_diff"]         = X_["home_avg_ga"]         - X_["away_avg_ga"]
-    X_["win_rate_diff"]   = X_["home_win_rate"]       - X_["away_win_rate"]
-    X_["aproveit_diff"]   = X_["home_aproveitamento"] - X_["away_aproveitamento"]
-    X_["home_in_crisis"]  = (X_["home_form_pts"] < 0.5).astype(int)
-    X_["away_in_form"]    = (X_["away_form_pts"] > 2.0).astype(int)
-    X_["elo_similarity"]      = 1 / (1 + np.abs(X_["elo_diff"]))
-    X_["form_similarity"]     = 1 / (1 + np.abs(X_["form_diff"]))
-    X_["value_similarity"]    = 1 / (1 + np.abs(X_["market_value_diff"]))
-    X_["overall_balance"]     = (X_["elo_similarity"] + X_["form_similarity"] + X_["value_similarity"]) / 3
-    X_["home_draw_tendency"]  = X_["home_draw_rate"]
-    X_["away_draw_tendency"]  = X_["away_draw_rate"]
-    X_["combined_draw_rate"]  = (X_["home_draw_rate"] + X_["away_draw_rate"]) / 2
-    X_["both_low_scoring"]    = ((X_["home_avg_gf"] < 1.2) & (X_["away_avg_gf"] < 1.2)).astype(int)
-    X_["both_good_defense"]   = ((X_["home_avg_ga"] < 1.0) & (X_["away_avg_ga"] < 1.0)).astype(int)
-    total_h2h                 = X_["h2h_home_wins"] + X_["h2h_away_wins"] + X_["h2h_draws"] + 1
-    X_["h2h_draw_rate"]       = X_["h2h_draws"] / total_h2h
-    X_["h2h_decisividade"]    = (X_["h2h_home_wins"] + X_["h2h_away_wins"]) / total_h2h
+
+    X_["form_diff"]     = X_["home_form_pts"]       - X_["away_form_pts"]
+    X_["form_diff_10"]  = X_["home_form_pts_10"]    - X_["away_form_pts_10"]
+    X_["gf_diff"]       = X_["home_avg_gf"]         - X_["away_avg_gf"]
+    X_["ga_diff"]       = X_["home_avg_ga"]         - X_["away_avg_ga"]
+    X_["win_rate_diff"] = X_["home_win_rate"]       - X_["away_win_rate"]
+    X_["aproveit_diff"] = X_["home_aproveitamento"] - X_["away_aproveitamento"]
+
+    X_["combined_draw_rate"] = (X_["home_draw_rate"] + X_["away_draw_rate"]) / 2
+    X_["elo_similarity"]     = 1 / (1 + np.abs(X_["elo_diff"]))
+    X_["form_similarity"]    = 1 / (1 + np.abs(X_["form_diff"]))
+    X_["value_similarity"]   = 1 / (1 + np.abs(X_["market_value_diff"]))
+    X_["overall_balance"]    = (
+        X_["elo_similarity"] + X_["form_similarity"] + X_["value_similarity"]
+    ) / 3
+
+    total_h2h = X_["h2h_home_wins"] + X_["h2h_away_wins"] + X_["h2h_draws"] + 1
+    X_["h2h_draw_rate"] = X_["h2h_draws"] / total_h2h
+
+    X_["expected_goals_h"]   = X_["home_avg_gf"] * 0.6 + X_["home_avg_gf_10"] * 0.4
+    X_["expected_goals_a"]   = X_["away_avg_gf"] * 0.6 + X_["away_avg_gf_10"] * 0.4
+    X_["expected_concede_h"] = X_["home_avg_ga"] * 0.6 + X_["home_avg_ga_10"] * 0.4
+    X_["expected_concede_a"] = X_["away_avg_ga"] * 0.6 + X_["away_avg_ga_10"] * 0.4
+
+    X_["lambda_h"]     = (X_["expected_goals_h"] + X_["expected_concede_a"]) / 2
+    X_["lambda_a"]     = (X_["expected_goals_a"] + X_["expected_concede_h"]) / 2
+    X_["lambda_diff"]  = X_["lambda_h"] - X_["lambda_a"]
+    X_["lambda_total"] = X_["lambda_h"] + X_["lambda_a"]
+
+    pdraw = np.zeros(len(X_))
+    for g in range(7):
+        fact_g = math.factorial(g)
+        pdraw += (
+            np.exp(-X_["lambda_h"].values) * X_["lambda_h"].values**g / fact_g *
+            np.exp(-X_["lambda_a"].values) * X_["lambda_a"].values**g / fact_g
+        )
+    X_["poisson_draw_prob"] = pdraw
+
+    X_["model_vs_market_d"] = X_["combined_draw_rate"] - X_["prob_d_mkt"]
+
+    X_["both_low_scoring"]  = ((X_["home_avg_gf"] < 1.2) & (X_["away_avg_gf"] < 1.2)).astype(int)
+    X_["both_good_defense"] = ((X_["home_avg_ga"] < 1.0) & (X_["away_avg_ga"] < 1.0)).astype(int)
+
+    X_["home_momentum"]      = X_["home_form_pts"] - X_["home_form_pts_10"]
+    X_["away_momentum"]      = X_["away_form_pts"] - X_["away_form_pts_10"]
+    X_["home_adv_vs_market"] = X_["home_home_form"] - X_["away_away_form"]
     X_["position_similarity"] = 1 / (1 + np.abs(X_["position_diff"]))
-    X_["elo_vs_mkt_h"]        = X_["elo_similarity"] - X_["prob_h_mkt"]
-    X_["elo_vs_mkt_a"]        = (1 - X_["elo_similarity"]) - X_["prob_a_mkt"]
+
     return X_
 
 
@@ -106,7 +146,6 @@ def get_team_features(team, features_df, matches_df):
             "mv_norm":     row.get("away_market_value_norm", 0.5),
             "aproveit":    row.get("away_aproveitamento", 0.4),
         }
-    # Fallback com defaults
     return {
         "form_pts": 1.0, "avg_gf": 1.2, "avg_ga": 1.0, "goal_diff": 0.0,
         "win_rate": 0.4, "draw_rate": 0.25, "home_form": 0.0, "away_form": 0.0,
@@ -175,24 +214,18 @@ def build_feature_row(home, away, odd_h, odd_d, odd_a,
         "home_market_value_log":  np.log1p(h_mv),
         "away_market_value_log":  np.log1p(a_mv),
         "market_value_diff":      h_mv - a_mv,
-        "home_market_value_norm": h_mv / max_val,
-        "away_market_value_norm": a_mv / max_val,
-        "home_squad_size":        20,
-        "away_squad_size":        20,
         "home_aproveitamento":    h["aproveit"],
         "away_aproveitamento":    a["aproveit"],
         "position_diff":          h_pos - a_pos,
         "home_form_pts":          h["form_pts"],
         "home_avg_gf":            h["avg_gf"],
         "home_avg_ga":            h["avg_ga"],
-        "home_goal_diff":         h["goal_diff"],
         "home_win_rate":          h["win_rate"],
         "home_draw_rate":         h["draw_rate"],
         "home_home_form":         h["home_form"],
         "away_form_pts":          a["form_pts"],
         "away_avg_gf":            a["avg_gf"],
         "away_avg_ga":            a["avg_ga"],
-        "away_goal_diff":         a["goal_diff"],
         "away_win_rate":          a["win_rate"],
         "away_draw_rate":         a["draw_rate"],
         "away_away_form":         a["away_form"],
@@ -243,15 +276,16 @@ def run_value_bets(odds_df=None):
 
     try:
         mv_df   = pd.read_csv(MARKET_PATH)
-        mv_dict = dict(zip(mv_df["team"], mv_df["market_value_eur_m"]))
+        mv_dict = dict(zip(mv_df["team"], mv_df["market_value"]))
     except Exception:
         mv_dict = {}
     all_mv = list(mv_dict.values()) if mv_dict else [50]
 
-    model_data = joblib.load(MODEL_PATH)
-    feature_order = model_data["features"]
+    model_data  = joblib.load(MODEL_PATH)
+    feat_order  = model_data["features"]
 
     print(f"   {len(odds_df)} jogos com odds da Bet365")
+    print(f"   Modelo: {model_data.get('version', '?')}")
 
     value_bets = []
 
@@ -265,26 +299,26 @@ def run_value_bets(odds_df=None):
         # Construir features
         feat = build_feature_row(home, away, odd_h, odd_d, odd_a,
                                  features_df, matches_df, mv_dict, all_mv)
-        feat = add_derived(pd.DataFrame([feat])).iloc[0].to_dict()
-        X    = np.array([[feat.get(f, 0) for f in feature_order]])
+        feat = add_derived_v2(pd.DataFrame([feat])).iloc[0].to_dict()
+        X = np.array([[feat.get(f, 0) for f in feat_order]])
 
-        # Probabilidades do modelo
-        ph  = model_data["cal_h"].predict(model_data["model_h"].predict_proba(X)[:, 1])[0]
-        pd_ = model_data["cal_d"].predict(model_data["model_d"].predict_proba(X)[:, 1])[0]
-        pa  = model_data["cal_a"].predict(model_data["model_a"].predict_proba(X)[:, 1])[0]
-        tot = ph + pd_ + pa
-        ph /= tot; pd_ /= tot; pa /= tot
+        # Probabilidades do modelo v2
+        hgb_p = model_data["hgb_model"].predict_proba(X)
+        gb_p  = model_data["gb_model"].predict_proba(X)
+        ew    = model_data["ensemble_w"]
+        ens_p = ew[0] * hgb_p + ew[1] * gb_p
+        cal_p = model_data["calibrator"].predict_proba(ens_p)[0]
 
-        # Resultado mais provável
-        probs   = {"H": ph, "D": pd_, "A": pa}
-        odds    = {"H": odd_h, "D": odd_d, "A": odd_a}
-        labels  = {"H": f"{home} vence", "D": "Empate", "A": f"{away} vence"}
-        pred    = max(probs, key=probs.get)
+        ph, pd_, pa = cal_p[0], cal_p[1], cal_p[2]
 
-        # Verificar value em todas as opções
+        probs  = {"H": ph, "D": pd_, "A": pa}
+        odds   = {"H": odd_h, "D": odd_d, "A": odd_a}
+        labels = {"H": f"{home} vence", "D": "Empate", "A": f"{away} vence"}
+        pred   = max(probs, key=probs.get)
+
         for outcome in ["H", "D", "A"]:
-            prob = probs[outcome]
-            odd  = odds[outcome]
+            prob  = probs[outcome]
+            odd   = odds[outcome]
             value = prob * odd
 
             if value >= MIN_VALUE and prob >= MIN_PROB:
@@ -315,7 +349,7 @@ def run_value_bets(odds_df=None):
                 })
 
     if not value_bets:
-        print("   ℹ️  Nenhum value bet encontrado com os filtros atuais")
+        print("   ℹ️  Nenhum value bet encontrado")
         print(f"   Ajuste MIN_VALUE ({MIN_VALUE}) ou MIN_PROB ({MIN_PROB})")
         return pd.DataFrame()
 
@@ -323,7 +357,7 @@ def run_value_bets(odds_df=None):
     df_vb.to_csv(OUTPUT_PATH, index=False)
 
     print(f"\n{'='*65}")
-    print(f"🎯 VALUE BETS ENCONTRADOS: {len(df_vb)}")
+    print(f"🎯 VALUE BETS v2 ENCONTRADOS: {len(df_vb)}")
     print(f"{'='*65}\n")
 
     for _, r in df_vb.iterrows():
@@ -334,7 +368,7 @@ def run_value_bets(odds_df=None):
         print(f"   Prob modelo: {r['prob_modelo']:.1%} | Prob mercado: {r['prob_mercado']:.1%}")
         print(f"   Odd Bet365:  {r['odd_bet365']} | Value: {r['value']:.3f} | Edge: +{r['edge_pct']:.1f}% {stars}")
         print(f"   Kelly stake: {r['kelly_pct']:.2f}% do bankroll")
-        print(f"   Previsão modelo: {r['pred_modelo']} "
+        print(f"   Previsão: {r['pred_modelo']} "
               f"(H:{r['prob_h']:.0%} D:{r['prob_d']:.0%} A:{r['prob_a']:.0%})")
         print()
 

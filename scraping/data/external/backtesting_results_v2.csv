@@ -1,0 +1,278 @@
+date,season,home_team,away_team,result,bet_on,prob_model,odd,value,won,stake_flat,pl_flat,bankroll_flat,stake_kelly,pl_kelly,bankroll_kelly
+,2025,Grêmio FBPA,CA Mineiro,H,,,,,,0.0,0.0,1000.0,0.0,0.0,1000.0
+,2025,Cruzeiro EC,Mirassol FC,H,,,,,,0.0,0.0,1000.0,0.0,0.0,1000.0
+,2025,CR Flamengo,SC Internacional,D,,,,,,0.0,0.0,1000.0,0.0,0.0,1000.0
+,2025,SE Palmeiras,Botafogo FR,D,,,,,,0.0,0.0,1000.0,0.0,0.0,1000.0
+,2025,CR Vasco da Gama,Santos FC,H,,,,,,0.0,0.0,1000.0,0.0,0.0,1000.0
+,2025,EC Bahia,SC Corinthians Paulista,D,,,,,,0.0,0.0,1000.0,0.0,0.0,1000.0
+,2025,SC Corinthians Paulista,CR Vasco da Gama,H,H,0.7,1.58,1.107,True,20.0,11.6,1011.6,36.76,21.32,1021.32
+,2025,CA Mineiro,São Paulo FC,D,H,0.683,2.02,1.38,False,20.23,-20.23,991.37,51.07,-51.07,970.25
+,2025,Fluminense FC,RB Bragantino,H,H,0.596,1.86,1.108,True,19.83,17.05,1008.42,24.29,20.89,991.14
+,2025,SC Internacional,Cruzeiro EC,H,H,0.77,1.62,1.247,True,20.17,12.5,1020.92,49.56,30.73,1021.86
+,2025,EC Vitória,CR Flamengo,A,,,,,,0.0,0.0,1020.92,0.0,0.0,1021.86
+,2025,Santos FC,EC Bahia,D,H,0.647,2.11,1.365,False,20.42,-20.42,1000.51,51.09,-51.09,970.77
+,2025,RB Bragantino,Botafogo FR,H,,,,,,0.0,0.0,1000.51,0.0,0.0,970.77
+,2025,SE Palmeiras,SC Corinthians Paulista,H,,,,,,0.0,0.0,1000.51,0.0,0.0,970.77
+,2025,EC Bahia,Mirassol FC,D,,,,,,0.0,0.0,1000.51,0.0,0.0,970.77
+,2025,São Paulo FC,Cruzeiro EC,D,,,,,,0.0,0.0,1000.51,0.0,0.0,970.77
+,2025,Grêmio FBPA,CR Flamengo,A,,,,,,0.0,0.0,1000.51,0.0,0.0,970.77
+,2025,Fluminense FC,Santos FC,H,H,0.678,1.81,1.227,True,20.01,16.21,1016.71,48.54,39.32,1010.09
+,2025,CA Mineiro,EC Vitória,D,,,,,,0.0,0.0,1016.71,0.0,0.0,1010.09
+,2025,Botafogo FR,São Paulo FC,D,H,0.605,1.85,1.119,False,20.33,-20.33,996.38,28.26,-28.26,981.82
+,2025,Mirassol FC,Grêmio FBPA,H,,,,,,0.0,0.0,996.38,0.0,0.0,981.82
+,2025,SC Corinthians Paulista,Fluminense FC,A,,,,,,0.0,0.0,996.38,0.0,0.0,981.82
+,2025,SC Internacional,SE Palmeiras,A,,,,,,0.0,0.0,996.38,0.0,0.0,981.82
+,2025,Santos FC,CA Mineiro,H,,,,,,0.0,0.0,996.38,0.0,0.0,981.82
+,2025,Cruzeiro EC,EC Bahia,H,,,,,,0.0,0.0,996.38,0.0,0.0,981.82
+,2025,CR Vasco da Gama,CR Flamengo,D,,,,,,0.0,0.0,996.38,0.0,0.0,981.82
+,2025,Grêmio FBPA,SC Internacional,D,,,,,,0.0,0.0,996.38,0.0,0.0,981.82
+,2025,São Paulo FC,Santos FC,H,H,0.678,2.38,1.614,True,19.93,27.5,1023.88,49.09,67.75,1049.57
+,2025,CA Mineiro,Botafogo FR,H,H,0.561,2.24,1.257,True,20.48,25.39,1049.27,43.56,54.01,1103.58
+,2025,Fluminense FC,EC Vitória,D,H,0.716,1.68,1.203,False,20.99,-20.99,1028.29,55.18,-55.18,1048.4
+,2025,RB Bragantino,Cruzeiro EC,H,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,Mirassol FC,CA Mineiro,D,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,Botafogo FR,Fluminense FC,H,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,CR Flamengo,SC Corinthians Paulista,H,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,SE Palmeiras,EC Bahia,A,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,Cruzeiro EC,CR Vasco da Gama,H,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,EC Vitória,Grêmio FBPA,D,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,Santos FC,RB Bragantino,A,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,SC Corinthians Paulista,SC Internacional,H,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,EC Bahia,Botafogo FR,H,,,,,,0.0,0.0,1028.29,0.0,0.0,1048.4
+,2025,CR Vasco da Gama,SE Palmeiras,A,A,0.846,1.61,1.362,True,20.57,12.55,1040.83,52.42,31.98,1080.38
+,2025,Grêmio FBPA,Santos FC,H,,,,,,0.0,0.0,1040.83,0.0,0.0,1080.38
+,2025,Cruzeiro EC,CR Flamengo,H,,,,,,0.0,0.0,1040.83,0.0,0.0,1080.38
+,2025,RB Bragantino,Mirassol FC,H,,,,,,0.0,0.0,1040.83,0.0,0.0,1080.38
+,2025,EC Vitória,CR Vasco da Gama,H,H,0.552,1.98,1.094,True,20.82,20.4,1061.23,20.7,20.29,1100.66
+,2025,Mirassol FC,SC Corinthians Paulista,H,,,,,,0.0,0.0,1061.23,0.0,0.0,1100.66
+,2025,Grêmio FBPA,RB Bragantino,D,,,,,,0.0,0.0,1061.23,0.0,0.0,1100.66
+,2025,CR Flamengo,EC Bahia,H,,,,,,0.0,0.0,1061.23,0.0,0.0,1100.66
+,2025,SE Palmeiras,São Paulo FC,H,,,,,,0.0,0.0,1061.23,0.0,0.0,1100.66
+,2025,CA Mineiro,Fluminense FC,H,,,,,,0.0,0.0,1061.23,0.0,0.0,1100.66
+,2025,Botafogo FR,SC Internacional,H,,,,,,0.0,0.0,1061.23,0.0,0.0,1100.66
+,2025,São Paulo FC,Grêmio FBPA,H,,,,,,0.0,0.0,1061.23,0.0,0.0,1100.66
+,2025,SC Corinthians Paulista,Santos FC,H,H,0.596,2.17,1.292,True,21.22,24.83,1086.06,54.98,64.33,1164.99
+,2025,EC Bahia,EC Vitória,H,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,RB Bragantino,SE Palmeiras,A,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,CR Flamengo,Botafogo FR,D,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,Cruzeiro EC,CA Mineiro,D,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,SC Internacional,Mirassol FC,D,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,Fluminense FC,CR Vasco da Gama,H,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,São Paulo FC,Mirassol FC,A,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,CA Mineiro,SC Corinthians Paulista,D,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,Grêmio FBPA,EC Bahia,H,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,SE Palmeiras,CR Flamengo,A,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,EC Vitória,Santos FC,A,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,EC Bahia,São Paulo FC,H,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,CR Vasco da Gama,RB Bragantino,A,,,,,,0.0,0.0,1086.06,0.0,0.0,1164.99
+,2025,Santos FC,Botafogo FR,A,H,0.561,2.14,1.201,False,21.72,-21.72,1064.34,41.12,-41.12,1123.88
+,2025,SC Corinthians Paulista,EC Vitória,D,,,,,,0.0,0.0,1064.34,0.0,0.0,1123.88
+,2025,Cruzeiro EC,SE Palmeiras,H,,,,,,0.0,0.0,1064.34,0.0,0.0,1123.88
+,2025,SC Internacional,Fluminense FC,A,,,,,,0.0,0.0,1064.34,0.0,0.0,1123.88
+,2025,EC Vitória,Cruzeiro EC,D,,,,,,0.0,0.0,1064.34,0.0,0.0,1123.88
+,2025,RB Bragantino,EC Bahia,A,,,,,,0.0,0.0,1064.34,0.0,0.0,1123.88
+,2025,Grêmio FBPA,SC Corinthians Paulista,D,H,0.562,2.38,1.337,False,21.29,-21.29,1043.06,54.81,-54.81,1069.07
+,2025,São Paulo FC,CR Vasco da Gama,A,H,0.587,1.9,1.115,False,20.86,-20.86,1022.2,27.21,-27.21,1041.86
+,2025,CA Mineiro,SC Internacional,H,H,0.627,1.91,1.197,True,20.44,18.6,1040.8,45.09,41.04,1082.89
+,2025,CR Flamengo,São Paulo FC,H,,,,,,0.0,0.0,1040.8,0.0,0.0,1082.89
+,2025,SC Internacional,EC Vitória,H,,,,,,0.0,0.0,1040.8,0.0,0.0,1082.89
+,2025,CR Vasco da Gama,Botafogo FR,A,,,,,,0.0,0.0,1040.8,0.0,0.0,1082.89
+,2025,EC Bahia,CA Mineiro,H,H,0.596,2.13,1.268,True,20.82,23.52,1064.32,51.45,58.13,1141.03
+,2025,SC Corinthians Paulista,RB Bragantino,A,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,Cruzeiro EC,Grêmio FBPA,H,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,SE Palmeiras,Mirassol FC,D,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,Santos FC,CR Flamengo,H,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,Botafogo FR,EC Vitória,D,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,RB Bragantino,São Paulo FC,D,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,Fluminense FC,Cruzeiro EC,A,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,CR Vasco da Gama,Grêmio FBPA,D,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,Mirassol FC,Santos FC,H,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,São Paulo FC,SC Corinthians Paulista,H,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,EC Vitória,RB Bragantino,H,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,SE Palmeiras,CA Mineiro,H,,,,,,0.0,0.0,1064.32,0.0,0.0,1141.03
+,2025,CR Flamengo,Fluminense FC,H,H,0.614,1.76,1.081,True,21.29,16.18,1080.5,24.33,18.49,1159.52
+,2025,Fluminense FC,SE Palmeiras,A,,,,,,0.0,0.0,1080.5,0.0,0.0,1159.52
+,2025,SC Corinthians Paulista,Cruzeiro EC,D,,,,,,0.0,0.0,1080.5,0.0,0.0,1159.52
+,2025,Santos FC,SC Internacional,A,,,,,,0.0,0.0,1080.5,0.0,0.0,1159.52
+,2025,RB Bragantino,CR Flamengo,A,,,,,,0.0,0.0,1080.5,0.0,0.0,1159.52
+,2025,Mirassol FC,EC Vitória,D,,,,,,0.0,0.0,1080.5,0.0,0.0,1159.52
+,2025,Botafogo FR,SC Corinthians Paulista,D,H,0.721,1.63,1.174,False,21.61,-21.61,1058.89,57.98,-57.98,1101.54
+,2025,SE Palmeiras,Grêmio FBPA,H,,,,,,0.0,0.0,1058.89,0.0,0.0,1101.54
+,2025,São Paulo FC,Fluminense FC,H,,,,,,0.0,0.0,1058.89,0.0,0.0,1101.54
+,2025,SC Internacional,CR Vasco da Gama,D,,,,,,0.0,0.0,1058.89,0.0,0.0,1101.54
+,2025,CR Flamengo,CA Mineiro,H,,,,,,0.0,0.0,1058.89,0.0,0.0,1101.54
+,2025,Mirassol FC,CR Vasco da Gama,H,,,,,,0.0,0.0,1058.89,0.0,0.0,1101.54
+,2025,Fluminense FC,Grêmio FBPA,H,,,,,,0.0,0.0,1058.89,0.0,0.0,1101.54
+,2025,Botafogo FR,Cruzeiro EC,A,,,,,,0.0,0.0,1058.89,0.0,0.0,1101.54
+,2025,CA Mineiro,RB Bragantino,H,H,0.596,1.94,1.155,True,21.18,19.91,1078.8,36.39,34.21,1135.75
+,2025,EC Vitória,SE Palmeiras,D,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,SC Internacional,São Paulo FC,A,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,CR Flamengo,Mirassol FC,H,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,São Paulo FC,EC Vitória,H,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,RB Bragantino,SC Internacional,A,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,EC Bahia,Fluminense FC,D,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,CR Vasco da Gama,CA Mineiro,D,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,Cruzeiro EC,Santos FC,A,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,SC Corinthians Paulista,EC Bahia,A,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,CA Mineiro,Grêmio FBPA,A,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,Santos FC,CR Vasco da Gama,A,,,,,,0.0,0.0,1078.8,0.0,0.0,1135.75
+,2025,SC Internacional,CR Flamengo,A,A,0.607,2.09,1.268,True,21.58,23.52,1102.31,55.94,60.97,1196.72
+,2025,Botafogo FR,SE Palmeiras,A,,,,,,0.0,0.0,1102.31,0.0,0.0,1196.72
+,2025,Mirassol FC,Cruzeiro EC,D,,,,,,0.0,0.0,1102.31,0.0,0.0,1196.72
+,2025,RB Bragantino,Fluminense FC,H,,,,,,0.0,0.0,1102.31,0.0,0.0,1196.72
+,2025,Cruzeiro EC,SC Internacional,H,,,,,,0.0,0.0,1102.31,0.0,0.0,1196.72
+,2025,CR Vasco da Gama,SC Corinthians Paulista,A,,,,,,0.0,0.0,1102.31,0.0,0.0,1196.72
+,2025,EC Bahia,Santos FC,H,,,,,,0.0,0.0,1102.31,0.0,0.0,1196.72
+,2025,São Paulo FC,CA Mineiro,H,H,0.678,1.76,1.194,True,22.05,16.76,1119.07,59.84,45.48,1242.2
+,2025,CR Flamengo,EC Vitória,H,,,,,,0.0,0.0,1119.07,0.0,0.0,1242.2
+,2025,Botafogo FR,RB Bragantino,H,,,,,,0.0,0.0,1119.07,0.0,0.0,1242.2
+,2025,Cruzeiro EC,São Paulo FC,H,,,,,,0.0,0.0,1119.07,0.0,0.0,1242.2
+,2025,CR Flamengo,Grêmio FBPA,D,,,,,,0.0,0.0,1119.07,0.0,0.0,1242.2
+,2025,Santos FC,Fluminense FC,D,H,0.587,2.47,1.449,False,22.38,-22.38,1096.69,62.11,-62.11,1180.09
+,2025,EC Vitória,CA Mineiro,H,,,,,,0.0,0.0,1096.69,0.0,0.0,1180.09
+,2025,SC Corinthians Paulista,SE Palmeiras,D,,,,,,0.0,0.0,1096.69,0.0,0.0,1180.09
+,2025,Mirassol FC,EC Bahia,H,,,,,,0.0,0.0,1096.69,0.0,0.0,1180.09
+,2025,Grêmio FBPA,Mirassol FC,A,,,,,,0.0,0.0,1096.69,0.0,0.0,1180.09
+,2025,SE Palmeiras,SC Internacional,H,,,,,,0.0,0.0,1096.69,0.0,0.0,1180.09
+,2025,Fluminense FC,SC Corinthians Paulista,A,,,,,,0.0,0.0,1096.69,0.0,0.0,1180.09
+,2025,CA Mineiro,Santos FC,D,,,,,,0.0,0.0,1096.69,0.0,0.0,1180.09
+,2025,São Paulo FC,Botafogo FR,H,H,0.627,2.39,1.498,True,21.93,30.49,1127.18,59.0,82.02,1262.1
+,2025,EC Bahia,Cruzeiro EC,A,,,,,,0.0,0.0,1127.18,0.0,0.0,1262.1
+,2025,Botafogo FR,Mirassol FC,D,,,,,,0.0,0.0,1127.18,0.0,0.0,1262.1
+,2025,EC Vitória,Fluminense FC,A,,,,,,0.0,0.0,1127.18,0.0,0.0,1262.1
+,2025,Botafogo FR,CA Mineiro,H,H,0.657,1.78,1.17,True,22.54,17.58,1144.76,55.07,42.95,1305.06
+,2025,CR Flamengo,CR Vasco da Gama,D,,,,,,0.0,0.0,1144.76,0.0,0.0,1305.06
+,2025,SC Internacional,Grêmio FBPA,A,H,0.599,1.89,1.133,False,22.9,-22.9,1121.86,38.89,-38.89,1266.16
+,2025,Santos FC,São Paulo FC,H,H,0.561,2.51,1.409,True,22.44,33.88,1155.74,63.31,95.6,1361.76
+,2025,Cruzeiro EC,RB Bragantino,H,,,,,,0.0,0.0,1155.74,0.0,0.0,1361.76
+,2025,CR Vasco da Gama,EC Bahia,H,H,0.581,2.35,1.365,True,23.11,31.21,1186.95,68.09,91.92,1453.68
+,2025,Grêmio FBPA,Botafogo FR,D,,,,,,0.0,0.0,1186.95,0.0,0.0,1453.68
+,2025,CR Vasco da Gama,Cruzeiro EC,H,,,,,,0.0,0.0,1186.95,0.0,0.0,1453.68
+,2025,CA Mineiro,Mirassol FC,H,H,0.561,2.13,1.196,True,23.74,26.83,1213.77,50.31,56.85,1510.53
+,2025,Grêmio FBPA,EC Vitória,H,,,,,,0.0,0.0,1213.77,0.0,0.0,1510.53
+,2025,Fluminense FC,Botafogo FR,H,,,,,,0.0,0.0,1213.77,0.0,0.0,1510.53
+,2025,EC Bahia,SE Palmeiras,H,,,,,,0.0,0.0,1213.77,0.0,0.0,1510.53
+,2025,RB Bragantino,Santos FC,D,,,,,,0.0,0.0,1213.77,0.0,0.0,1510.53
+,2025,SC Corinthians Paulista,CR Flamengo,A,,,,,,0.0,0.0,1213.77,0.0,0.0,1510.53
+,2025,SE Palmeiras,CR Vasco da Gama,H,,,,,,0.0,0.0,1213.77,0.0,0.0,1510.53
+,2025,Mirassol FC,RB Bragantino,D,,,,,,0.0,0.0,1213.77,0.0,0.0,1510.53
+,2025,SC Internacional,SC Corinthians Paulista,D,H,0.596,2.03,1.209,False,24.28,-24.28,1189.5,61.26,-61.26,1449.27
+,2025,Botafogo FR,EC Bahia,H,,,,,,0.0,0.0,1189.5,0.0,0.0,1449.27
+,2025,Santos FC,Grêmio FBPA,D,,,,,,0.0,0.0,1189.5,0.0,0.0,1449.27
+,2025,CR Flamengo,Cruzeiro EC,D,,,,,,0.0,0.0,1189.5,0.0,0.0,1449.27
+,2025,Fluminense FC,CA Mineiro,H,,,,,,0.0,0.0,1189.5,0.0,0.0,1449.27
+,2025,RB Bragantino,Grêmio FBPA,H,H,0.596,1.9,1.131,True,23.79,21.41,1210.91,42.34,38.1,1487.37
+,2025,SC Internacional,Botafogo FR,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,SC Corinthians Paulista,Mirassol FC,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,CR Vasco da Gama,EC Vitória,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,São Paulo FC,SE Palmeiras,A,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,EC Bahia,CR Flamengo,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,Mirassol FC,Fluminense FC,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,SE Palmeiras,RB Bragantino,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,Botafogo FR,CR Flamengo,A,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,Mirassol FC,SC Internacional,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,CA Mineiro,Cruzeiro EC,D,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,Santos FC,SC Corinthians Paulista,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,Grêmio FBPA,São Paulo FC,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,EC Vitória,EC Bahia,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,SC Corinthians Paulista,CA Mineiro,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,CR Flamengo,SE Palmeiras,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,Mirassol FC,São Paulo FC,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,EC Bahia,Grêmio FBPA,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,CR Vasco da Gama,Fluminense FC,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,Santos FC,EC Vitória,A,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,EC Bahia,SC Internacional,H,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,EC Vitória,SC Corinthians Paulista,A,,,,,,0.0,0.0,1210.91,0.0,0.0,1487.37
+,2025,Fluminense FC,SC Internacional,H,H,0.596,1.85,1.102,True,24.22,20.59,1231.5,35.59,30.25,1517.62
+,2025,São Paulo FC,EC Bahia,H,H,0.562,1.93,1.084,True,24.63,22.91,1254.4,27.35,25.44,1543.06
+,2025,Botafogo FR,Santos FC,D,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,RB Bragantino,CR Vasco da Gama,A,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,SE Palmeiras,Cruzeiro EC,D,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,Cruzeiro EC,EC Vitória,H,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,Mirassol FC,Botafogo FR,D,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,SC Corinthians Paulista,Grêmio FBPA,H,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,EC Bahia,RB Bragantino,H,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,SC Internacional,CA Mineiro,D,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,CR Vasco da Gama,São Paulo FC,A,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,RB Bragantino,SC Corinthians Paulista,H,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,EC Vitória,SC Internacional,H,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,Botafogo FR,CR Vasco da Gama,H,,,,,,0.0,0.0,1254.4,0.0,0.0,1543.06
+,2025,CA Mineiro,EC Bahia,H,H,0.561,2.11,1.184,True,25.09,27.85,1282.25,51.25,56.89,1599.94
+,2025,Grêmio FBPA,Cruzeiro EC,A,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,São Paulo FC,CR Flamengo,D,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,Fluminense FC,Mirassol FC,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,SE Palmeiras,Santos FC,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,SC Internacional,EC Bahia,D,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,São Paulo FC,RB Bragantino,A,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,Cruzeiro EC,Fluminense FC,D,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,EC Vitória,Botafogo FR,D,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,CR Flamengo,Santos FC,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,Mirassol FC,SE Palmeiras,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,Santos FC,SE Palmeiras,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,RB Bragantino,CA Mineiro,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,SE Palmeiras,EC Vitória,D,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,Santos FC,Mirassol FC,D,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,Grêmio FBPA,CR Vasco da Gama,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,Fluminense FC,CR Flamengo,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,SC Corinthians Paulista,São Paulo FC,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,Botafogo FR,Grêmio FBPA,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,SE Palmeiras,Fluminense FC,D,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,CR Flamengo,RB Bragantino,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,EC Bahia,CR Vasco da Gama,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,Cruzeiro EC,SC Corinthians Paulista,H,,,,,,0.0,0.0,1282.25,0.0,0.0,1599.94
+,2025,SC Internacional,Santos FC,D,H,0.561,1.95,1.095,False,25.64,-25.64,1256.6,31.84,-31.84,1568.11
+,2025,CA Mineiro,CR Flamengo,D,,,,,,0.0,0.0,1256.6,0.0,0.0,1568.11
+,2025,Grêmio FBPA,SE Palmeiras,H,,,,,,0.0,0.0,1256.6,0.0,0.0,1568.11
+,2025,Fluminense FC,São Paulo FC,H,,,,,,0.0,0.0,1256.6,0.0,0.0,1568.11
+,2025,CR Vasco da Gama,SC Internacional,H,,,,,,0.0,0.0,1256.6,0.0,0.0,1568.11
+,2025,EC Vitória,Mirassol FC,H,,,,,,0.0,0.0,1256.6,0.0,0.0,1568.11
+,2025,SC Corinthians Paulista,Botafogo FR,D,H,0.561,2.14,1.201,False,25.13,-25.13,1231.47,55.34,-55.34,1512.76
+,2025,CR Vasco da Gama,Mirassol FC,A,,,,,,0.0,0.0,1231.47,0.0,0.0,1512.76
+,2025,Grêmio FBPA,Fluminense FC,A,,,,,,0.0,0.0,1231.47,0.0,0.0,1512.76
+,2025,RB Bragantino,EC Vitória,H,,,,,,0.0,0.0,1231.47,0.0,0.0,1512.76
+,2025,São Paulo FC,SC Internacional,H,H,0.587,2.58,1.513,True,24.63,38.91,1270.39,75.64,119.51,1632.27
+,2025,CA Mineiro,SE Palmeiras,A,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2025,Cruzeiro EC,Botafogo FR,D,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2025,Mirassol FC,CR Flamengo,D,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2025,SC Internacional,RB Bragantino,H,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2025,CA Mineiro,CR Vasco da Gama,H,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2025,EC Vitória,São Paulo FC,H,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2025,Fluminense FC,EC Bahia,H,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2025,Santos FC,Cruzeiro EC,H,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2026,CA Mineiro,SE Palmeiras,D,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2026,Coritiba FBC,RB Bragantino,A,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2026,SC Internacional,CA Paranaense,A,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2026,EC Vitória,Clube do Remo,H,,,,,,0.0,0.0,1270.39,0.0,0.0,1632.27
+,2026,Fluminense FC,Grêmio FBPA,H,H,0.683,1.59,1.086,True,25.41,14.99,1285.38,47.62,28.1,1660.37
+,2026,Chapecoense AF,Santos FC,H,,,,,,0.0,0.0,1285.38,0.0,0.0,1660.37
+,2026,SC Corinthians Paulista,EC Bahia,A,,,,,,0.0,0.0,1285.38,0.0,0.0,1660.37
+,2026,São Paulo FC,CR Flamengo,H,,,,,,0.0,0.0,1285.38,0.0,0.0,1660.37
+,2026,Mirassol FC,CR Vasco da Gama,H,,,,,,0.0,0.0,1285.38,0.0,0.0,1660.37
+,2026,Botafogo FR,Cruzeiro EC,H,,,,,,0.0,0.0,1285.38,0.0,0.0,1660.37
+,2026,RB Bragantino,CA Mineiro,H,,,,,,0.0,0.0,1285.38,0.0,0.0,1660.37
+,2026,CR Flamengo,SC Internacional,D,,,,,,0.0,0.0,1285.38,0.0,0.0,1660.37
+,2026,Clube do Remo,Mirassol FC,D,H,0.562,2.97,1.668,False,25.71,-25.71,1259.67,83.02,-83.02,1577.35
+,2026,Santos FC,São Paulo FC,D,H,0.678,2.21,1.499,False,25.19,-25.19,1234.48,78.87,-78.87,1498.48
+,2026,Grêmio FBPA,Botafogo FR,H,H,0.616,2.28,1.404,True,24.69,31.6,1266.08,74.92,95.9,1594.39
+,2026,SE Palmeiras,EC Vitória,H,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,EC Bahia,Fluminense FC,D,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,CR Vasco da Gama,Chapecoense AF,D,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,Cruzeiro EC,Coritiba FBC,A,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,EC Vitória,CR Flamengo,A,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,Mirassol FC,Cruzeiro EC,D,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,Chapecoense AF,Coritiba FBC,D,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,CA Mineiro,Clube do Remo,D,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,São Paulo FC,Grêmio FBPA,H,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,CR Vasco da Gama,EC Bahia,A,,,,,,0.0,0.0,1266.08,0.0,0.0,1594.39
+,2026,CA Paranaense,Santos FC,H,H,0.596,1.99,1.185,True,25.32,25.07,1291.15,59.6,59.01,1653.4
+,2026,Fluminense FC,Botafogo FR,H,H,0.657,1.8,1.183,True,25.82,20.66,1311.81,75.8,60.64,1714.03
+,2026,SC Corinthians Paulista,RB Bragantino,H,H,0.596,1.91,1.137,True,26.24,23.87,1335.68,51.76,47.11,1761.14
+,2026,SC Internacional,SE Palmeiras,A,,,,,,0.0,0.0,1335.68,0.0,0.0,1761.14
+,2026,CA Paranaense,SC Corinthians Paulista,A,,,,,,0.0,0.0,1335.68,0.0,0.0,1761.14
+,2026,RB Bragantino,CA Paranaense,D,,,,,,0.0,0.0,1335.68,0.0,0.0,1761.14
+,2026,Clube do Remo,SC Internacional,D,,,,,,0.0,0.0,1335.68,0.0,0.0,1761.14
+,2026,Coritiba FBC,São Paulo FC,A,,,,,,0.0,0.0,1335.68,0.0,0.0,1761.14
+,2026,Cruzeiro EC,SC Corinthians Paulista,D,,,,,,0.0,0.0,1335.68,0.0,0.0,1761.14
+,2026,SE Palmeiras,Fluminense FC,H,,,,,,0.0,0.0,1335.68,0.0,0.0,1761.14
+,2026,Grêmio FBPA,CA Mineiro,H,H,0.587,2.19,1.285,True,26.71,31.79,1367.47,84.25,100.26,1861.4
+,2026,Santos FC,CR Vasco da Gama,H,,,,,,0.0,0.0,1367.47,0.0,0.0,1861.4

@@ -553,94 +553,78 @@ with tab3:
             elif edge >= 25: card_class, badge_class = "high", "high"
             else:            card_class, badge_class = "",      ""
 
-            stars = "⭐" * min(int(edge / 15) + 1, 5)
+            stars  = "⭐" * min(int(edge / 15) + 1, 5)
+            ph_w   = int(r["prob_h"] * 100)
+            pd_w   = int(r["prob_d"] * 100)
+            pa_w   = int(r["prob_a"] * 100)
 
-            ph_w  = int(r["prob_h"] * 100)
-            pd_w  = int(r["prob_d"] * 100)
-            pa_w  = int(r["prob_a"] * 100)
+            # Variáveis pré-formatadas para evitar conflito de aspas no HTML
+            home_team   = r["home_team"]
+            away_team   = r["away_team"]
+            aposta      = r["aposta"]
+            date_str    = r["date"]
+            time_str    = r["time_utc"]
+            odd_str     = f"{r['odd_bet365']:.2f}"
+            prob_m_str  = f"{r['prob_modelo']:.1%}"
+            prob_mkt_str= f"{r['prob_mercado']:.1%}"
+            edge_str    = f"{r['edge_pct']:.1f}"
+            kelly_str   = f"{r['kelly_pct']:.2f}"
+            ph_str      = f"{r['prob_h']:.0%}"
+            pd_str      = f"{r['prob_d']:.0%}"
+            pa_str      = f"{r['prob_a']:.0%}"
 
-            st.markdown(f"""
-            <div class='vbet-card {card_class}'>
-              <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;'>
-                <div>
-                  <span class='team-name'>{r['home_team']}</span>
-                  <span class='vs-badge' style='margin:0 10px;'>VS</span>
-                  <span class='team-name'>{r['away_team']}</span>
-                </div>
-                <div style='text-align:right;'>
-                  <span class='mono' style='color:#8b949e;font-size:12px;'>
-                    📅 {r['date']} · {r['time_utc']} UTC
-                  </span>
-                </div>
-              </div>
-
-              <div style='display:flex;gap:12px;align-items:center;flex-wrap:wrap;'>
-                <div style='background:#1c2333;border-radius:8px;padding:10px 16px;'>
-                  <div style='font-size:10px;color:#8b949e;text-transform:uppercase;
-                              letter-spacing:1px;margin-bottom:4px;'>Apostar</div>
-                  <div style='font-weight:700;font-size:15px;color:#e6edf3;'>{r['aposta']}</div>
-                </div>
-
-                <div style='background:#1c2333;border-radius:8px;padding:10px 16px;'>
-                  <div style='font-size:10px;color:#8b949e;text-transform:uppercase;
-                              letter-spacing:1px;margin-bottom:4px;'>Odd Pinnacle</div>
-                  <div class='mono' style='font-size:18px;font-weight:600;
-                               color:#e6edf3;'>{r['odd_bet365']:.2f}</div>
-                </div>
-
-                <div style='background:#1c2333;border-radius:8px;padding:10px 16px;'>
-                  <div style='font-size:10px;color:#8b949e;text-transform:uppercase;
-                              letter-spacing:1px;margin-bottom:4px;'>Prob Modelo</div>
-                  <div class='mono' style='font-size:18px;font-weight:600;
-                               color:#e6edf3;'>{r['prob_modelo']:.1%}</div>
-                </div>
-
-                <div style='background:#1c2333;border-radius:8px;padding:10px 16px;'>
-                  <div style='font-size:10px;color:#8b949e;text-transform:uppercase;
-                              letter-spacing:1px;margin-bottom:4px;'>Prob Mercado</div>
-                  <div class='mono' style='font-size:18px;font-weight:600;
-                               color:#8b949e;'>{r['prob_mercado']:.1%}</div>
-                </div>
-
-                <div>
-                  <span class='edge-badge {badge_class}'>
-                    EDGE +{r['edge_pct']:.1f}% {stars}
-                  </span>
-                  <br><br>
-                  <span style='font-size:12px;color:#8b949e;'>
-                    Kelly: <b style='color:#e6edf3;'>{r['kelly_pct']:.2f}%</b> do bankroll
-                  </span>
-                </div>
-              </div>
-
-              <div style='margin-top:14px;'>
-                <div style='font-size:11px;color:#8b949e;margin-bottom:6px;'>
-                  Distribuição de probabilidades do modelo:
-                </div>
-                <div style='display:flex;gap:6px;align-items:center;'>
-                  <span style='font-size:11px;color:#8b949e;width:30px;'>H</span>
-                  <div class='prob-bar-wrap' style='flex:1;'>
-                    <div class='prob-bar' style='width:{ph_w}%;background:#2979ff;'></div>
-                  </div>
-                  <span class='mono' style='font-size:11px;width:40px;'>{r['prob_h']:.0%}</span>
-                </div>
-                <div style='display:flex;gap:6px;align-items:center;margin-top:4px;'>
-                  <span style='font-size:11px;color:#8b949e;width:30px;'>D</span>
-                  <div class='prob-bar-wrap' style='flex:1;'>
-                    <div class='prob-bar' style='width:{pd_w}%;background:#ffd600;'></div>
-                  </div>
-                  <span class='mono' style='font-size:11px;width:40px;'>{r['prob_d']:.0%}</span>
-                </div>
-                <div style='display:flex;gap:6px;align-items:center;margin-top:4px;'>
-                  <span style='font-size:11px;color:#8b949e;width:30px;'>A</span>
-                  <div class='prob-bar-wrap' style='flex:1;'>
-                    <div class='prob-bar' style='width:{pa_w}%;background:#ff1744;'></div>
-                  </div>
-                  <span class='mono' style='font-size:11px;width:40px;'>{r['prob_a']:.0%}</span>
-                </div>
-              </div>
-            </div>
-            """, unsafe_allow_html=True)
+            html_card = (
+                "<div class=\"vbet-card " + card_class + "\">"
+                "<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;\">"
+                "<div>"
+                "<span class=\"team-name\">" + home_team + "</span>"
+                "<span class=\"vs-badge\" style=\"margin:0 10px;\">VS</span>"
+                "<span class=\"team-name\">" + away_team + "</span>"
+                "</div>"
+                "<div style=\"text-align:right;\">"
+                "<span class=\"mono\" style=\"color:#8b949e;font-size:12px;\">📅 " + date_str + " · " + time_str + " UTC</span>"
+                "</div></div>"
+                "<div style=\"display:flex;gap:12px;align-items:center;flex-wrap:wrap;\">"
+                "<div style=\"background:#1c2333;border-radius:8px;padding:10px 16px;\">"
+                "<div style=\"font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;\">Apostar</div>"
+                "<div style=\"font-weight:700;font-size:15px;color:#e6edf3;\">" + aposta + "</div>"
+                "</div>"
+                "<div style=\"background:#1c2333;border-radius:8px;padding:10px 16px;\">"
+                "<div style=\"font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;\">Odd Pinnacle</div>"
+                "<div class=\"mono\" style=\"font-size:18px;font-weight:600;color:#e6edf3;\">" + odd_str + "</div>"
+                "</div>"
+                "<div style=\"background:#1c2333;border-radius:8px;padding:10px 16px;\">"
+                "<div style=\"font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;\">Prob Modelo</div>"
+                "<div class=\"mono\" style=\"font-size:18px;font-weight:600;color:#e6edf3;\">" + prob_m_str + "</div>"
+                "</div>"
+                "<div style=\"background:#1c2333;border-radius:8px;padding:10px 16px;\">"
+                "<div style=\"font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;\">Prob Mercado</div>"
+                "<div class=\"mono\" style=\"font-size:18px;font-weight:600;color:#8b949e;\">" + prob_mkt_str + "</div>"
+                "</div>"
+                "<div>"
+                "<span class=\"edge-badge " + badge_class + "\">EDGE +" + edge_str + "% " + stars + "</span>"
+                "<br><br>"
+                "<span style=\"font-size:12px;color:#8b949e;\">Kelly: <b style=\"color:#e6edf3;\">" + kelly_str + "%</b> do bankroll</span>"
+                "</div></div>"
+                "<div style=\"margin-top:14px;\">"
+                "<div style=\"font-size:11px;color:#8b949e;margin-bottom:6px;\">Distribuição de probabilidades do modelo:</div>"
+                "<div style=\"display:flex;gap:6px;align-items:center;\">"
+                "<span style=\"font-size:11px;color:#8b949e;width:30px;\">H</span>"
+                "<div class=\"prob-bar-wrap\" style=\"flex:1;\"><div class=\"prob-bar\" style=\"width:" + str(ph_w) + "%;background:#2979ff;\"></div></div>"
+                "<span class=\"mono\" style=\"font-size:11px;width:40px;\">" + ph_str + "</span>"
+                "</div>"
+                "<div style=\"display:flex;gap:6px;align-items:center;margin-top:4px;\">"
+                "<span style=\"font-size:11px;color:#8b949e;width:30px;\">D</span>"
+                "<div class=\"prob-bar-wrap\" style=\"flex:1;\"><div class=\"prob-bar\" style=\"width:" + str(pd_w) + "%;background:#ffd600;\"></div></div>"
+                "<span class=\"mono\" style=\"font-size:11px;width:40px;\">" + pd_str + "</span>"
+                "</div>"
+                "<div style=\"display:flex;gap:6px;align-items:center;margin-top:4px;\">"
+                "<span style=\"font-size:11px;color:#8b949e;width:30px;\">A</span>"
+                "<div class=\"prob-bar-wrap\" style=\"flex:1;\"><div class=\"prob-bar\" style=\"width:" + str(pa_w) + "%;background:#ff1744;\"></div></div>"
+                "<span class=\"mono\" style=\"font-size:11px;width:40px;\">" + pa_str + "</span>"
+                "</div></div></div>"
+            )
+            st.markdown(html_card, unsafe_allow_html=True)
 
         # Tabela compacta
         with st.expander("📋 Ver tabela completa"):
