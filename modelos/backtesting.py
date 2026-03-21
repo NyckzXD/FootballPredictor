@@ -85,7 +85,6 @@ def add_derived(X_):
     X_["model_vs_market_d"]  = X_["combined_draw_rate"] - X_["prob_d_mkt"]
     return X_
 
-
 def predict_probs_v2(model_data, X):
     ph_raw = np.mean([m.predict_proba(X)[:,1] for m in model_data["models_h"]], axis=0)
     pd_raw = np.mean([m.predict_proba(X)[:,1] for m in model_data["models_d"]], axis=0)
@@ -102,7 +101,6 @@ def kelly_bet(prob, odd, fraction=KELLY_FRACTION):
     if edge <= 0: return 0.0
     k = (prob - (1-prob)/(odd-1)) * fraction
     return max(0.0, k)
-
 
 def run_backtest(df, model_data):
     records = []

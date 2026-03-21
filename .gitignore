@@ -22,3 +22,6 @@ Thumbs.db
 .idea/
 models
 trainmodels
+
+#DATALEAK
+odds_scrapper.py
