@@ -395,9 +395,9 @@ with tab1:
 
         for i, row in df_sim.reset_index(drop=True).iterrows():
             pos = i + 1
-            if pos <= 6:    pos_class, pos_color = "pos-liberta", "#2979ff"
-            elif pos <= 12: pos_class, pos_color = "pos-sul",     "#ffd600"
-            elif pos <= 17: pos_class, pos_color = "pos-normal",  "#8b949e"
+            if pos <= 5:    pos_class, pos_color = "pos-liberta", "#2979ff"
+            elif pos <= 11: pos_class, pos_color = "pos-sul",     "#ffd600"
+            elif pos <= 16: pos_class, pos_color = "pos-normal",  "#8b949e"
             else:           pos_class, pos_color = "pos-rebaixa", "#ff1744"
 
             titulo_bar  = min(row["titulo_pct"] * 2, 100)
@@ -768,7 +768,7 @@ st.markdown("""
             font-family:JetBrains Mono,monospace;font-size:12px;color:#8b949e;'>
   © 2026 PREDICTOR · Todos os direitos reservados · Desenvolvido por <b style='color:#e6edf3;'>Nycolas F. Oliveira</b>
   <br><span style='font-size:10px;color:#555577;margin-top:4px;display:block;'>
-    Modelo LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
+    Modelo LightGBM · Acurácia 60.96% · Monte Carlo 10.000 simulações
   </span>
 </div>
 """, unsafe_allow_html=True)
