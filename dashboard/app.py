@@ -768,7 +768,7 @@ st.markdown("""
             font-family:JetBrains Mono,monospace;font-size:12px;color:#8b949e;'>
   © 2026 PREDICTOR · Todos os direitos reservados · Desenvolvido por <b style='color:#e6edf3;'>Nycolas F. Oliveira</b>
   <br><span style='font-size:10px;color:#555577;margin-top:4px;display:block;'>
-    Modelo LightGBM · Acurácia 60.96% · Monte Carlo 10.000 simulações
+    Modelo LightGBM · Acurácia 62.17% · Monte Carlo 10.000 simulações
   </span>
 </div>
 """, unsafe_allow_html=True)
