@@ -278,56 +278,71 @@ def train():
     total = p_h + p_d + p_a
     p_h /= total; p_d /= total; p_a /= total
 
-    # ── Calibrar threshold de empate por CV no treino ────────────────────────
-    # Em vez de fixar 0.28 ou 0.32, encontramos o threshold que maximiza
-    # F1 de D no conjunto de treino usando TimeSeriesSplit.
-    # Isso garante que o threshold é baseado em dados, não em chute.
-    print("\n🎯 Calibrando threshold de empate por CV...")
+    # ── Calibrar threshold de empate com restrição de realismo ──────────────
+    # Problema anterior: busca sem restrição escolhia threshold que previa
+    # 60% dos jogos como empate (irreal — Brasileirão tem ~26-28% de empates).
+    # Solução: só considerar thresholds que produzem entre 20% e 35% de D's
+    # no treino, mantendo a distribuição compatível com a realidade.
+    print("\n🎯 Calibrando threshold de empate (com restrição de realismo)...")
 
     p_d_train = cal_d.predict(model_d.predict_proba(X_train)[:, 1])
     p_h_train = cal_h.predict(model_h.predict_proba(X_train)[:, 1])
     p_a_train = cal_a.predict(model_a.predict_proba(X_train)[:, 1])
-    tot_train = p_d_train + p_h_train + p_a_train
+    tot_train  = p_d_train + p_h_train + p_a_train
     p_d_train /= tot_train; p_h_train /= tot_train; p_a_train /= tot_train
 
-    y_train_arr = y_train_raw.values
-    best_thresh, best_f1 = 0.25, 0.0
+    n_train        = len(y_train_raw)
+    y_train_arr    = y_train_raw.values
+    real_draw_rate = (y_train_arr == "D").mean()
+
+    # Faixa realista: ±8 pontos percentuais em torno da taxa real de empates
+    draw_min = max(0.18, real_draw_rate - 0.08)
+    draw_max = min(0.38, real_draw_rate + 0.08)
+    print(f"   Taxa real de empates no treino: {real_draw_rate:.1%}")
+    print(f"   Faixa permitida de D's previstos: {draw_min:.1%} – {draw_max:.1%}")
+
+    best_thresh, best_f1 = 0.35, 0.0   # fallback conservador
     thresh_report = []
-    for thr in np.arange(0.22, 0.42, 0.01):
-        preds = np.where(
-            p_d_train >= thr, "D",
-            np.where(p_h_train >= p_a_train, "H", "A")
-        )
-        tp = ((preds == "D") & (y_train_arr == "D")).sum()
-        fp = ((preds == "D") & (y_train_arr != "D")).sum()
-        fn = ((preds != "D") & (y_train_arr == "D")).sum()
+    for thr in np.arange(0.22, 0.46, 0.01):
+        preds  = np.where(p_d_train >= thr, "D",
+                          np.where(p_h_train >= p_a_train, "H", "A"))
+        n_d    = (preds == "D").sum()
+        d_rate = n_d / n_train
+
+        tp   = ((preds == "D") & (y_train_arr == "D")).sum()
+        fp   = ((preds == "D") & (y_train_arr != "D")).sum()
+        fn   = ((preds != "D") & (y_train_arr == "D")).sum()
         prec = tp / max(tp + fp, 1)
         rec  = tp / max(tp + fn, 1)
         f1   = 2 * prec * rec / max(prec + rec, 1e-9)
-        n_d  = (preds == "D").sum()
         acc  = (preds == y_train_arr).mean()
-        thresh_report.append((thr, n_d, rec, prec, f1, acc))
-        if f1 > best_f1:
+
+        in_range = draw_min <= d_rate <= draw_max
+        thresh_report.append((thr, n_d, d_rate, rec, prec, f1, acc, in_range))
+
+        if in_range and f1 > best_f1:
             best_f1, best_thresh = f1, thr
 
-    print(f"\n   {'Thr':>5} {'#D':>5} {'Recall':>7} {'Prec':>7} {'F1-D':>7} {'Acc':>7}")
-    print(f"   {'-'*45}")
-    for thr, n_d, rec, prec, f1, acc in thresh_report:
+    print(f"\n   {'Thr':>5} {'#D':>6} {'%D':>6} {'Recall':>7} {'Prec':>7} "
+          f"{'F1-D':>7} {'Acc':>7} {'OK?':>5}")
+    print(f"   {'-'*58}")
+    for thr, n_d, d_rate, rec, prec, f1, acc, ok in thresh_report:
+        ok_str = "  ✓" if ok else "  ✗"
         marker = " ◄ ótimo" if abs(thr - best_thresh) < 0.005 else ""
-        print(f"   {thr:>5.2f} {n_d:>5} {rec:>7.2%} {prec:>7.2%} {f1:>7.3f} {acc:>7.2%}{marker}")
+        print(f"   {thr:>5.2f} {n_d:>6} {d_rate:>6.1%} {rec:>7.2%} {prec:>7.2%} "
+              f"{f1:>7.3f} {acc:>7.2%}{ok_str}{marker}")
 
     DRAW_THRESHOLD = round(best_thresh, 2)
-    print(f"\n   ✅ Threshold selecionado: {DRAW_THRESHOLD} (F1-D no treino = {best_f1:.3f})")
+    print(f"\n   ✅ Threshold selecionado: {DRAW_THRESHOLD}  "
+          f"(F1-D={best_f1:.3f} | dentro da faixa realista)")
 
     # ── Aplicar threshold no teste ────────────────────────────────────────────
     def apply_threshold(ph, pd_, pa, thr):
         return np.where(pd_ >= thr, "D", np.where(ph >= pa, "H", "A"))
 
-    y_pred_argmax = np.where(
-        np.stack([p_h, p_d, p_a], axis=1).argmax(axis=1) == 0, "H",
-        np.where(np.stack([p_h, p_d, p_a], axis=1).argmax(axis=1) == 1, "D", "A")
-    )
-    y_pred = apply_threshold(p_h, p_d, p_a, DRAW_THRESHOLD)
+    probs_stack   = np.stack([p_h, p_d, p_a], axis=1)
+    y_pred_argmax = np.array(["H", "D", "A"])[probs_stack.argmax(axis=1)]
+    y_pred        = apply_threshold(p_h, p_d, p_a, DRAW_THRESHOLD)
 
     acc_argmax = (y_pred_argmax == y_test_raw).mean()
     acc_thresh = (y_pred == y_test_raw).mean()
@@ -335,21 +350,26 @@ def train():
     print(f"   Acurácia threshold (D≥{DRAW_THRESHOLD}):  {acc_thresh:.2%}")
 
     # ── Análise de curva threshold no teste ───────────────────────────────────
-    print(f"\n📈 Análise de threshold no teste:")
-    print(f"   {'Thr':>5} {'#D prev':>8} {'Recall-D':>9} {'Prec-D':>8} {'F1-D':>7} {'Acc':>7}")
-    print(f"   {'-'*50}")
-    for thr in np.arange(0.22, 0.42, 0.02):
+    n_test = len(y_test_raw)
+    print(f"\n📈 Análise de threshold no teste "
+          f"(n={n_test} | empates reais={( y_test_raw=='D').sum()}):")
+    print(f"   {'Thr':>5} {'#D prev':>8} {'%D':>5} {'Recall-D':>9} "
+          f"{'Prec-D':>8} {'F1-D':>7} {'Acc':>7}")
+    print(f"   {'-'*57}")
+    for thr in np.arange(0.22, 0.46, 0.02):
         preds = apply_threshold(p_h, p_d, p_a, thr)
-        tp = ((preds == "D") & (y_test_raw == "D")).sum()
-        fp = ((preds == "D") & (y_test_raw != "D")).sum()
-        fn = ((preds != "D") & (y_test_raw == "D")).sum()
-        prec = tp / max(tp + fp, 1)
-        rec  = tp / max(tp + fn, 1)
-        f1   = 2 * prec * rec / max(prec + rec, 1e-9)
-        n_d  = (preds == "D").sum()
-        acc  = (preds == y_test_raw).mean()
+        tp    = ((preds == "D") & (y_test_raw == "D")).sum()
+        fp    = ((preds == "D") & (y_test_raw != "D")).sum()
+        fn    = ((preds != "D") & (y_test_raw == "D")).sum()
+        prec  = tp / max(tp + fp, 1)
+        rec   = tp / max(tp + fn, 1)
+        f1    = 2 * prec * rec / max(prec + rec, 1e-9)
+        n_d   = (preds == "D").sum()
+        d_pct = n_d / n_test
+        acc   = (preds == y_test_raw).mean()
         marker = " ◄" if abs(thr - DRAW_THRESHOLD) < 0.005 else ""
-        print(f"   {thr:>5.2f} {n_d:>8} {rec:>9.2%} {prec:>8.2%} {f1:>7.3f} {acc:>7.2%}{marker}")
+        print(f"   {thr:>5.2f} {n_d:>8} {d_pct:>5.1%} {rec:>9.2%} "
+              f"{prec:>8.2%} {f1:>7.3f} {acc:>7.2%}{marker}")
 
     acc = (y_pred == y_test_raw).mean()
     print(f"\n✅ Acurácia no teste: {acc:.2%}")
