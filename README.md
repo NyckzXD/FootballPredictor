@@ -8,7 +8,7 @@ Sistema de previsao de resultados de futebol para o Campeonato Brasileiro Serie 
 
 O PREDICTOR e um pipeline completo de machine learning aplicado a analise esportiva. O sistema cobre desde a coleta de dados brutos ate a exposicao dos resultados em um dashboard web, passando por engenharia de features, treinamento de modelos, deteccao de value bets e validacao historica via backtesting.
 
-O modelo principal atinge acuracia de **55.96%** na classificacao de resultados (Vitoria Mandante / Empate / Vitoria Visitante), superando a linha de base naive do mercado. A simulacao da temporada e executada com **10.000 iteracoes de Monte Carlo** para estimativa probabilistica da classificacao final.
+O modelo principal atinge acuracia de **60,17%** na classificacao de resultados (Vitoria Mandante / Empate / Vitoria Visitante), superando a linha de base naive do mercado. A simulacao da temporada e executada com **10.000 iteracoes de Monte Carlo** para estimativa probabilistica da classificacao final.
 
 ---
 
