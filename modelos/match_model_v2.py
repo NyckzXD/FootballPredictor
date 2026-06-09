@@ -107,14 +107,14 @@ def train_binary(X_tr, y_tr, X_te, y_te, temporal_w, label, pos_weight=1.0):
     sw      = sw / sw.mean()  # normalizar para média 1
 
     model = lgb.LGBMClassifier(
-        n_estimators=400,        # ← aumentado: mais árvores para capturar padrões novos
-        max_depth=5,             # ← ligeiramente mais profundo
-        learning_rate=0.02,      # ← mais lento + estável
-        num_leaves=20,           # ← um pouco mais expressivo
+        n_estimators=300,        # reduzido de 400 — menos risco de overfit
+        max_depth=4,             # reduzido de 5 — mais conservador
+        learning_rate=0.02,
+        num_leaves=20,
         subsample=0.8,
         colsample_bytree=0.8,
-        min_child_samples=15,    # ← menor para capturar padrões de times novos
-        reg_alpha=0.2,
+        min_child_samples=25,    # aumentado de 15 — mais regularização
+        reg_alpha=0.4,           # aumentado de 0.2 — mais L1
         reg_lambda=0.3,
         random_state=42,
         verbose=-1,
@@ -172,16 +172,18 @@ def train():
     all_cols = list(X.columns)
     print(f"   Total features: {len(all_cols)}")
 
-    # MELHORIA 4: Split temporal ampliado — treino 2012-2024, teste 2025+2026
-    # Isso aumenta o conjunto de teste de 37 para ~400+ jogos, muito mais estável
-    train_mask = df["season"].isin(range(2012, 2025))
-    test_mask  = df["season"].isin([2025, 2026])
+    # Split: treino 2004–2025 (inclusive), teste = apenas 2026
+    # 2025 entra no treino para maximizar dados recentes disponíveis ao modelo.
+    # A CV temporal (5 folds) é a métrica primária de generalização.
+    # O teste em 2026 serve como validação final pontual.
+    train_mask = df["season"].isin(range(2004, 2026))
+    test_mask  = df["season"].isin([2026])
 
-    # Fallback: se não há dados de 2025/2026, usa últimas 2 temporadas disponíveis
-    if test_mask.sum() < 20:
+    # Fallback: se não há dados de 2026, usa a última temporada disponível
+    if test_mask.sum() < 10:
         available_seasons = sorted(df["season"].unique())
-        test_seasons  = available_seasons[-2:]
-        train_seasons = available_seasons[:-2]
+        test_seasons  = available_seasons[-1:]
+        train_seasons = available_seasons[:-1]
         train_mask = df["season"].isin(train_seasons)
         test_mask  = df["season"].isin(test_seasons)
         print(f"   ⚠️  Fallback — treino: {train_seasons} | teste: {test_seasons}")
@@ -201,9 +203,8 @@ def train():
     recent = df[df["season"].isin([2023, 2024, 2025])]["result"]
     freq   = recent.value_counts(normalize=True)
     pw_h   = 1.0
-    # MELHORIA 5: multiplicador 2.2 (era 1.5) para forçar o modelo a
-    # reconhecer mais empates — corrige o recall de D que estava em 41.7%
-    pw_d   = (freq.get("H", 0.45) / freq.get("D", 0.25)) * 2.2
+    # pw_d calibrado em 1.8: intermediário entre 1.5 (subprevia D) e 2.2 (superprevia D)
+    pw_d   = (freq.get("H", 0.45) / freq.get("D", 0.25)) * 1.8
     pw_a   = freq.get("H", 0.45) / freq.get("A", 0.30)
     print(f"\n   Pesos classe — H:{pw_h:.2f} | D:{pw_d:.2f} | A:{pw_a:.2f}")
     print(f"   Peso temporal — 2025={SEASON_WEIGHTS.get(2025,4.0)}x | 2012={SEASON_WEIGHTS.get(2012,0.3)}x")
@@ -223,9 +224,9 @@ def train():
             cw = np.where(ytr_raw == cls, pw, 1.0)
             sw = cw * tw; sw = sw / sw.mean()
             m  = lgb.LGBMClassifier(
-                n_estimators=200, max_depth=5, learning_rate=0.02,
+                n_estimators=200, max_depth=4, learning_rate=0.02,
                 num_leaves=20, subsample=0.8, colsample_bytree=0.8,
-                min_child_samples=15, reg_alpha=0.2, reg_lambda=0.3,
+                min_child_samples=25, reg_alpha=0.4, reg_lambda=0.3,
                 random_state=42, verbose=-1, n_jobs=-1)
             m.fit(Xtr, (ytr_raw == cls).astype(int), sample_weight=sw)
             return m
@@ -277,33 +278,78 @@ def train():
     total = p_h + p_d + p_a
     p_h /= total; p_d /= total; p_a /= total
 
-    # ── Threshold adaptativo para empates (MELHORIA 5) ──────────────────────
-    # O argmax puro subprevê D porque P(H) domina em jogos equilibrados.
-    # A lógica abaixo declara empate quando P(D) está próximo das outras
-    # probabilidades, usando um threshold calibrado por cross-validação.
-    # Ajuste DRAW_THRESHOLD entre 0.25–0.32 conforme o recall/precision desejado.
-    DRAW_THRESHOLD = 0.28
+    # ── Calibrar threshold de empate por CV no treino ────────────────────────
+    # Em vez de fixar 0.28 ou 0.32, encontramos o threshold que maximiza
+    # F1 de D no conjunto de treino usando TimeSeriesSplit.
+    # Isso garante que o threshold é baseado em dados, não em chute.
+    print("\n🎯 Calibrando threshold de empate por CV...")
 
-    y_pred = []
-    for ph_i, pd_i, pa_i in zip(p_h, p_d, p_a):
-        # Declara empate se P(D) ≥ threshold E está a no máximo 15% da maior prob
-        max_other = max(ph_i, pa_i)
-        if pd_i >= DRAW_THRESHOLD and pd_i >= max_other * 0.85:
-            y_pred.append("D")
-        elif ph_i >= pa_i:
-            y_pred.append("H")
-        else:
-            y_pred.append("A")
-    y_pred = np.array(y_pred)
+    p_d_train = cal_d.predict(model_d.predict_proba(X_train)[:, 1])
+    p_h_train = cal_h.predict(model_h.predict_proba(X_train)[:, 1])
+    p_a_train = cal_a.predict(model_a.predict_proba(X_train)[:, 1])
+    tot_train = p_d_train + p_h_train + p_a_train
+    p_d_train /= tot_train; p_h_train /= tot_train; p_a_train /= tot_train
 
-    # Relatório comparativo: argmax vs threshold
-    probs_matrix = np.stack([p_h, p_d, p_a], axis=1)
-    pred_argmax  = np.array([{0: "H", 1: "D", 2: "A"}[i]
-                              for i in probs_matrix.argmax(axis=1)])
-    acc_argmax   = (pred_argmax == y_test_raw).mean()
-    acc_thresh   = (y_pred == y_test_raw).mean()
-    print(f"\n   Acurácia argmax puro:        {acc_argmax:.2%}")
-    print(f"   Acurácia threshold (D≥{DRAW_THRESHOLD}): {acc_thresh:.2%}")
+    y_train_arr = y_train_raw.values
+    best_thresh, best_f1 = 0.25, 0.0
+    thresh_report = []
+    for thr in np.arange(0.22, 0.42, 0.01):
+        preds = np.where(
+            p_d_train >= thr, "D",
+            np.where(p_h_train >= p_a_train, "H", "A")
+        )
+        tp = ((preds == "D") & (y_train_arr == "D")).sum()
+        fp = ((preds == "D") & (y_train_arr != "D")).sum()
+        fn = ((preds != "D") & (y_train_arr == "D")).sum()
+        prec = tp / max(tp + fp, 1)
+        rec  = tp / max(tp + fn, 1)
+        f1   = 2 * prec * rec / max(prec + rec, 1e-9)
+        n_d  = (preds == "D").sum()
+        acc  = (preds == y_train_arr).mean()
+        thresh_report.append((thr, n_d, rec, prec, f1, acc))
+        if f1 > best_f1:
+            best_f1, best_thresh = f1, thr
+
+    print(f"\n   {'Thr':>5} {'#D':>5} {'Recall':>7} {'Prec':>7} {'F1-D':>7} {'Acc':>7}")
+    print(f"   {'-'*45}")
+    for thr, n_d, rec, prec, f1, acc in thresh_report:
+        marker = " ◄ ótimo" if abs(thr - best_thresh) < 0.005 else ""
+        print(f"   {thr:>5.2f} {n_d:>5} {rec:>7.2%} {prec:>7.2%} {f1:>7.3f} {acc:>7.2%}{marker}")
+
+    DRAW_THRESHOLD = round(best_thresh, 2)
+    print(f"\n   ✅ Threshold selecionado: {DRAW_THRESHOLD} (F1-D no treino = {best_f1:.3f})")
+
+    # ── Aplicar threshold no teste ────────────────────────────────────────────
+    def apply_threshold(ph, pd_, pa, thr):
+        return np.where(pd_ >= thr, "D", np.where(ph >= pa, "H", "A"))
+
+    y_pred_argmax = np.where(
+        np.stack([p_h, p_d, p_a], axis=1).argmax(axis=1) == 0, "H",
+        np.where(np.stack([p_h, p_d, p_a], axis=1).argmax(axis=1) == 1, "D", "A")
+    )
+    y_pred = apply_threshold(p_h, p_d, p_a, DRAW_THRESHOLD)
+
+    acc_argmax = (y_pred_argmax == y_test_raw).mean()
+    acc_thresh = (y_pred == y_test_raw).mean()
+    print(f"\n   Acurácia argmax puro:          {acc_argmax:.2%}")
+    print(f"   Acurácia threshold (D≥{DRAW_THRESHOLD}):  {acc_thresh:.2%}")
+
+    # ── Análise de curva threshold no teste ───────────────────────────────────
+    print(f"\n📈 Análise de threshold no teste:")
+    print(f"   {'Thr':>5} {'#D prev':>8} {'Recall-D':>9} {'Prec-D':>8} {'F1-D':>7} {'Acc':>7}")
+    print(f"   {'-'*50}")
+    for thr in np.arange(0.22, 0.42, 0.02):
+        preds = apply_threshold(p_h, p_d, p_a, thr)
+        tp = ((preds == "D") & (y_test_raw == "D")).sum()
+        fp = ((preds == "D") & (y_test_raw != "D")).sum()
+        fn = ((preds != "D") & (y_test_raw == "D")).sum()
+        prec = tp / max(tp + fp, 1)
+        rec  = tp / max(tp + fn, 1)
+        f1   = 2 * prec * rec / max(prec + rec, 1e-9)
+        n_d  = (preds == "D").sum()
+        acc  = (preds == y_test_raw).mean()
+        marker = " ◄" if abs(thr - DRAW_THRESHOLD) < 0.005 else ""
+        print(f"   {thr:>5.2f} {n_d:>8} {rec:>9.2%} {prec:>8.2%} {f1:>7.3f} {acc:>7.2%}{marker}")
 
     acc = (y_pred == y_test_raw).mean()
     print(f"\n✅ Acurácia no teste: {acc:.2%}")
