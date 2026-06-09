@@ -23,23 +23,16 @@ FEATURE_COLS = [
     "home_form_pts_10", "home_avg_gf_10", "home_avg_ga_10", "home_win_rate_10",
     "away_form_pts_10", "away_avg_gf_10", "away_avg_ga_10", "away_win_rate_10",
     "h2h_home_wins", "h2h_away_wins", "h2h_draws",
-    # Odds de mercado
     "prob_h_mkt", "prob_d_mkt", "prob_a_mkt",
     "odds_draw_factor", "odds_home_away_ratio", "market_entropy",
-    # MELHORIA 3: Libertadores e tendência de posição
-    # Estas colunas serão preenchidas com 0 caso não existam no CSV histórico
     "home_joga_libertadores", "away_joga_libertadores",
     "home_pos_trend", "away_pos_trend", "pos_trend_diff",
-    # MELHORIA 5: features de equilíbrio — ajudam o modelo a detectar empates
     "aprov_equilibrio", "h2h_draw_dominance",
 ]
 
-# MELHORIA 2: temporada 2026 com peso 2x no treino
-# O treino usa dados até 2025 (2026 é teste), então o peso mais alto
-# vai para 2025, que é o proxy mais próximo do comportamento atual.
 SEASON_WEIGHTS = {
-    2026: 5.0,   # ← novo: dados de 2026 já disputados valem muito
-    2025: 4.0,   # ← aumentado (era implícito como o mais alto)
+    2026: 5.0,
+    2025: 4.0,
     2024: 3.5,
     2023: 3.0,
     2022: 2.5,
@@ -55,39 +48,26 @@ SEASON_WEIGHTS = {
     2012: 0.3,
 }
 
-# Times que disputam Libertadores 2026
-# Usados para criar a feature no feature_engineering.py
-LIBERTADORES_TIMES_2026 = {
-    "CR Flamengo", "Fluminense FC", "CA Mineiro",
-    "São Paulo FC", "SC Internacional",
-}
-
 
 def add_derived(X_):
     X_ = X_.copy()
-    X_["form_diff"]       = X_["home_form_pts"]       - X_["away_form_pts"]
-    X_["form_diff_10"]    = X_["home_form_pts_10"]    - X_["away_form_pts_10"]
-    X_["gf_diff"]         = X_["home_avg_gf"]         - X_["away_avg_gf"]
-    X_["ga_diff"]         = X_["home_avg_ga"]         - X_["away_avg_ga"]
-    X_["win_rate_diff"]   = X_["home_win_rate"]       - X_["away_win_rate"]
-    X_["aproveit_diff"]   = X_["home_aproveitamento"] - X_["away_aproveitamento"]
-    X_["home_in_crisis"]  = (X_["home_form_pts"] < 0.5).astype(int)
-    X_["away_in_form"]    = (X_["away_form_pts"] > 2.0).astype(int)
+    X_["form_diff"]           = X_["home_form_pts"]       - X_["away_form_pts"]
+    X_["form_diff_10"]        = X_["home_form_pts_10"]    - X_["away_form_pts_10"]
+    X_["gf_diff"]             = X_["home_avg_gf"]         - X_["away_avg_gf"]
+    X_["ga_diff"]             = X_["home_avg_ga"]         - X_["away_avg_ga"]
+    X_["win_rate_diff"]       = X_["home_win_rate"]       - X_["away_win_rate"]
+    X_["aproveit_diff"]       = X_["home_aproveitamento"] - X_["away_aproveitamento"]
+    X_["home_in_crisis"]      = (X_["home_form_pts"] < 0.5).astype(int)
+    X_["away_in_form"]        = (X_["away_form_pts"] > 2.0).astype(int)
     X_["elo_similarity"]      = 1 / (1 + np.abs(X_["elo_diff"]))
     X_["form_similarity"]     = 1 / (1 + np.abs(X_["form_diff"]))
     X_["value_similarity"]    = 1 / (1 + np.abs(X_["market_value_diff"]))
-    X_["overall_balance"]     = (
-        X_["elo_similarity"] + X_["form_similarity"] + X_["value_similarity"]
-    ) / 3
+    X_["overall_balance"]     = (X_["elo_similarity"] + X_["form_similarity"] + X_["value_similarity"]) / 3
     X_["home_draw_tendency"]  = X_["home_draw_rate"]
     X_["away_draw_tendency"]  = X_["away_draw_rate"]
     X_["combined_draw_rate"]  = (X_["home_draw_rate"] + X_["away_draw_rate"]) / 2
-    X_["both_low_scoring"]    = (
-        (X_["home_avg_gf"] < 1.2) & (X_["away_avg_gf"] < 1.2)
-    ).astype(int)
-    X_["both_good_defense"]   = (
-        (X_["home_avg_ga"] < 1.0) & (X_["away_avg_ga"] < 1.0)
-    ).astype(int)
+    X_["both_low_scoring"]    = ((X_["home_avg_gf"] < 1.2) & (X_["away_avg_gf"] < 1.2)).astype(int)
+    X_["both_good_defense"]   = ((X_["home_avg_ga"] < 1.0) & (X_["away_avg_ga"] < 1.0)).astype(int)
     total_h2h                 = X_["h2h_home_wins"] + X_["h2h_away_wins"] + X_["h2h_draws"] + 1
     X_["h2h_draw_rate"]       = X_["h2h_draws"] / total_h2h
     X_["h2h_decisividade"]    = (X_["h2h_home_wins"] + X_["h2h_away_wins"]) / total_h2h
@@ -104,17 +84,17 @@ def get_temporal_weights(seasons: pd.Series) -> np.ndarray:
 def train_binary(X_tr, y_tr, X_te, y_te, temporal_w, label, pos_weight=1.0):
     class_w = np.where(y_tr == 1, pos_weight, 1.0)
     sw      = class_w * temporal_w
-    sw      = sw / sw.mean()  # normalizar para média 1
+    sw      = sw / sw.mean()
 
     model = lgb.LGBMClassifier(
-        n_estimators=300,        # reduzido de 400 — menos risco de overfit
-        max_depth=4,             # reduzido de 5 — mais conservador
+        n_estimators=300,
+        max_depth=4,
         learning_rate=0.02,
         num_leaves=20,
         subsample=0.8,
         colsample_bytree=0.8,
-        min_child_samples=25,    # aumentado de 15 — mais regularização
-        reg_alpha=0.4,           # aumentado de 0.2 — mais L1
+        min_child_samples=25,
+        reg_alpha=0.4,
         reg_lambda=0.3,
         random_state=42,
         verbose=-1,
@@ -134,28 +114,21 @@ def train_binary(X_tr, y_tr, X_te, y_te, temporal_w, label, pos_weight=1.0):
 
 def train():
     print("📊 Carregando features...")
-    df = pd.read_csv(DATA_PATH)
+    df = pd.read_csv(DATA_PATH, low_memory=False)
 
-    # Corrigir nomes de colunas do merge
-    if "season_x" in df.columns:
-        df = df.rename(columns={"season_x": "season"})
-    if "result_x" in df.columns:
-        df = df.rename(columns={"result_x": "result"})
+    if "season_x" in df.columns: df = df.rename(columns={"season_x": "season"})
+    if "result_x" in df.columns: df = df.rename(columns={"result_x": "result"})
 
-    # Preencher odds ausentes com mediana (jogos sem odds ainda entram)
-    odds_cols = ["prob_h_mkt", "prob_d_mkt", "prob_a_mkt",
-                 "odds_draw_factor", "odds_home_away_ratio", "market_entropy"]
-    for col in odds_cols:
+    # Preencher odds ausentes com mediana
+    for col in ["prob_h_mkt", "prob_d_mkt", "prob_a_mkt",
+                "odds_draw_factor", "odds_home_away_ratio", "market_entropy"]:
         if col in df.columns:
             df[col] = df[col].fillna(df[col].median())
 
-    # MELHORIA 5: Preencher novas features com 0 se não existirem no CSV histórico
-    new_feat_cols = [
-        "home_joga_libertadores", "away_joga_libertadores",
-        "home_pos_trend", "away_pos_trend", "pos_trend_diff",
-        "aprov_equilibrio", "h2h_draw_dominance",
-    ]
-    for col in new_feat_cols:
+    # Preencher novas features com 0 se não existirem no CSV
+    for col in ["home_joga_libertadores", "away_joga_libertadores",
+                "home_pos_trend", "away_pos_trend", "pos_trend_diff",
+                "aprov_equilibrio", "h2h_draw_dominance"]:
         if col not in df.columns:
             df[col] = 0.0
             print(f"   ⚠️  Coluna '{col}' não encontrada — preenchida com 0")
@@ -166,27 +139,19 @@ def train():
     print(f"   {len(df)} partidas | distribuição: {df['result'].value_counts().to_dict()}")
     print(f"   Temporadas: {sorted(df['season'].unique())}")
 
-    # Garantir que todas as colunas de features existem
     available_feats = [c for c in FEATURE_COLS if c in df.columns]
-    X = add_derived(df[available_feats])
+    X        = add_derived(df[available_feats])
     all_cols = list(X.columns)
     print(f"   Total features: {len(all_cols)}")
 
-    # Split: treino 2004–2025 (inclusive), teste = apenas 2026
-    # 2025 entra no treino para maximizar dados recentes disponíveis ao modelo.
-    # A CV temporal (5 folds) é a métrica primária de generalização.
-    # O teste em 2026 serve como validação final pontual.
+    # Treino: 2004–2025 | Teste: 2026
     train_mask = df["season"].isin(range(2004, 2026))
     test_mask  = df["season"].isin([2026])
-
-    # Fallback: se não há dados de 2026, usa a última temporada disponível
     if test_mask.sum() < 10:
         available_seasons = sorted(df["season"].unique())
-        test_seasons  = available_seasons[-1:]
-        train_seasons = available_seasons[:-1]
-        train_mask = df["season"].isin(train_seasons)
-        test_mask  = df["season"].isin(test_seasons)
-        print(f"   ⚠️  Fallback — treino: {train_seasons} | teste: {test_seasons}")
+        train_mask = df["season"].isin(available_seasons[:-1])
+        test_mask  = df["season"].isin(available_seasons[-1:])
+        print(f"   ⚠️  Fallback — teste: {available_seasons[-1:]}")
 
     X_train, X_test  = X[train_mask], X[test_mask]
     y_train_raw      = df["result"][train_mask]
@@ -199,26 +164,27 @@ def train():
     print(f"   Dist treino: {pd.Series(y_train_raw).value_counts().to_dict()}")
     print(f"   Dist teste:  {pd.Series(y_test_raw).value_counts().to_dict()}")
 
-    # Pesos de classe baseados em temporadas recentes
+    # ── Pesos de classe ───────────────────────────────────────────────────────
     recent = df[df["season"].isin([2023, 2024, 2025])]["result"]
     freq   = recent.value_counts(normalize=True)
     pw_h   = 1.0
-    # pw_d calibrado em 1.8: intermediário entre 1.5 (subprevia D) e 2.2 (superprevia D)
-    pw_d   = (freq.get("H", 0.45) / freq.get("D", 0.25)) * 1.8
     pw_a   = freq.get("H", 0.45) / freq.get("A", 0.30)
+    # pw_d FIXO em 2.0 — independente da distribuição do dataset.
+    # A fórmula proporcional gerava ~3.5 com o Brasileirão, causando
+    # D dominante nos folds de CV. 2.0 é o ponto equilibrado.
+    pw_d   = 2.0
     print(f"\n   Pesos classe — H:{pw_h:.2f} | D:{pw_d:.2f} | A:{pw_a:.2f}")
     print(f"   Peso temporal — 2025={SEASON_WEIGHTS.get(2025,4.0)}x | 2012={SEASON_WEIGHTS.get(2012,0.3)}x")
 
-    # ── Cross-validação temporal ──
-    tscv = TimeSeriesSplit(n_splits=5)
+    # ── Cross-validação temporal ──────────────────────────────────────────────
+    tscv      = TimeSeriesSplit(n_splits=5)
     cv_scores = []
     print("\n🕐 Cross-validação temporal:")
     for fold, (tr_idx, val_idx) in enumerate(tscv.split(X_train), 1):
-        Xtr, Xval    = X_train.iloc[tr_idx], X_train.iloc[val_idx]
-        ytr_raw      = y_train_raw.iloc[tr_idx]
-        yval_raw     = y_train_raw.iloc[val_idx]
-        seas_tr      = seasons_train.iloc[tr_idx]
-        tw           = get_temporal_weights(seas_tr)
+        Xtr, Xval = X_train.iloc[tr_idx], X_train.iloc[val_idx]
+        ytr_raw   = y_train_raw.iloc[tr_idx]
+        yval_raw  = y_train_raw.iloc[val_idx]
+        tw        = get_temporal_weights(seasons_train.iloc[tr_idx])
 
         def fold_fit(cls, pw):
             cw = np.where(ytr_raw == cls, pw, 1.0)
@@ -241,86 +207,68 @@ def train():
         tot = ph + pd_ + pa
         ph /= tot; pd_ /= tot; pa /= tot
 
-        pred_idx    = np.stack([ph, pd_, pa], axis=1).argmax(axis=1)
-        pred_map    = {0: "H", 1: "D", 2: "A"}
-        y_pred_fold = np.array([pred_map[i] for i in pred_idx])
-
+        y_pred_fold = np.array(["H", "D", "A"])[
+            np.stack([ph, pd_, pa], axis=1).argmax(axis=1)
+        ]
         score = (y_pred_fold == yval_raw.values).mean()
         cv_scores.append(score)
-        dist  = pd.Series(y_pred_fold).value_counts().to_dict()
-        print(f"   Fold {fold}: {score:.2%} | previsões: {dist}")
+        print(f"   Fold {fold}: {score:.2%} | previsões: {pd.Series(y_pred_fold).value_counts().to_dict()}")
 
     print(f"   Média CV: {np.mean(cv_scores):.2%} ± {np.std(cv_scores):.2%}")
 
-    # ── Treinar modelos finais ──
-    print("\n🔧 Treinando 3 modelos binários finais com peso temporal...")
-    model_h, cal_h = train_binary(
-        X_train, (y_train_raw == "H").astype(int),
-        X_test,  (y_test_raw  == "H").astype(int),
-        temporal_w_train, "H", pw_h
-    )
-    model_d, cal_d = train_binary(
-        X_train, (y_train_raw == "D").astype(int),
-        X_test,  (y_test_raw  == "D").astype(int),
-        temporal_w_train, "D", pw_d
-    )
-    model_a, cal_a = train_binary(
-        X_train, (y_train_raw == "A").astype(int),
-        X_test,  (y_test_raw  == "A").astype(int),
-        temporal_w_train, "A", pw_a
-    )
+    # ── Treinar modelos finais ────────────────────────────────────────────────
+    print("\n🔧 Treinando 3 modelos binários finais...")
+    model_h, cal_h = train_binary(X_train, (y_train_raw=="H").astype(int),
+                                   X_test,  (y_test_raw =="H").astype(int),
+                                   temporal_w_train, "H", pw_h)
+    model_d, cal_d = train_binary(X_train, (y_train_raw=="D").astype(int),
+                                   X_test,  (y_test_raw =="D").astype(int),
+                                   temporal_w_train, "D", pw_d)
+    model_a, cal_a = train_binary(X_train, (y_train_raw=="A").astype(int),
+                                   X_test,  (y_test_raw =="A").astype(int),
+                                   temporal_w_train, "A", pw_a)
 
-    # ── Combinar e avaliar ──
+    # ── Combinar probabilidades ───────────────────────────────────────────────
     print("\n📐 Combinando probabilidades...")
-    p_h  = cal_h.predict(model_h.predict_proba(X_test)[:, 1])
-    p_d  = cal_d.predict(model_d.predict_proba(X_test)[:, 1])
-    p_a  = cal_a.predict(model_a.predict_proba(X_test)[:, 1])
+    p_h = cal_h.predict(model_h.predict_proba(X_test)[:, 1])
+    p_d = cal_d.predict(model_d.predict_proba(X_test)[:, 1])
+    p_a = cal_a.predict(model_a.predict_proba(X_test)[:, 1])
     total = p_h + p_d + p_a
     p_h /= total; p_d /= total; p_a /= total
 
-    # ── Calibrar threshold de empate com restrição de realismo ──────────────
-    # Problema anterior: busca sem restrição escolhia threshold que previa
-    # 60% dos jogos como empate (irreal — Brasileirão tem ~26-28% de empates).
-    # Solução: só considerar thresholds que produzem entre 20% e 35% de D's
-    # no treino, mantendo a distribuição compatível com a realidade.
+    # ── Calibrar threshold com restrição de realismo ──────────────────────────
+    # Só aceita thresholds que produzem entre (real_rate ± 8%) de D's no treino
     print("\n🎯 Calibrando threshold de empate (com restrição de realismo)...")
 
-    p_d_train = cal_d.predict(model_d.predict_proba(X_train)[:, 1])
-    p_h_train = cal_h.predict(model_h.predict_proba(X_train)[:, 1])
-    p_a_train = cal_a.predict(model_a.predict_proba(X_train)[:, 1])
-    tot_train  = p_d_train + p_h_train + p_a_train
-    p_d_train /= tot_train; p_h_train /= tot_train; p_a_train /= tot_train
+    p_d_tr = cal_d.predict(model_d.predict_proba(X_train)[:, 1])
+    p_h_tr = cal_h.predict(model_h.predict_proba(X_train)[:, 1])
+    p_a_tr = cal_a.predict(model_a.predict_proba(X_train)[:, 1])
+    tot_tr = p_d_tr + p_h_tr + p_a_tr
+    p_d_tr /= tot_tr; p_h_tr /= tot_tr; p_a_tr /= tot_tr
 
-    n_train        = len(y_train_raw)
-    y_train_arr    = y_train_raw.values
-    real_draw_rate = (y_train_arr == "D").mean()
-
-    # Faixa realista: ±8 pontos percentuais em torno da taxa real de empates
-    draw_min = max(0.18, real_draw_rate - 0.08)
-    draw_max = min(0.38, real_draw_rate + 0.08)
+    y_tr_arr       = y_train_raw.values
+    real_draw_rate = (y_tr_arr == "D").mean()
+    draw_min       = max(0.18, real_draw_rate - 0.08)
+    draw_max       = min(0.38, real_draw_rate + 0.08)
     print(f"   Taxa real de empates no treino: {real_draw_rate:.1%}")
     print(f"   Faixa permitida de D's previstos: {draw_min:.1%} – {draw_max:.1%}")
 
-    best_thresh, best_f1 = 0.35, 0.0   # fallback conservador
+    best_thresh, best_f1 = 0.40, 0.0
     thresh_report = []
-    for thr in np.arange(0.22, 0.46, 0.01):
-        preds  = np.where(p_d_train >= thr, "D",
-                          np.where(p_h_train >= p_a_train, "H", "A"))
+    for thr in np.arange(0.22, 0.50, 0.01):
+        preds  = np.where(p_d_tr >= thr, "D", np.where(p_h_tr >= p_a_tr, "H", "A"))
         n_d    = (preds == "D").sum()
-        d_rate = n_d / n_train
-
-        tp   = ((preds == "D") & (y_train_arr == "D")).sum()
-        fp   = ((preds == "D") & (y_train_arr != "D")).sum()
-        fn   = ((preds != "D") & (y_train_arr == "D")).sum()
-        prec = tp / max(tp + fp, 1)
-        rec  = tp / max(tp + fn, 1)
-        f1   = 2 * prec * rec / max(prec + rec, 1e-9)
-        acc  = (preds == y_train_arr).mean()
-
-        in_range = draw_min <= d_rate <= draw_max
-        thresh_report.append((thr, n_d, d_rate, rec, prec, f1, acc, in_range))
-
-        if in_range and f1 > best_f1:
+        d_rate = n_d / len(y_tr_arr)
+        tp     = ((preds=="D") & (y_tr_arr=="D")).sum()
+        fp     = ((preds=="D") & (y_tr_arr!="D")).sum()
+        fn     = ((preds!="D") & (y_tr_arr=="D")).sum()
+        prec   = tp / max(tp+fp, 1)
+        rec    = tp / max(tp+fn, 1)
+        f1     = 2*prec*rec / max(prec+rec, 1e-9)
+        acc    = (preds == y_tr_arr).mean()
+        ok     = draw_min <= d_rate <= draw_max
+        thresh_report.append((thr, n_d, d_rate, rec, prec, f1, acc, ok))
+        if ok and f1 > best_f1:
             best_f1, best_thresh = f1, thr
 
     print(f"\n   {'Thr':>5} {'#D':>6} {'%D':>6} {'Recall':>7} {'Prec':>7} "
@@ -333,54 +281,50 @@ def train():
               f"{f1:>7.3f} {acc:>7.2%}{ok_str}{marker}")
 
     DRAW_THRESHOLD = round(best_thresh, 2)
-    print(f"\n   ✅ Threshold selecionado: {DRAW_THRESHOLD}  "
+    print(f"\n   ✅ Threshold selecionado: {DRAW_THRESHOLD} "
           f"(F1-D={best_f1:.3f} | dentro da faixa realista)")
 
-    # ── Aplicar threshold no teste ────────────────────────────────────────────
+    # ── Aplicar no teste e analisar curva ────────────────────────────────────
     def apply_threshold(ph, pd_, pa, thr):
         return np.where(pd_ >= thr, "D", np.where(ph >= pa, "H", "A"))
 
-    probs_stack   = np.stack([p_h, p_d, p_a], axis=1)
-    y_pred_argmax = np.array(["H", "D", "A"])[probs_stack.argmax(axis=1)]
-    y_pred        = apply_threshold(p_h, p_d, p_a, DRAW_THRESHOLD)
+    y_pred_argmax = np.array(["H","D","A"])[
+        np.stack([p_h, p_d, p_a], axis=1).argmax(axis=1)
+    ]
+    y_pred = apply_threshold(p_h, p_d, p_a, DRAW_THRESHOLD)
 
-    acc_argmax = (y_pred_argmax == y_test_raw).mean()
-    acc_thresh = (y_pred == y_test_raw).mean()
-    print(f"\n   Acurácia argmax puro:          {acc_argmax:.2%}")
-    print(f"   Acurácia threshold (D≥{DRAW_THRESHOLD}):  {acc_thresh:.2%}")
+    print(f"\n   Acurácia argmax puro:          {(y_pred_argmax==y_test_raw).mean():.2%}")
+    print(f"   Acurácia threshold (D≥{DRAW_THRESHOLD}):  {(y_pred==y_test_raw).mean():.2%}")
 
-    # ── Análise de curva threshold no teste ───────────────────────────────────
     n_test = len(y_test_raw)
     print(f"\n📈 Análise de threshold no teste "
-          f"(n={n_test} | empates reais={( y_test_raw=='D').sum()}):")
-    print(f"   {'Thr':>5} {'#D prev':>8} {'%D':>5} {'Recall-D':>9} "
+          f"(n={n_test} | empates reais={(y_test_raw=='D').sum()}):")
+    print(f"   {'Thr':>5} {'#D':>7} {'%D':>5} {'Recall-D':>9} "
           f"{'Prec-D':>8} {'F1-D':>7} {'Acc':>7}")
-    print(f"   {'-'*57}")
-    for thr in np.arange(0.22, 0.46, 0.02):
+    print(f"   {'-'*55}")
+    for thr in np.arange(0.22, 0.50, 0.02):
         preds = apply_threshold(p_h, p_d, p_a, thr)
-        tp    = ((preds == "D") & (y_test_raw == "D")).sum()
-        fp    = ((preds == "D") & (y_test_raw != "D")).sum()
-        fn    = ((preds != "D") & (y_test_raw == "D")).sum()
-        prec  = tp / max(tp + fp, 1)
-        rec   = tp / max(tp + fn, 1)
-        f1    = 2 * prec * rec / max(prec + rec, 1e-9)
-        n_d   = (preds == "D").sum()
-        d_pct = n_d / n_test
-        acc   = (preds == y_test_raw).mean()
+        tp    = ((preds=="D") & (y_test_raw=="D")).sum()
+        fp    = ((preds=="D") & (y_test_raw!="D")).sum()
+        fn    = ((preds!="D") & (y_test_raw=="D")).sum()
+        prec  = tp / max(tp+fp, 1)
+        rec   = tp / max(tp+fn, 1)
+        f1    = 2*prec*rec / max(prec+rec, 1e-9)
+        n_d   = (preds=="D").sum()
+        acc   = (preds==y_test_raw).mean()
         marker = " ◄" if abs(thr - DRAW_THRESHOLD) < 0.005 else ""
-        print(f"   {thr:>5.2f} {n_d:>8} {d_pct:>5.1%} {rec:>9.2%} "
+        print(f"   {thr:>5.2f} {n_d:>7} {n_d/n_test:>5.1%} {rec:>9.2%} "
               f"{prec:>8.2%} {f1:>7.3f} {acc:>7.2%}{marker}")
 
-    acc = (y_pred == y_test_raw).mean()
-    print(f"\n✅ Acurácia no teste: {acc:.2%}")
+    print(f"\n✅ Acurácia no teste: {(y_pred==y_test_raw).mean():.2%}")
     print("\n📋 Relatório:")
     print(classification_report(y_test_raw, y_pred))
 
     print("📊 Acurácia por resultado:")
     for res in ["H", "D", "A"]:
         mask   = y_test_raw == res
-        a      = (y_pred[mask] == y_test_raw[mask]).mean() if mask.sum() > 0 else 0
-        n_pred = (y_pred == res).sum()
+        a      = (y_pred[mask]==y_test_raw[mask]).mean() if mask.sum()>0 else 0
+        n_pred = (y_pred==res).sum()
         print(f"   {res}: acerto={a:.1%} | previu {n_pred}x de {mask.sum()}")
 
     print("\n📐 Calibração final:")
@@ -391,26 +335,24 @@ def train():
     print("\n🔍 Top 15 features (modelo H):")
     imp_h = pd.Series(model_h.feature_importances_, index=all_cols)
     for feat, imp in imp_h.sort_values(ascending=False).head(15).items():
-        bar = "█" * int(imp / imp_h.max() * 25)
-        print(f"   {feat:<35} {bar} {imp:.0f}")
+        print(f"   {'█'*int(imp/imp_h.max()*25)} {feat} {imp:.0f}")
 
     print("\n🔍 Top 15 features (modelo D):")
     imp_d = pd.Series(model_d.feature_importances_, index=all_cols)
     for feat, imp in imp_d.sort_values(ascending=False).head(15).items():
-        bar = "█" * int(imp / imp_d.max() * 25)
-        print(f"   {feat:<35} {bar} {imp:.0f}")
+        print(f"   {'█'*int(imp/imp_d.max()*25)} {feat} {imp:.0f}")
 
     le = LabelEncoder()
     le.fit(["A", "D", "H"])
 
     joblib.dump({
-        "model_h":        model_h, "cal_h": cal_h,
-        "model_d":        model_d, "cal_d": cal_d,
-        "model_a":        model_a, "cal_a": cal_a,
+        "model_h": model_h, "cal_h": cal_h,
+        "model_d": model_d, "cal_d": cal_d,
+        "model_a": model_a, "cal_a": cal_a,
         "features":       all_cols,
         "label_encoder":  le,
         "binary":         True,
-        "draw_threshold": DRAW_THRESHOLD,   # ← salvo para uso no season_model
+        "draw_threshold": DRAW_THRESHOLD,
     }, MODEL_PATH)
     print(f"\n✅ Modelo salvo em {MODEL_PATH}")
 
