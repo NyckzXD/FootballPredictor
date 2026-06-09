@@ -6,9 +6,26 @@ DATA_PATH   = r"C:\PREDICTOR\REPO\scraping\data\raw\matches_final.csv"
 OUTPUT_PATH = r"C:\PREDICTOR\REPO\scraping\data\processed\features.csv"
 MARKET_VALUES_PATH = r"C:\PREDICTOR\REPO\scraping\data\external\market_values.csv"
 
+# MELHORIA 3: Times que disputam Libertadores por temporada
+# Adicione as listas aqui a cada temporada nova
+LIBERTADORES_BY_SEASON = {
+    2023: {"CR Flamengo", "CA Mineiro", "Fluminense FC", "SC Internacional", "RB Bragantino"},
+    2024: {"CR Flamengo", "CA Mineiro", "Fluminense FC", "SC Internacional", "SE Palmeiras"},
+    2025: {"CR Flamengo", "CA Mineiro", "Fluminense FC", "SC Internacional", "SE Palmeiras"},
+    2026: {"CR Flamengo", "Fluminense FC", "CA Mineiro", "São Paulo FC", "SC Internacional"},
+}
+
+# MELHORIA 3: penalidade de Libertadores (pode ser ajustada)
+LIBERTADORES_PENALTY_FEAT = 1   # feature binária — o modelo aprende a magnitude
+
+
 # ──────────────────────────────────────────────
-# ELO
+# ELO com K dinâmico (MELHORIA 1)
 # ──────────────────────────────────────────────
+
+K_HISTORICAL = 32
+K_CURRENT    = 48
+SEASON_REF   = 2026   # temporada mais recente
 
 def expected_elo(ra, rb):
     return 1 / (1 + 10 ** ((rb - ra) / 400))
@@ -16,6 +33,14 @@ def expected_elo(ra, rb):
 def update_elo(ra, rb, score_a, k=32):
     ea = expected_elo(ra, rb)
     return ra + k * (score_a - ea), rb + k * ((1 - score_a) - (1 - ea))
+
+def update_elo_dynamic(ra, rb, score_a, season):
+    """
+    MELHORIA 1: K maior para temporada mais recente.
+    Isso faz o ELO responder mais rápido a resultados de 2026.
+    """
+    k = K_CURRENT if season == SEASON_REF else K_HISTORICAL
+    return update_elo(ra, rb, score_a, k=k)
 
 def build_elo_ratings(df):
     ratings = {}
@@ -31,7 +56,10 @@ def build_elo_ratings(df):
         if row["home_goals"] > row["away_goals"]:    score = 1.0
         elif row["home_goals"] == row["away_goals"]: score = 0.5
         else:                                         score = 0.0
-        ratings[home], ratings[away] = update_elo(ratings[home], ratings[away], score)
+        # MELHORIA 1: K dinâmico por temporada
+        ratings[home], ratings[away] = update_elo_dynamic(
+            ratings[home], ratings[away], score, season=int(row["season"])
+        )
     return elo_history
 
 
@@ -91,6 +119,46 @@ def build_live_table(past_df: pd.DataFrame, season: int) -> dict:
         }
 
     return result
+
+
+# ──────────────────────────────────────────────
+# MELHORIA 4: Tendência de posição
+# ──────────────────────────────────────────────
+
+def build_position_trend(team: str, past_df: pd.DataFrame, season: int, n_rounds: int = 5) -> float:
+    """
+    Calcula a tendência de posição do time nas últimas N rodadas da temporada.
+    Retorna:
+        negativo → time subindo (bom sinal)
+        positivo → time caindo (mau sinal)
+        0        → estável ou dados insuficientes
+    """
+    season_df = past_df[past_df["season"] == season].copy()
+
+    if "matchday" not in season_df.columns or season_df.empty:
+        return 0.0
+
+    rounds = sorted(season_df["matchday"].dropna().unique())
+    if len(rounds) < 2:
+        return 0.0
+
+    # Pegar as últimas N rodadas disputadas
+    recent_rounds = rounds[-n_rounds:] if len(rounds) >= n_rounds else rounds
+
+    positions_by_round = []
+    for rd in recent_rounds:
+        rd_df = season_df[season_df["matchday"] <= rd]
+        table = build_live_table(rd_df, season)
+        pos = table.get(team, {}).get("position", 10)
+        positions_by_round.append(pos)
+
+    if len(positions_by_round) < 2:
+        return 0.0
+
+    # Regressão linear simples sobre as posições
+    x = np.arange(len(positions_by_round))
+    slope = np.polyfit(x, positions_by_round, 1)[0]
+    return float(round(slope, 3))   # positivo = caindo, negativo = subindo
 
 
 # ──────────────────────────────────────────────
@@ -158,20 +226,32 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     df = df.sort_values("date").reset_index(drop=True)
 
     elo_history = build_elo_ratings(df)
-    rows = []
 
+    # Carregar valores de mercado uma única vez (fora do loop)
+    mv = pd.read_csv(MARKET_VALUES_PATH)[["team", "market_value_log", "market_value_norm", "squad_size"]]
+    mv_dict = mv.set_index("team").to_dict("index")
+
+    def get_mv(team):
+        return mv_dict.get(team, {
+            "market_value_log":  3.0,
+            "market_value_norm": 0.3,
+            "squad_size":        25,
+        })
+
+    rows = []
     for idx, row in df.iterrows():
-        home, away = row["home_team"], row["away_team"]
-        past = df.iloc[:idx]
+        home, away   = row["home_team"], row["away_team"]
+        season       = int(row["season"])
+        past         = df.iloc[:idx]
 
         hs  = calc_team_stats(home, past)
         as_ = calc_team_stats(away, past)
 
         # Tabela ao vivo da temporada atual
-        live_table = build_live_table(past, row["season"])
-        default_pos = {"position": 10, "aproveitamento": 0.33, "gd": 0, "pts": 0}
-        h_table = live_table.get(home, default_pos)
-        a_table = live_table.get(away, default_pos)
+        live_table   = build_live_table(past, season)
+        default_pos  = {"position": 10, "aproveitamento": 0.33, "gd": 0, "pts": 0}
+        h_table      = live_table.get(home, default_pos)
+        a_table      = live_table.get(away, default_pos)
 
         # H2H
         h2h = past[
@@ -196,27 +276,33 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
         elif row["home_goals"] < row["away_goals"]: result = "A"
         else:                                        result = "D"
 
-            # ── Carregar valores de mercado ──
-        mv = pd.read_csv(MARKET_VALUES_PATH)[["team", "market_value_log", "market_value_norm", "squad_size"]]
-        mv_dict = mv.set_index("team").to_dict("index")
-
-        def get_mv(team):
-            return mv_dict.get(team, {
-                "market_value_log":  3.0,   # valor mediano como default
-                "market_value_norm": 0.3,
-                "squad_size":        25,
-            })
-        
         h_mv = get_mv(home)
         a_mv = get_mv(away)
-        
+
+        # MELHORIA 3: feature de Libertadores
+        liberta_set = LIBERTADORES_BY_SEASON.get(season, set())
+        home_liberta = 1 if home in liberta_set else 0
+        away_liberta = 1 if away in liberta_set else 0
+
+        # MELHORIA 4: tendência de posição (slope das últimas 5 rodadas)
+        h_trend = build_position_trend(home, past, season, n_rounds=5)
+        a_trend = build_position_trend(away, past, season, n_rounds=5)
+
+        # MELHORIA 5: features de equilíbrio para detecção de empates
+        # aprov_equilibrio: 1.0 quando aproveitamentos são iguais, cai conforme diferem
+        aprov_equilibrio = 1.0 / (
+            1 + abs(h_table["aproveitamento"] - a_table["aproveitamento"])
+        )
+        # h2h_draw_dominance: fração de empates no histórico entre os dois times
+        h2h_total = h2h_hw + h2h_aw + h2h_draws
+        h2h_draw_dominance = h2h_draws / max(h2h_total, 1)
 
         rows.append({
             # Identificadores
             "match_id":   row["match_id"],
             "date":       row["date"],
-            "matchday":   row["matchday"],
-            "season":     row["season"],
+            "matchday":   row.get("matchday"),
+            "season":     season,
             "home_team":  home,
             "away_team":  away,
             "home_goals": row["home_goals"],
@@ -233,7 +319,7 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
             "away_aproveitamento": a_table["aproveitamento"],
             "home_table_gd":      h_table["gd"],
             "away_table_gd":      a_table["gd"],
-            "position_diff":      a_table["position"] - h_table["position"],  # positivo = casa melhor
+            "position_diff":      a_table["position"] - h_table["position"],
             # Features curto prazo
             "home_form_pts":   hs["form_pts"],
             "home_avg_gf":     hs["avg_gf"],
@@ -262,7 +348,6 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
             "h2h_home_wins": h2h_hw,
             "h2h_away_wins": h2h_aw,
             "h2h_draws":     h2h_draws,
-
             # Valor de mercado
             "home_market_value_log":  h_mv["market_value_log"],
             "home_market_value_norm": h_mv["market_value_norm"],
@@ -271,6 +356,16 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
             "away_market_value_norm": a_mv["market_value_norm"],
             "away_squad_size":        a_mv["squad_size"],
             "market_value_diff":      h_mv["market_value_log"] - a_mv["market_value_log"],
+            # MELHORIA 3: Libertadores
+            "home_joga_libertadores": home_liberta,
+            "away_joga_libertadores": away_liberta,
+            # MELHORIA 4: tendência de posição
+            "home_pos_trend": h_trend,
+            "away_pos_trend": a_trend,
+            "pos_trend_diff": h_trend - a_trend,
+            # MELHORIA 5: equilíbrio — ajuda na detecção de empates
+            "aprov_equilibrio":    aprov_equilibrio,
+            "h2h_draw_dominance":  h2h_draw_dominance,
         })
 
     return pd.DataFrame(rows)
@@ -281,7 +376,7 @@ if __name__ == "__main__":
     df = pd.read_csv(DATA_PATH)
     print(f"   {len(df)} partidas carregadas")
 
-    print("⚙️  Gerando features com posição na tabela...")
+    print("⚙️  Gerando features...")
     features = build_features(df)
 
     Path(OUTPUT_PATH).parent.mkdir(parents=True, exist_ok=True)
@@ -289,4 +384,6 @@ if __name__ == "__main__":
     print(f"✅ Features salvas! Shape: {features.shape}")
     print(features[["home_team","away_team","result",
                      "home_position","away_position",
-                     "home_aproveitamento","elo_diff"]].head(10))
+                     "home_aproveitamento","elo_diff",
+                     "home_joga_libertadores","home_pos_trend",
+                     "aprov_equilibrio","h2h_draw_dominance"]].head(10))

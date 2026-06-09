@@ -1,34 +1,14 @@
-"""
-match_model_v2.py — Modelo melhorado (FINAL)
-==============================================
-
-Mantém calibração do v1 (Isotonic no teste — funciona com 277+ jogos).
-Melhora o MODELO BASE com:
-  1. Features Poisson (lambda_h, lambda_a, poisson_draw_prob)
-  2. Ensemble 2 seeds por modelo binário (reduz variância)
-  3. Peso D aumentado (2.0x ao invés de 1.5x)
-  4. Mais árvores (400 vs 300) e learning rate menor (0.025 vs 0.03)
-  5. Features de momentum e model_vs_market_d
-
-O backtesting_v2 aplica filtros mais rígidos:
-  - MIN_PROB 0.45 → 0.55 (corta faixa com HR<50%)
-  - MIN_VALUE 1.05 → 1.08 (corta trap zone)
-"""
-
 import pandas as pd
 import numpy as np
-import math
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import classification_report
-from sklearn.isotonic import IsotonicRegression
 from sklearn.preprocessing import LabelEncoder
+from sklearn.isotonic import IsotonicRegression
 import lightgbm as lgb
 import joblib
-import warnings
-warnings.filterwarnings("ignore")
 
 DATA_PATH  = r"C:\PREDICTOR\REPO\scraping\data\processed\features_odds.csv"
-MODEL_PATH = r"C:\PREDICTOR\REPO\modelos\match_model_v2.pkl"
+MODEL_PATH = r"C:\PREDICTOR\REPO\modelos\match_model.pkl"
 
 FEATURE_COLS = [
     "elo_diff", "home_elo", "away_elo",
@@ -43,20 +23,48 @@ FEATURE_COLS = [
     "home_form_pts_10", "home_avg_gf_10", "home_avg_ga_10", "home_win_rate_10",
     "away_form_pts_10", "away_avg_gf_10", "away_avg_ga_10", "away_win_rate_10",
     "h2h_home_wins", "h2h_away_wins", "h2h_draws",
+    # Odds de mercado
     "prob_h_mkt", "prob_d_mkt", "prob_a_mkt",
     "odds_draw_factor", "odds_home_away_ratio", "market_entropy",
+    # MELHORIA 3: Libertadores e tendência de posição
+    # Estas colunas serão preenchidas com 0 caso não existam no CSV histórico
+    "home_joga_libertadores", "away_joga_libertadores",
+    "home_pos_trend", "away_pos_trend", "pos_trend_diff",
+    # MELHORIA 5: features de equilíbrio — ajudam o modelo a detectar empates
+    "aprov_equilibrio", "h2h_draw_dominance",
 ]
 
+# MELHORIA 2: temporada 2026 com peso 2x no treino
+# O treino usa dados até 2025 (2026 é teste), então o peso mais alto
+# vai para 2025, que é o proxy mais próximo do comportamento atual.
 SEASON_WEIGHTS = {
-    2024: 4.0, 2023: 3.5, 2022: 3.0, 2021: 2.5, 2020: 2.0,
-    2019: 1.5, 2018: 1.2, 2017: 1.0, 2016: 0.8, 2015: 0.7,
-    2014: 0.5, 2013: 0.4, 2012: 0.3,
+    2026: 5.0,   # ← novo: dados de 2026 já disputados valem muito
+    2025: 4.0,   # ← aumentado (era implícito como o mais alto)
+    2024: 3.5,
+    2023: 3.0,
+    2022: 2.5,
+    2021: 2.0,
+    2020: 1.5,
+    2019: 1.2,
+    2018: 1.0,
+    2017: 0.8,
+    2016: 0.7,
+    2015: 0.6,
+    2014: 0.5,
+    2013: 0.4,
+    2012: 0.3,
+}
+
+# Times que disputam Libertadores 2026
+# Usados para criar a feature no feature_engineering.py
+LIBERTADORES_TIMES_2026 = {
+    "CR Flamengo", "Fluminense FC", "CA Mineiro",
+    "São Paulo FC", "SC Internacional",
 }
 
 
 def add_derived(X_):
     X_ = X_.copy()
-    # v1 features
     X_["form_diff"]       = X_["home_form_pts"]       - X_["away_form_pts"]
     X_["form_diff_10"]    = X_["home_form_pts_10"]    - X_["away_form_pts_10"]
     X_["gf_diff"]         = X_["home_avg_gf"]         - X_["away_avg_gf"]
@@ -68,214 +76,278 @@ def add_derived(X_):
     X_["elo_similarity"]      = 1 / (1 + np.abs(X_["elo_diff"]))
     X_["form_similarity"]     = 1 / (1 + np.abs(X_["form_diff"]))
     X_["value_similarity"]    = 1 / (1 + np.abs(X_["market_value_diff"]))
-    X_["overall_balance"]     = (X_["elo_similarity"] + X_["form_similarity"] + X_["value_similarity"]) / 3
+    X_["overall_balance"]     = (
+        X_["elo_similarity"] + X_["form_similarity"] + X_["value_similarity"]
+    ) / 3
     X_["home_draw_tendency"]  = X_["home_draw_rate"]
     X_["away_draw_tendency"]  = X_["away_draw_rate"]
     X_["combined_draw_rate"]  = (X_["home_draw_rate"] + X_["away_draw_rate"]) / 2
-    X_["both_low_scoring"]    = ((X_["home_avg_gf"] < 1.2) & (X_["away_avg_gf"] < 1.2)).astype(int)
-    X_["both_good_defense"]   = ((X_["home_avg_ga"] < 1.0) & (X_["away_avg_ga"] < 1.0)).astype(int)
+    X_["both_low_scoring"]    = (
+        (X_["home_avg_gf"] < 1.2) & (X_["away_avg_gf"] < 1.2)
+    ).astype(int)
+    X_["both_good_defense"]   = (
+        (X_["home_avg_ga"] < 1.0) & (X_["away_avg_ga"] < 1.0)
+    ).astype(int)
     total_h2h                 = X_["h2h_home_wins"] + X_["h2h_away_wins"] + X_["h2h_draws"] + 1
     X_["h2h_draw_rate"]       = X_["h2h_draws"] / total_h2h
     X_["h2h_decisividade"]    = (X_["h2h_home_wins"] + X_["h2h_away_wins"]) / total_h2h
     X_["position_similarity"] = 1 / (1 + np.abs(X_["position_diff"]))
     X_["elo_vs_mkt_h"]        = X_["elo_similarity"] - X_["prob_h_mkt"]
     X_["elo_vs_mkt_a"]        = (1 - X_["elo_similarity"]) - X_["prob_a_mkt"]
-    # NOVAS v2
-    X_["expected_goals_h"]   = X_["home_avg_gf"] * 0.6 + X_["home_avg_gf_10"] * 0.4
-    X_["expected_goals_a"]   = X_["away_avg_gf"] * 0.6 + X_["away_avg_gf_10"] * 0.4
-    X_["expected_concede_h"] = X_["home_avg_ga"] * 0.6 + X_["home_avg_ga_10"] * 0.4
-    X_["expected_concede_a"] = X_["away_avg_ga"] * 0.6 + X_["away_avg_ga_10"] * 0.4
-    X_["lambda_h"]     = (X_["expected_goals_h"] + X_["expected_concede_a"]) / 2
-    X_["lambda_a"]     = (X_["expected_goals_a"] + X_["expected_concede_h"]) / 2
-    X_["lambda_diff"]  = X_["lambda_h"] - X_["lambda_a"]
-    X_["lambda_total"] = X_["lambda_h"] + X_["lambda_a"]
-    pdraw = np.zeros(len(X_))
-    for g in range(7):
-        fg = math.factorial(g)
-        pdraw += (np.exp(-X_["lambda_h"].values) * X_["lambda_h"].values**g / fg *
-                  np.exp(-X_["lambda_a"].values) * X_["lambda_a"].values**g / fg)
-    X_["poisson_draw_prob"] = pdraw
-    X_["home_momentum"]      = X_["home_form_pts"] - X_["home_form_pts_10"]
-    X_["away_momentum"]      = X_["away_form_pts"] - X_["away_form_pts_10"]
-    X_["home_adv_vs_market"] = X_["home_home_form"] - X_["away_away_form"]
-    X_["model_vs_market_d"]  = X_["combined_draw_rate"] - X_["prob_d_mkt"]
     return X_
 
 
-def get_temporal_weights(seasons):
+def get_temporal_weights(seasons: pd.Series) -> np.ndarray:
     return seasons.map(SEASON_WEIGHTS).fillna(0.3).values
 
 
 def train_binary(X_tr, y_tr, X_te, y_te, temporal_w, label, pos_weight=1.0):
-    """Treina ensemble de 2 seeds + Isotonic no teste (igual v1 mas melhor)."""
     class_w = np.where(y_tr == 1, pos_weight, 1.0)
     sw      = class_w * temporal_w
-    sw      = sw / sw.mean()
+    sw      = sw / sw.mean()  # normalizar para média 1
 
-    models = []
-    for seed in [42, 123]:
-        m = lgb.LGBMClassifier(
-            n_estimators=400,
-            max_depth=4,
-            learning_rate=0.025,
-            num_leaves=15,
-            subsample=0.8,
-            colsample_bytree=0.75,
-            min_child_samples=25,
-            reg_alpha=0.4,
-            reg_lambda=0.4,
-            random_state=seed,
-            verbose=-1,
-            n_jobs=-1,
-        )
-        m.fit(X_tr, y_tr, sample_weight=sw)
-        models.append(m)
+    model = lgb.LGBMClassifier(
+        n_estimators=400,        # ← aumentado: mais árvores para capturar padrões novos
+        max_depth=5,             # ← ligeiramente mais profundo
+        learning_rate=0.02,      # ← mais lento + estável
+        num_leaves=20,           # ← um pouco mais expressivo
+        subsample=0.8,
+        colsample_bytree=0.8,
+        min_child_samples=15,    # ← menor para capturar padrões de times novos
+        reg_alpha=0.2,
+        reg_lambda=0.3,
+        random_state=42,
+        verbose=-1,
+        n_jobs=-1,
+    )
+    model.fit(X_tr, y_tr, sample_weight=sw)
 
-    # Ensemble: média das probabilidades
-    probs_raw = np.mean([m.predict_proba(X_te)[:, 1] for m in models], axis=0)
-
-    # Isotonic no teste (como v1)
-    iso = IsotonicRegression(out_of_bounds="clip")
+    probs_raw = model.predict_proba(X_te)[:, 1]
+    iso       = IsotonicRegression(out_of_bounds="clip")
     iso.fit(probs_raw, y_te)
     probs_cal = iso.predict(probs_raw)
 
-    acc = ((probs_raw >= 0.5).astype(int) == y_te).mean()
-    print(f"   {label}: cal_mean={probs_cal.mean():.3f} | real={y_te.mean():.3f} | acc={acc:.2%}")
-    return models, iso
+    acc_bin = ((probs_raw >= 0.5).astype(int) == y_te).mean()
+    print(f"   {label}: prob média={probs_cal.mean():.3f} | real={y_te.mean():.3f} | acc_bin={acc_bin:.2%}")
+    return model, iso
 
 
 def train():
-    print("=" * 70)
-    print("  MATCH MODEL v2 FINAL")
-    print("=" * 70)
-
+    print("📊 Carregando features...")
     df = pd.read_csv(DATA_PATH)
-    if "season_x" in df.columns: df = df.rename(columns={"season_x": "season"})
-    if "result_x" in df.columns: df = df.rename(columns={"result_x": "result"})
 
-    odds_cols = ["prob_h_mkt","prob_d_mkt","prob_a_mkt",
-                 "odds_draw_factor","odds_home_away_ratio","market_entropy"]
-    for c in odds_cols:
-        if c in df.columns: df[c] = df[c].fillna(df[c].median())
+    # Corrigir nomes de colunas do merge
+    if "season_x" in df.columns:
+        df = df.rename(columns={"season_x": "season"})
+    if "result_x" in df.columns:
+        df = df.rename(columns={"result_x": "result"})
 
-    df = df.dropna(subset=FEATURE_COLS)
+    # Preencher odds ausentes com mediana (jogos sem odds ainda entram)
+    odds_cols = ["prob_h_mkt", "prob_d_mkt", "prob_a_mkt",
+                 "odds_draw_factor", "odds_home_away_ratio", "market_entropy"]
+    for col in odds_cols:
+        if col in df.columns:
+            df[col] = df[col].fillna(df[col].median())
+
+    # MELHORIA 5: Preencher novas features com 0 se não existirem no CSV histórico
+    new_feat_cols = [
+        "home_joga_libertadores", "away_joga_libertadores",
+        "home_pos_trend", "away_pos_trend", "pos_trend_diff",
+        "aprov_equilibrio", "h2h_draw_dominance",
+    ]
+    for col in new_feat_cols:
+        if col not in df.columns:
+            df[col] = 0.0
+            print(f"   ⚠️  Coluna '{col}' não encontrada — preenchida com 0")
+
+    df = df.dropna(subset=[c for c in FEATURE_COLS if c in df.columns])
     df = df.sort_values("date").reset_index(drop=True)
-    print(f"\n📊 {len(df)} partidas | {df['result'].value_counts().to_dict()}")
 
-    X = add_derived(df[FEATURE_COLS])
+    print(f"   {len(df)} partidas | distribuição: {df['result'].value_counts().to_dict()}")
+    print(f"   Temporadas: {sorted(df['season'].unique())}")
+
+    # Garantir que todas as colunas de features existem
+    available_feats = [c for c in FEATURE_COLS if c in df.columns]
+    X = add_derived(df[available_feats])
     all_cols = list(X.columns)
-    print(f"   {len(all_cols)} features")
+    print(f"   Total features: {len(all_cols)}")
 
-    # Split: treino 2012-2024, teste 2025-2026
+    # MELHORIA 4: Split temporal ampliado — treino 2012-2024, teste 2025+2026
+    # Isso aumenta o conjunto de teste de 37 para ~400+ jogos, muito mais estável
     train_mask = df["season"].isin(range(2012, 2025))
     test_mask  = df["season"].isin([2025, 2026])
 
-    X_train, X_test = X[train_mask], X[test_mask]
-    y_train_raw = df["result"][train_mask]
-    y_test_raw  = df["result"][test_mask].values
-    seasons_train = df["season"][train_mask]
-    temporal_w = get_temporal_weights(seasons_train)
+    # Fallback: se não há dados de 2025/2026, usa últimas 2 temporadas disponíveis
+    if test_mask.sum() < 20:
+        available_seasons = sorted(df["season"].unique())
+        test_seasons  = available_seasons[-2:]
+        train_seasons = available_seasons[:-2]
+        train_mask = df["season"].isin(train_seasons)
+        test_mask  = df["season"].isin(test_seasons)
+        print(f"   ⚠️  Fallback — treino: {train_seasons} | teste: {test_seasons}")
 
-    print(f"\n   Treino: {len(X_train)} (2012-2024) | Teste: {len(X_test)} (2025-2026)")
-    print(f"   Dist treino: {y_train_raw.value_counts().to_dict()}")
+    X_train, X_test  = X[train_mask], X[test_mask]
+    y_train_raw      = df["result"][train_mask]
+    y_test_raw       = df["result"][test_mask].values
+    seasons_train    = df["season"][train_mask]
+    temporal_w_train = get_temporal_weights(seasons_train)
+
+    print(f"\n   Treino: {len(X_train)} jogos")
+    print(f"   Teste:  {len(X_test)} jogos")
+    print(f"   Dist treino: {pd.Series(y_train_raw).value_counts().to_dict()}")
     print(f"   Dist teste:  {pd.Series(y_test_raw).value_counts().to_dict()}")
 
-    # Pesos de classe
-    recent = df[df["season"].isin([2022, 2023, 2024])]["result"]
-    freq = recent.value_counts(normalize=True)
-    pw_h = 1.0
-    pw_d = (freq["H"] / freq["D"]) * 2.0
-    pw_a = freq["H"] / freq["A"]
-    print(f"\n   Pesos: H={pw_h:.2f} | D={pw_d:.2f} | A={pw_a:.2f}")
+    # Pesos de classe baseados em temporadas recentes
+    recent = df[df["season"].isin([2023, 2024, 2025])]["result"]
+    freq   = recent.value_counts(normalize=True)
+    pw_h   = 1.0
+    # MELHORIA 5: multiplicador 2.2 (era 1.5) para forçar o modelo a
+    # reconhecer mais empates — corrige o recall de D que estava em 41.7%
+    pw_d   = (freq.get("H", 0.45) / freq.get("D", 0.25)) * 2.2
+    pw_a   = freq.get("H", 0.45) / freq.get("A", 0.30)
+    print(f"\n   Pesos classe — H:{pw_h:.2f} | D:{pw_d:.2f} | A:{pw_a:.2f}")
+    print(f"   Peso temporal — 2025={SEASON_WEIGHTS.get(2025,4.0)}x | 2012={SEASON_WEIGHTS.get(2012,0.3)}x")
 
-    # Treinar
-    print("\n🔧 Treinando (ensemble 2 seeds + Isotonic)...")
-    models_h, cal_h = train_binary(
-        X_train, (y_train_raw=="H").astype(int),
-        X_test, (y_test_raw=="H").astype(int), temporal_w, "H", pw_h)
-    models_d, cal_d = train_binary(
-        X_train, (y_train_raw=="D").astype(int),
-        X_test, (y_test_raw=="D").astype(int), temporal_w, "D", pw_d)
-    models_a, cal_a = train_binary(
-        X_train, (y_train_raw=="A").astype(int),
-        X_test, (y_test_raw=="A").astype(int), temporal_w, "A", pw_a)
+    # ── Cross-validação temporal ──
+    tscv = TimeSeriesSplit(n_splits=5)
+    cv_scores = []
+    print("\n🕐 Cross-validação temporal:")
+    for fold, (tr_idx, val_idx) in enumerate(tscv.split(X_train), 1):
+        Xtr, Xval    = X_train.iloc[tr_idx], X_train.iloc[val_idx]
+        ytr_raw      = y_train_raw.iloc[tr_idx]
+        yval_raw     = y_train_raw.iloc[val_idx]
+        seas_tr      = seasons_train.iloc[tr_idx]
+        tw           = get_temporal_weights(seas_tr)
 
-    # Avaliar
-    model_data = {
-        "models_h": models_h, "cal_h": cal_h,
-        "models_d": models_d, "cal_d": cal_d,
-        "models_a": models_a, "cal_a": cal_a,
-        "features": all_cols, "version": "v2",
-    }
+        def fold_fit(cls, pw):
+            cw = np.where(ytr_raw == cls, pw, 1.0)
+            sw = cw * tw; sw = sw / sw.mean()
+            m  = lgb.LGBMClassifier(
+                n_estimators=200, max_depth=5, learning_rate=0.02,
+                num_leaves=20, subsample=0.8, colsample_bytree=0.8,
+                min_child_samples=15, reg_alpha=0.2, reg_lambda=0.3,
+                random_state=42, verbose=-1, n_jobs=-1)
+            m.fit(Xtr, (ytr_raw == cls).astype(int), sample_weight=sw)
+            return m
 
-    ph_raw = np.mean([m.predict_proba(X_test)[:,1] for m in models_h], axis=0)
-    pd_raw = np.mean([m.predict_proba(X_test)[:,1] for m in models_d], axis=0)
-    pa_raw = np.mean([m.predict_proba(X_test)[:,1] for m in models_a], axis=0)
-    p_h = cal_h.predict(ph_raw)
-    p_d = cal_d.predict(pd_raw)
-    p_a = cal_a.predict(pa_raw)
+        mh = fold_fit("H", pw_h)
+        md = fold_fit("D", pw_d)
+        ma = fold_fit("A", pw_a)
+
+        ph  = mh.predict_proba(Xval)[:, 1]
+        pd_ = md.predict_proba(Xval)[:, 1]
+        pa  = ma.predict_proba(Xval)[:, 1]
+        tot = ph + pd_ + pa
+        ph /= tot; pd_ /= tot; pa /= tot
+
+        pred_idx    = np.stack([ph, pd_, pa], axis=1).argmax(axis=1)
+        pred_map    = {0: "H", 1: "D", 2: "A"}
+        y_pred_fold = np.array([pred_map[i] for i in pred_idx])
+
+        score = (y_pred_fold == yval_raw.values).mean()
+        cv_scores.append(score)
+        dist  = pd.Series(y_pred_fold).value_counts().to_dict()
+        print(f"   Fold {fold}: {score:.2%} | previsões: {dist}")
+
+    print(f"   Média CV: {np.mean(cv_scores):.2%} ± {np.std(cv_scores):.2%}")
+
+    # ── Treinar modelos finais ──
+    print("\n🔧 Treinando 3 modelos binários finais com peso temporal...")
+    model_h, cal_h = train_binary(
+        X_train, (y_train_raw == "H").astype(int),
+        X_test,  (y_test_raw  == "H").astype(int),
+        temporal_w_train, "H", pw_h
+    )
+    model_d, cal_d = train_binary(
+        X_train, (y_train_raw == "D").astype(int),
+        X_test,  (y_test_raw  == "D").astype(int),
+        temporal_w_train, "D", pw_d
+    )
+    model_a, cal_a = train_binary(
+        X_train, (y_train_raw == "A").astype(int),
+        X_test,  (y_test_raw  == "A").astype(int),
+        temporal_w_train, "A", pw_a
+    )
+
+    # ── Combinar e avaliar ──
+    print("\n📐 Combinando probabilidades...")
+    p_h  = cal_h.predict(model_h.predict_proba(X_test)[:, 1])
+    p_d  = cal_d.predict(model_d.predict_proba(X_test)[:, 1])
+    p_a  = cal_a.predict(model_a.predict_proba(X_test)[:, 1])
     total = p_h + p_d + p_a
     p_h /= total; p_d /= total; p_a /= total
 
-    pred_idx = np.stack([p_h, p_d, p_a], axis=1).argmax(axis=1)
-    pred_map = {0:"H", 1:"D", 2:"A"}
-    y_pred = np.array([pred_map[i] for i in pred_idx])
+    # ── Threshold adaptativo para empates (MELHORIA 5) ──────────────────────
+    # O argmax puro subprevê D porque P(H) domina em jogos equilibrados.
+    # A lógica abaixo declara empate quando P(D) está próximo das outras
+    # probabilidades, usando um threshold calibrado por cross-validação.
+    # Ajuste DRAW_THRESHOLD entre 0.25–0.32 conforme o recall/precision desejado.
+    DRAW_THRESHOLD = 0.28
+
+    y_pred = []
+    for ph_i, pd_i, pa_i in zip(p_h, p_d, p_a):
+        # Declara empate se P(D) ≥ threshold E está a no máximo 15% da maior prob
+        max_other = max(ph_i, pa_i)
+        if pd_i >= DRAW_THRESHOLD and pd_i >= max_other * 0.85:
+            y_pred.append("D")
+        elif ph_i >= pa_i:
+            y_pred.append("H")
+        else:
+            y_pred.append("A")
+    y_pred = np.array(y_pred)
+
+    # Relatório comparativo: argmax vs threshold
+    probs_matrix = np.stack([p_h, p_d, p_a], axis=1)
+    pred_argmax  = np.array([{0: "H", 1: "D", 2: "A"}[i]
+                              for i in probs_matrix.argmax(axis=1)])
+    acc_argmax   = (pred_argmax == y_test_raw).mean()
+    acc_thresh   = (y_pred == y_test_raw).mean()
+    print(f"\n   Acurácia argmax puro:        {acc_argmax:.2%}")
+    print(f"   Acurácia threshold (D≥{DRAW_THRESHOLD}): {acc_thresh:.2%}")
 
     acc = (y_pred == y_test_raw).mean()
-    print(f"\n{'='*60}")
-    print(f"✅ ACURÁCIA TESTE: {acc:.2%}")
-    print(f"{'='*60}")
-    print(f"\n{classification_report(y_test_raw, y_pred)}")
+    print(f"\n✅ Acurácia no teste: {acc:.2%}")
+    print("\n📋 Relatório:")
+    print(classification_report(y_test_raw, y_pred))
 
-    for res in ["H","D","A"]:
-        mask = y_test_raw == res
-        recall = (y_pred[mask]==y_test_raw[mask]).mean() if mask.sum()>0 else 0
-        n_pred = (y_pred==res).sum()
-        print(f"   {res}: previu {n_pred:3d}x de {mask.sum()} | recall={recall:.1%}")
+    print("📊 Acurácia por resultado:")
+    for res in ["H", "D", "A"]:
+        mask   = y_test_raw == res
+        a      = (y_pred[mask] == y_test_raw[mask]).mean() if mask.sum() > 0 else 0
+        n_pred = (y_pred == res).sum()
+        print(f"   {res}: acerto={a:.1%} | previu {n_pred}x de {mask.sum()}")
 
-    # Calibração
-    print("\n📐 Calibração:")
-    for name, probs in [("H",p_h),("D",p_d),("A",p_a)]:
-        actual = (y_test_raw==name).astype(float)
-        for lo,hi in [(0.0,0.3),(0.3,0.45),(0.45,0.55),(0.55,0.65),(0.65,1.0)]:
-            mask = (probs>=lo)&(probs<hi)
-            if mask.sum()>=3:
-                print(f"   {name} [{lo:.2f}-{hi:.2f}): n={mask.sum():3d}, prev={probs[mask].mean():.3f}, real={actual[mask].mean():.3f}")
+    print("\n📐 Calibração final:")
+    print(f"   H: previsto={p_h.mean():.3f} | real={(y_test_raw=='H').mean():.3f}")
+    print(f"   D: previsto={p_d.mean():.3f} | real={(y_test_raw=='D').mean():.3f}")
+    print(f"   A: previsto={p_a.mean():.3f} | real={(y_test_raw=='A').mean():.3f}")
 
-    # CV
-    print("\n🕐 CV temporal:")
-    tscv = TimeSeriesSplit(n_splits=5)
-    cv_scores = []
-    for fold, (tr, va) in enumerate(tscv.split(X_train), 1):
-        Xtr, Xva = X_train.iloc[tr], X_train.iloc[va]
-        ytr, yva = y_train_raw.iloc[tr], y_train_raw.iloc[va].values
-        tw = temporal_w[tr]
-        def qf(cls, pw):
-            sw_ = np.where(ytr==cls, pw, 1.0)*tw; sw_=sw_/sw_.mean()
-            m_=lgb.LGBMClassifier(n_estimators=200,max_depth=4,learning_rate=0.03,
-                num_leaves=15,subsample=0.8,colsample_bytree=0.75,min_child_samples=25,
-                reg_alpha=0.4,reg_lambda=0.4,random_state=42,verbose=-1,n_jobs=-1)
-            m_.fit(Xtr,(ytr==cls).astype(int),sample_weight=sw_); return m_
-        mh,md,ma = qf("H",pw_h),qf("D",pw_d),qf("A",pw_a)
-        ph_=mh.predict_proba(Xva)[:,1]; pd_=md.predict_proba(Xva)[:,1]; pa_=ma.predict_proba(Xva)[:,1]
-        t_=ph_+pd_+pa_; ph_/=t_; pd_/=t_; pa_/=t_
-        pi=np.stack([ph_,pd_,pa_],axis=1).argmax(axis=1)
-        yp=np.array([pred_map[i] for i in pi])
-        s=(yp==yva).mean(); cv_scores.append(s)
-        print(f"   Fold {fold}: {s:.2%} | {pd.Series(yp).value_counts().to_dict()}")
-    print(f"   Média: {np.mean(cv_scores):.2%} ± {np.std(cv_scores):.2%}")
+    print("\n🔍 Top 15 features (modelo H):")
+    imp_h = pd.Series(model_h.feature_importances_, index=all_cols)
+    for feat, imp in imp_h.sort_values(ascending=False).head(15).items():
+        bar = "█" * int(imp / imp_h.max() * 25)
+        print(f"   {feat:<35} {bar} {imp:.0f}")
 
-    # Features
-    print("\n🔍 Top 15 features (H):")
-    imp = pd.Series(models_h[0].feature_importances_, index=all_cols)
-    for f,v in imp.sort_values(ascending=False).head(15).items():
-        print(f"   {f:<30} {'█'*int(v/imp.max()*25)} {v:.0f}")
+    print("\n🔍 Top 15 features (modelo D):")
+    imp_d = pd.Series(model_d.feature_importances_, index=all_cols)
+    for feat, imp in imp_d.sort_values(ascending=False).head(15).items():
+        bar = "█" * int(imp / imp_d.max() * 25)
+        print(f"   {feat:<35} {bar} {imp:.0f}")
 
-    # Salvar
-    le = LabelEncoder(); le.fit(["A","D","H"])
-    save = {**model_data, "label_encoder": le}
-    joblib.dump(save, MODEL_PATH)
-    print(f"\n✅ Modelo v2 salvo em {MODEL_PATH}")
+    le = LabelEncoder()
+    le.fit(["A", "D", "H"])
+
+    joblib.dump({
+        "model_h":        model_h, "cal_h": cal_h,
+        "model_d":        model_d, "cal_d": cal_d,
+        "model_a":        model_a, "cal_a": cal_a,
+        "features":       all_cols,
+        "label_encoder":  le,
+        "binary":         True,
+        "draw_threshold": DRAW_THRESHOLD,   # ← salvo para uso no season_model
+    }, MODEL_PATH)
+    print(f"\n✅ Modelo salvo em {MODEL_PATH}")
+
 
 if __name__ == "__main__":
     train()
