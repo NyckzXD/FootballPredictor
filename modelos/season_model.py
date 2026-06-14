@@ -338,8 +338,6 @@ def run_simulation(sim_id,
         return float(row[0]) / max(float(row[3]) * 3.0, 1.0)
 
     # Simular por rodada
-    model_h = model_data["model_h"]; model_d = model_data["model_d"]
-    model_a = model_data["model_a"]
     sc_h    = poisson_data["scaler_home"]; sc_a = poisson_data["scaler_away"]
     pm_h    = poisson_data["model_home"];  pm_a = poisson_data["model_away"]
 
@@ -359,15 +357,15 @@ def run_simulation(sim_id,
             X_rows.append(row)
         X = np.vstack(X_rows).astype(np.float64)
 
-        # LightGBM batch predict
-        raw_h = model_h.predict_proba(X)[:, 1]
-        raw_d = model_d.predict_proba(X)[:, 1]
-        raw_a = model_a.predict_proba(X)[:, 1]
-
-        # Calibração via lookup numpy (substitui IsotonicRegression.predict)
-        ph = iso_apply(raw_h, iso_x, iso_h_y)
-        pd_ = iso_apply(raw_d, iso_x, iso_d_y)
-        pa = iso_apply(raw_a, iso_x, iso_a_y)
+        if _predict_v2 is not None:
+            ph, pd_, pa = _predict_v2(X)
+        else:
+            raw_h = model_data["model_h"].predict_proba(X)[:, 1]
+            raw_d = model_data["model_d"].predict_proba(X)[:, 1]
+            raw_a = model_data["model_a"].predict_proba(X)[:, 1]
+            ph  = iso_apply(raw_h, iso_x, iso_h_y)
+            pd_ = iso_apply(raw_d, iso_x, iso_d_y)
+            pa  = iso_apply(raw_a, iso_x, iso_a_y)
         tot = ph + pd_ + pa
         ph /= tot; pd_ /= tot; pa /= tot
 
@@ -540,11 +538,42 @@ def main():
     poisson_idx_h  = [forder_list.index(k) for k in poisson_feat_h]
     poisson_idx_a  = [forder_list.index(k) for k in poisson_feat_a]
 
-    # Construir lookups isotônicos
-    iso_x   = np.linspace(0.0, 1.0, 1001)
-    iso_h_y = model_data["cal_h"].predict(iso_x)
-    iso_d_y = model_data["cal_d"].predict(iso_x)
-    iso_a_y = model_data["cal_a"].predict(iso_x)
+    # Detectar versão do modelo
+    is_v2 = model_data.get("version", "v1").startswith("v2")
+
+    if is_v2:
+        # v2: ensemble LGB+XGB + calibração + stacking
+        def _predict_v2(X):
+            p_lgb_h = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_h_lgb"]], axis=0)
+            p_lgb_d = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_d_lgb"]], axis=0)
+            p_lgb_a = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_a_lgb"]], axis=0)
+            p_xgb_h = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_h_xgb"]], axis=0)
+            p_xgb_d = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_d_xgb"]], axis=0)
+            p_xgb_a = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_a_xgb"]], axis=0)
+            raw_h = (p_lgb_h + p_xgb_h) / 2
+            raw_d = (p_lgb_d + p_xgb_d) / 2
+            raw_a = (p_lgb_a + p_xgb_a) / 2
+            ph  = model_data["cal_h"].predict(raw_h)
+            pd_ = model_data["cal_d"].predict(raw_d)
+            pa  = model_data["cal_a"].predict(raw_a)
+            tot = ph + pd_ + pa
+            ph /= tot; pd_ /= tot; pa /= tot
+            if "meta_clf" in model_data:
+                le   = model_data["label_encoder_meta"]
+                meta = model_data["meta_clf"].predict_proba(np.column_stack([ph, pd_, pa]))
+                ph   = meta[:, le.transform(["H"])[0]]
+                pd_  = meta[:, le.transform(["D"])[0]]
+                pa   = meta[:, le.transform(["A"])[0]]
+                tot  = ph + pd_ + pa
+                ph /= tot; pd_ /= tot; pa /= tot
+            return ph, pd_, pa
+        iso_x = iso_h_y = iso_d_y = iso_a_y = None
+    else:
+        _predict_v2 = None
+        iso_x   = np.linspace(0.0, 1.0, 1001)
+        iso_h_y = model_data["cal_h"].predict(iso_x)
+        iso_d_y = model_data["cal_d"].predict(iso_x)
+        iso_a_y = model_data["cal_a"].predict(iso_x)
     print("   Modelos + lookups carregados")
 
     # ── Versão interna de run_simulation com índices Poisson pré-computados ──
@@ -582,8 +611,6 @@ def main():
 
         live_tv = {t: table[team_idx[t]] for t in teams}
 
-        model_h = model_data["model_h"]; model_d_ = model_data["model_d"]
-        model_a = model_data["model_a"]
         sc_h = poisson_data["scaler_home"]; sc_a = poisson_data["scaler_away"]
         pm_h = poisson_data["model_home"];  pm_a = poisson_data["model_away"]
 
@@ -598,14 +625,17 @@ def main():
                     h2h_cache, mv_dict, odds_dict, max_val,
                     feat_order, None)
 
-            raw_h = model_h.predict_proba(X)[:, 1]
-            raw_d = model_d_.predict_proba(X)[:, 1]
-            raw_a = model_a.predict_proba(X)[:, 1]
-            ph  = np.interp(raw_h, iso_x, iso_h_y)
-            pd_ = np.interp(raw_d, iso_x, iso_d_y)
-            pa  = np.interp(raw_a, iso_x, iso_a_y)
-            tot = ph + pd_ + pa
-            ph /= tot; pd_ /= tot; pa /= tot
+            if _predict_v2 is not None:
+                ph, pd_, pa = _predict_v2(X)
+            else:
+                raw_h = model_data["model_h"].predict_proba(X)[:, 1]
+                raw_d = model_data["model_d"].predict_proba(X)[:, 1]
+                raw_a = model_data["model_a"].predict_proba(X)[:, 1]
+                ph  = np.interp(raw_h, iso_x, iso_h_y)
+                pd_ = np.interp(raw_d, iso_x, iso_d_y)
+                pa  = np.interp(raw_a, iso_x, iso_a_y)
+                tot = ph + pd_ + pa
+                ph /= tot; pd_ /= tot; pa /= tot
 
             lam_h = np.clip(pm_h.predict(sc_h.transform(X[:, poisson_idx_h])), 0.1, 8.0)
             lam_a = np.clip(pm_a.predict(sc_a.transform(X[:, poisson_idx_a])), 0.1, 8.0)
