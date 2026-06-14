@@ -10,7 +10,7 @@ API_KEY   = os.getenv("ODDS_API_KEY")
 BASE_URL  = "https://api.the-odds-api.com/v4"
 SPORT     = "soccer_brazil_campeonato"
 REGIONS   = "eu"
-MARKETS   = "h2h"
+MARKETS   = "h2h,totals"   # h2h = 1X2, totals = over/under
 BOOKMAKER = "pinnacle"
 OUTPUT    = r"C:\PREDICTOR\REPO\scraping\data\external\odds_live.csv"
 
@@ -88,6 +88,7 @@ def fetch_odds() -> pd.DataFrame:
         time_utc = game["commence_time"][11:16]
 
         odd_h = odd_d = odd_a = None
+        odd_over25 = odd_under25 = None
 
         for bm in game.get("bookmakers", []):
             if bm["key"] == BOOKMAKER:
@@ -100,25 +101,45 @@ def fetch_odds() -> pd.DataFrame:
                                 odd_a = outcome["price"]
                             elif outcome["name"] == "Draw":
                                 odd_d = outcome["price"]
+                    elif mkt["key"] == "totals":
+                        for outcome in mkt["outcomes"]:
+                            if outcome.get("point") == 2.5:
+                                if outcome["name"] == "Over":
+                                    odd_over25 = outcome["price"]
+                                elif outcome["name"] == "Under":
+                                    odd_under25 = outcome["price"]
 
         if odd_h and odd_d and odd_a:
-            # Probabilidades implícitas normalizadas
+            # Probabilidades implícitas normalizadas (1X2)
             p_h = 1 / odd_h; p_d = 1 / odd_d; p_a = 1 / odd_a
             tot = p_h + p_d + p_a
+
+            # Over/Under 2.5
+            prob_over25 = prob_under25 = None
+            if odd_over25 and odd_under25:
+                po = 1 / odd_over25; pu = 1 / odd_under25
+                tot_ou = po + pu
+                prob_over25  = round(po / tot_ou, 4)
+                prob_under25 = round(pu / tot_ou, 4)
+
             rows.append({
-                "date":         date,
-                "time_utc":     time_utc,
-                "home_team":    home,
-                "away_team":    away,
-                "home_raw":     home_raw,
-                "away_raw":     away_raw,
-                "odd_h":        round(odd_h, 2),
-                "odd_d":        round(odd_d, 2),
-                "odd_a":        round(odd_a, 2),
-                "prob_h_mkt":   round(p_h / tot, 4),
-                "prob_d_mkt":   round(p_d / tot, 4),
-                "prob_a_mkt":   round(p_a / tot, 4),
-                "margin":       round((tot - 1) * 100, 2),
+                "date":          date,
+                "time_utc":      time_utc,
+                "home_team":     home,
+                "away_team":     away,
+                "home_raw":      home_raw,
+                "away_raw":      away_raw,
+                "odd_h":         round(odd_h, 2),
+                "odd_d":         round(odd_d, 2),
+                "odd_a":         round(odd_a, 2),
+                "prob_h_mkt":    round(p_h / tot, 4),
+                "prob_d_mkt":    round(p_d / tot, 4),
+                "prob_a_mkt":    round(p_a / tot, 4),
+                "margin":        round((tot - 1) * 100, 2),
+                "odd_over25":    round(odd_over25,  2) if odd_over25  else None,
+                "odd_under25":   round(odd_under25, 2) if odd_under25 else None,
+                "prob_over25":   prob_over25,
+                "prob_under25":  prob_under25,
             })
 
     df = pd.DataFrame(rows).sort_values("date")

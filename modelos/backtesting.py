@@ -9,7 +9,12 @@ import math
 import lightgbm as lgb
 import joblib
 import warnings
+import sys
+import os
 warnings.filterwarnings("ignore")
+
+sys.path.insert(0, os.path.dirname(__file__))
+from evaluation_metrics import rps_match, log_loss_match, clv, print_metrics_report
 
 DATA_PATH  = r"C:\PREDICTOR\REPO\scraping\data\processed\features_odds.csv"
 MODEL_PATH = r"C:\PREDICTOR\REPO\modelos\match_model_v2.pkl"
@@ -87,14 +92,39 @@ def add_derived(X_):
 
 
 def predict_probs_v2(model_data, X):
-    ph_raw = np.mean([m.predict_proba(X)[:,1] for m in model_data["models_h"]], axis=0)
-    pd_raw = np.mean([m.predict_proba(X)[:,1] for m in model_data["models_d"]], axis=0)
-    pa_raw = np.mean([m.predict_proba(X)[:,1] for m in model_data["models_a"]], axis=0)
-    ph = model_data["cal_h"].predict(ph_raw)
+    """Compatível com v1 (models_h/d/a) e v2 (models_h_lgb + models_h_xgb + meta_clf)."""
+    # v2 ensemble: LightGBM + XGBoost
+    if "models_h_lgb" in model_data:
+        ph_lgb = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_h_lgb"]], axis=0)
+        pd_lgb = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_d_lgb"]], axis=0)
+        pa_lgb = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_a_lgb"]], axis=0)
+        ph_xgb = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_h_xgb"]], axis=0)
+        pd_xgb = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_d_xgb"]], axis=0)
+        pa_xgb = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_a_xgb"]], axis=0)
+        ph_raw = (ph_lgb + ph_xgb) / 2
+        pd_raw = (pd_lgb + pd_xgb) / 2
+        pa_raw = (pa_lgb + pa_xgb) / 2
+    else:
+        ph_raw = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_h"]], axis=0)
+        pd_raw = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_d"]], axis=0)
+        pa_raw = np.mean([m.predict_proba(X)[:, 1] for m in model_data["models_a"]], axis=0)
+
+    ph  = model_data["cal_h"].predict(ph_raw)
     pd_ = model_data["cal_d"].predict(pd_raw)
-    pa = model_data["cal_a"].predict(pa_raw)
+    pa  = model_data["cal_a"].predict(pa_raw)
     total = ph + pd_ + pa
-    return ph/total, pd_/total, pa/total
+    ph /= total; pd_ /= total; pa /= total
+
+    # Stacking
+    if "meta_clf" in model_data:
+        meta_X = np.column_stack([ph, pd_, pa])
+        meta_p = model_data["meta_clf"].predict_proba(meta_X)
+        le     = model_data["label_encoder_meta"]
+        ph  = meta_p[:, le.transform(["H"])[0]]
+        pd_ = meta_p[:, le.transform(["D"])[0]]
+        pa  = meta_p[:, le.transform(["A"])[0]]
+
+    return ph, pd_, pa
 
 
 def kelly_bet(prob, odd, fraction=KELLY_FRACTION):
@@ -122,6 +152,10 @@ def run_backtest(df, model_data):
             value = prob*odd
             if value >= MIN_VALUE and prob >= MIN_PROB:
                 bets.append({"outcome":outcome,"prob":prob,"odd":odd,"value":value})
+        # Métricas por partida
+        rps_val = rps_match(np.array([ph, pd_, pa]), result)
+        ll_val  = log_loss_match(np.array([ph, pd_, pa]), result)
+
         if bets:
             bet = max(bets, key=lambda x: x["value"])
             won = bet["outcome"]==result
@@ -134,18 +168,21 @@ def run_backtest(df, model_data):
             pk = sk*(bet["odd"]-1) if won else -sk
             bankroll_kelly += pk; peak_kelly = max(peak_kelly, bankroll_kelly)
             max_dd_kelly = max(max_dd_kelly, (peak_kelly-bankroll_kelly)/peak_kelly*100)
+            clv_val = clv(bet["prob"], bet["odd"])
             records.append({"date":row.get("date",""),"season":row.get("season",""),
                 "home_team":row.get("home_team",""),"away_team":row.get("away_team",""),
                 "result":result,"bet_on":bet["outcome"],"prob_model":round(bet["prob"],3),
                 "odd":round(bet["odd"],2),"value":round(bet["value"],3),"won":won,
                 "stake_flat":round(sf,2),"pl_flat":round(pf,2),"bankroll_flat":round(bankroll_flat,2),
-                "stake_kelly":round(sk,2),"pl_kelly":round(pk,2),"bankroll_kelly":round(bankroll_kelly,2)})
+                "stake_kelly":round(sk,2),"pl_kelly":round(pk,2),"bankroll_kelly":round(bankroll_kelly,2),
+                "rps":round(rps_val,4),"log_loss":round(ll_val,4),"clv":round(clv_val,4)})
         else:
             records.append({"date":row.get("date",""),"season":row.get("season",""),
                 "home_team":row.get("home_team",""),"away_team":row.get("away_team",""),
                 "result":result,"bet_on":None,"prob_model":None,"odd":None,"value":None,"won":None,
                 "stake_flat":0,"pl_flat":0,"bankroll_flat":round(bankroll_flat,2),
-                "stake_kelly":0,"pl_kelly":0,"bankroll_kelly":round(bankroll_kelly,2)})
+                "stake_kelly":0,"pl_kelly":0,"bankroll_kelly":round(bankroll_kelly,2),
+                "rps":round(rps_val,4),"log_loss":round(ll_val,4),"clv":None})
     return pd.DataFrame(records), max_dd_flat, max_dd_kelly
 
 
@@ -176,6 +213,16 @@ def print_summary(df_bt, max_dd_flat, max_dd_kelly):
         s=bets[(bets["value"]>=lo)&(bets["value"]<hi)]
         if len(s)>0: print(f"   [{lo:.2f}-{hi:.2f}): {len(s):3d} | HR={s['won'].mean():.1%}")
     print(f"\n📌 MIN_VALUE={MIN_VALUE} | MIN_PROB={MIN_PROB} | KELLY={KELLY_FRACTION}")
+
+    # Métricas probabilísticas globais
+    if "rps" in df_bt.columns:
+        print(f"\n📊 Métricas probabilísticas (todos os {len(df_bt)} jogos):")
+        print(f"   RPS médio:  {df_bt['rps'].mean():.4f}  (↓ menor = melhor)")
+        print(f"   Log-Loss:   {df_bt['log_loss'].mean():.4f}")
+        if "clv" in df_bt.columns and df_bt["clv"].notna().any():
+            clv_bets = df_bt[df_bt["clv"].notna()]
+            print(f"   CLV médio (apostas): {clv_bets['clv'].mean():+.4f}  "
+                  f"({'edge positivo ✓' if clv_bets['clv'].mean() > 0 else 'sem edge ✗'})")
 
 
 def main():

@@ -3,7 +3,9 @@ pandas
 numpy
 scikit-learn
 xgboost
+catboost
 lightgbm
+optuna
 beautifulsoup4
 selenium
 lxml
@@ -13,3 +15,6 @@ seaborn
 joblib
 python-dotenv
 cloudscraper
+scipy
+torch
+undetected-chromedriver

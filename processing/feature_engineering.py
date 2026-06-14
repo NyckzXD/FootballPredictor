@@ -2,10 +2,12 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from collections import defaultdict, deque
+from typing import Optional
 
 DATA_PATH          = r"C:\PREDICTOR\REPO\scraping\data\raw\matches_final.csv"
 OUTPUT_PATH        = r"C:\PREDICTOR\REPO\scraping\data\processed\features.csv"
 MARKET_VALUES_PATH = r"C:\PREDICTOR\REPO\scraping\data\external\market_values.csv"
+XG_PATH            = r"C:\PREDICTOR\REPO\scraping\data\external\xg_data.csv"
 
 # Times que disputam Libertadores por temporada
 LIBERTADORES_BY_SEASON = {
@@ -91,6 +93,13 @@ class IncrementalState:
         # chave sempre ordenada para economizar memória
         self.h2h: dict[tuple, dict] = defaultdict(lambda: {"hw": 0, "aw": 0, "d": 0})
 
+        # ── Última data de jogo por time (para calcular dias de descanso) ─────
+        self.last_game_date: dict[str, Optional[pd.Timestamp]] = {}
+
+        # ── xG rolling por time (atualizado externamente se disponível) ───────
+        # team → deque de dicts {xg, xga}
+        self.xg_form: dict[str, deque] = defaultdict(lambda: deque(maxlen=n_form))
+
     def _table_key(self, t1, t2):
         return (min(t1, t2), max(t1, t2))
 
@@ -169,6 +178,38 @@ class IncrementalState:
             "away_f": np.mean(away_pts) if away_pts else np.mean(pts_l),
         }
 
+    def get_days_rest(self, team: str, current_date: pd.Timestamp) -> int:
+        """Dias desde o último jogo. Padrão 7 se for o primeiro jogo."""
+        last = self.last_game_date.get(team)
+        if last is None:
+            return 7
+        return max(0, (current_date - last).days)
+
+    def get_pressure(self, team: str, season: int) -> dict:
+        """
+        Métricas de pressão situacional:
+        - relegation_gap: distância à zona de rebaixamento (pos - 17), positivo = seguro
+        - g6_gap: distância ao G6 (6 - pos), positivo = dentro do G6
+        - g4_gap: distância ao G4 (4 - pos), positivo = dentro do G4
+        """
+        ranked = self._rank_table(season)
+        pos = ranked.get(team, 10)
+        return {
+            "relegation_gap": pos - 17,   # negativo = dentro da zona
+            "g6_gap":         6   - pos,  # positivo = dentro do G6
+            "g4_gap":         4   - pos,  # positivo = dentro do G4
+        }
+
+    def get_xg_stats(self, team: str, n: int) -> dict:
+        """xG médio dos últimos n jogos. Retorna zeros se não disponível."""
+        games = list(self.xg_form[team])[-n:]
+        if not games:
+            return {"xg": 0.0, "xga": 0.0}
+        return {
+            "xg":  float(np.mean([g["xg"]  for g in games])),
+            "xga": float(np.mean([g["xga"] for g in games])),
+        }
+
     def get_h2h(self, home: str, away: str) -> dict:
         key = self._table_key(home, away)
         h   = self.h2h[key]
@@ -180,8 +221,20 @@ class IncrementalState:
 
     # ── Atualização após cada jogo ────────────────────────────────────────────
     def update(self, home: str, away: str, hg: int, ag: int,
-               season: int, matchday) -> None:
+               season: int, matchday,
+               date: pd.Timestamp = None,
+               home_xg: float = None, away_xg: float = None) -> None:
         """Atualiza todos os estados — chamado depois de ler as features do jogo."""
+
+        # Última data de jogo
+        if date is not None:
+            self.last_game_date[home] = date
+            self.last_game_date[away] = date
+
+        # xG rolling (se disponível)
+        if home_xg is not None:
+            self.xg_form[home].append({"xg": home_xg, "xga": away_xg or 0.0})
+            self.xg_form[away].append({"xg": away_xg or 0.0, "xga": home_xg})
 
         # Tabela
         t = self.table[season]
@@ -219,12 +272,29 @@ class IncrementalState:
 # BUILD FEATURES — loop principal O(n) em vez de O(n²)
 # ──────────────────────────────────────────────────────────────────────────────
 
+def _load_xg_lookup(path: str) -> dict:
+    """Carrega mapa (date, home_team, away_team) → (home_xg, away_xg) do arquivo xG."""
+    xg_path = Path(path)
+    if not xg_path.exists():
+        print("   ℹ️  xg_data.csv não encontrado — features de xG desativadas")
+        return {}
+    xg_df = pd.read_csv(xg_path)
+    xg_df["date"] = pd.to_datetime(xg_df["date"]).dt.date
+    lookup = {}
+    for _, r in xg_df.iterrows():
+        key = (str(r["date"]), r["home_team"], r["away_team"])
+        lookup[key] = (float(r.get("home_xg", 0)), float(r.get("away_xg", 0)))
+    print(f"   ✅ xG carregados: {len(lookup)} partidas")
+    return lookup
+
+
 def build_features(df: pd.DataFrame) -> pd.DataFrame:
     df = df[df["status"] == "FINISHED"].copy()
     df["date"] = pd.to_datetime(df["date"])
     df = df.sort_values("date").reset_index(drop=True)
 
     elo_history = build_elo_ratings(df)
+    xg_lookup   = _load_xg_lookup(XG_PATH)
 
     mv = pd.read_csv(MARKET_VALUES_PATH)[
         ["team", "market_value_log", "market_value_norm", "squad_size"]
@@ -249,6 +319,11 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
         hg       = int(row["home_goals"])
         ag       = int(row["away_goals"])
         matchday = row.get("matchday")
+        date_ts  = row["date"]
+
+        # xG desta partida (se disponível)
+        xg_key = (str(date_ts.date()), home, away)
+        home_xg, away_xg = xg_lookup.get(xg_key, (None, None))
 
         # ── Ler features ANTES de atualizar o estado ──────────────────────────
         hs   = state.get_team_stats(home, 5)
@@ -261,6 +336,18 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
 
         h_trend = state.get_position_trend(home, season, n_rounds=5)
         a_trend = state.get_position_trend(away, season, n_rounds=5)
+
+        # Dias de descanso
+        h_rest = state.get_days_rest(home, date_ts)
+        a_rest = state.get_days_rest(away, date_ts)
+
+        # Pressão situacional
+        h_press = state.get_pressure(home, season)
+        a_press = state.get_pressure(away, season)
+
+        # xG rolling (se disponível)
+        h_xg = state.get_xg_stats(home, 5)
+        a_xg = state.get_xg_stats(away, 5)
 
         h2h = state.get_h2h(home, away)
         h2h_hw    = h2h["hw"]
@@ -343,10 +430,29 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
             # Equilíbrio (detecção de empates)
             "aprov_equilibrio":   aprov_equilibrio,
             "h2h_draw_dominance": h2h_draw_dominance,
+            # Dias de descanso
+            "home_days_rest": h_rest,
+            "away_days_rest": a_rest,
+            "rest_diff":      h_rest - a_rest,
+            # Pressão situacional (Brasileirão: 20 times, 4 rebaixados, G6=Libertadores)
+            "home_relegation_gap": h_press["relegation_gap"],
+            "away_relegation_gap": a_press["relegation_gap"],
+            "home_g6_gap":         h_press["g6_gap"],
+            "away_g6_gap":         a_press["g6_gap"],
+            "home_g4_gap":         h_press["g4_gap"],
+            "away_g4_gap":         a_press["g4_gap"],
+            # xG rolling (0.0 se dados não disponíveis)
+            "home_avg_xg":  h_xg["xg"],
+            "away_avg_xg":  a_xg["xg"],
+            "home_avg_xga": h_xg["xga"],
+            "away_avg_xga": a_xg["xga"],
+            "xg_diff":      h_xg["xg"]  - a_xg["xg"],
+            "xga_diff":     h_xg["xga"] - a_xg["xga"],
         })
 
         # ── Atualizar estado DEPOIS de salvar as features ─────────────────────
-        state.update(home, away, hg, ag, season, matchday)
+        state.update(home, away, hg, ag, season, matchday,
+                     date=date_ts, home_xg=home_xg, away_xg=away_xg)
 
     print(f"   {total}/{total} (100%) ✓              ")
     return pd.DataFrame(rows)

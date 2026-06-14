@@ -86,6 +86,31 @@ def merge():
     odds["prob_d_mkt"] = odds["p_d"] / tot
     odds["prob_a_mkt"] = odds["p_a"] / tot
 
+    # Over/Under 2.5 histórico (BRA.csv usa colunas BbOU, BbAv>2.5, BbAv<2.5 ou similares)
+    def best_ou_odds(row):
+        """Extrai odds over/under 2.5 das colunas disponíveis no BRA.csv."""
+        for over_col, under_col in [
+            ("PSC>2.5", "PSC<2.5"),
+            ("BbAv>2.5", "BbAv<2.5"),
+            ("Avg>2.5", "Avg<2.5"),
+            (">2.5", "<2.5"),
+        ]:
+            if over_col in row.index and pd.notna(row.get(over_col)) and row[over_col] > 1.0:
+                return float(row[over_col]), float(row[under_col])
+        return np.nan, np.nan
+
+    odds[["odd_over25", "odd_under25"]] = odds.apply(
+        lambda r: pd.Series(best_ou_odds(r)), axis=1
+    )
+
+    # Probabilidades over/under normalizadas
+    ou_valid = odds["odd_over25"].notna()
+    odds.loc[ou_valid, "p_over"]  = 1.0 / odds.loc[ou_valid, "odd_over25"]
+    odds.loc[ou_valid, "p_under"] = 1.0 / odds.loc[ou_valid, "odd_under25"]
+    tot_ou = odds["p_over"] + odds["p_under"]
+    odds["prob_over25"]  = odds["p_over"]  / tot_ou
+    odds["prob_under25"] = odds["p_under"] / tot_ou
+
     # Features derivadas das odds
     odds["odds_draw_factor"]     = odds["odd_d"] / ((odds["odd_h"] + odds["odd_a"]) / 2)
     odds["odds_home_away_ratio"] = odds["odd_h"] / odds["odd_a"]
@@ -94,12 +119,21 @@ def merge():
         odds["prob_d_mkt"] * np.log(odds["prob_d_mkt"] + 1e-9) +
         odds["prob_a_mkt"] * np.log(odds["prob_a_mkt"] + 1e-9)
     )
+    # Implied total goals a partir das odds over/under
+    # Aproximação: E[gols] ≈ ln(odd_under25) / 0.4  (calibrado empiricamente)
+    odds["implied_total_goals"] = np.where(
+        ou_valid,
+        np.log(odds["odd_under25"].clip(lower=1.01)) / 0.4,
+        np.nan
+    )
 
     odds_clean = odds[[
         "season", "home_team", "away_team",
         "odd_h", "odd_d", "odd_a",
         "prob_h_mkt", "prob_d_mkt", "prob_a_mkt",
         "odds_draw_factor", "odds_home_away_ratio", "market_entropy",
+        "odd_over25", "odd_under25", "prob_over25", "prob_under25",
+        "implied_total_goals",
     ]].dropna(subset=["home_team", "away_team"]).copy()
 
     odds_clean["season"] = odds_clean["season"].astype(int)
@@ -145,7 +179,9 @@ def merge():
     merged.to_csv(OUTPUT_PATH, index=False)
     print(f"\n✅ Salvo em {OUTPUT_PATH}")
     print(f"   Shape: {merged.shape}")
-    print(f"   Colunas odds adicionadas: odd_h, odd_d, odd_a, prob_h_mkt, prob_d_mkt, prob_a_mkt, odds_draw_factor, odds_home_away_ratio, market_entropy")
+    ou_matched = merged["prob_over25"].notna().sum()
+    print(f"   Jogos com over/under 2.5: {ou_matched} ({ou_matched/len(merged):.1%})")
+    print(f"   Colunas adicionadas: odd_h/d/a, prob_h/d/a_mkt, draw_factor, entropy, over/under 2.5, implied_total_goals")
 
 
 if __name__ == "__main__":
