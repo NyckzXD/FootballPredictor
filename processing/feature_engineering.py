@@ -17,8 +17,8 @@ LIBERTADORES_BY_SEASON = {
     2026: {"CR Flamengo", "Fluminense FC", "CA Mineiro", "São Paulo FC", "SC Internacional"},
 }
 
-K_HISTORICAL = 32
-K_CURRENT    = 48
+K_HISTORICAL = 24   # temporadas antigas decaem mais devagar
+K_CURRENT    = 64   # temporada em curso reage mais rápido a cada resultado
 SEASON_REF   = 2026
 
 
@@ -37,14 +37,26 @@ def update_elo_dynamic(ra, rb, score_a, season):
     k = K_CURRENT if season == SEASON_REF else K_HISTORICAL
     return update_elo(ra, rb, score_a, k=k)
 
+ELO_SEASON_REGRESSION = 0.35  # puxa 35% em direção a 1500 no início de cada temporada
+
 def build_elo_ratings(df):
-    """Calcula ELO de forma incremental — O(n) em vez de O(n²)."""
+    """Calcula ELO de forma incremental com regressão à média entre temporadas."""
     ratings     = {}
     elo_history = {}
+    current_season = None
     for _, row in df.iterrows():
-        home, away = row["home_team"], row["away_team"]
+        home, away   = row["home_team"], row["away_team"]
+        season       = int(row["season"])
+
+        # Regressão à média no início de cada nova temporada
+        if season != current_season:
+            current_season = season
+            for team in list(ratings.keys()):
+                ratings[team] = ratings[team] + ELO_SEASON_REGRESSION * (1500 - ratings[team])
+
         if home not in ratings: ratings[home] = 1500
         if away not in ratings: ratings[away] = 1500
+
         elo_history[row["match_id"]] = {
             "home_elo": ratings[home],
             "away_elo": ratings[away],
@@ -53,7 +65,7 @@ def build_elo_ratings(df):
         elif row["home_goals"] == row["away_goals"]: score = 0.5
         else:                                         score = 0.0
         ratings[home], ratings[away] = update_elo_dynamic(
-            ratings[home], ratings[away], score, season=int(row["season"])
+            ratings[home], ratings[away], score, season=season
         )
     return elo_history
 

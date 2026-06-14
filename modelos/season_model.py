@@ -56,7 +56,7 @@ TEAM_MAP_ODDS = {
 def expected_score(ra, rb):
     return 1.0 / (1.0 + 10.0 ** ((rb - ra) / 400.0))
 
-def update_elo_scalar(ra, rb, result, k=32):
+def update_elo_scalar(ra, rb, result, k=56):
     ea = expected_score(ra, rb)
     if result == "H":   sa, sb = 1.0, 0.0
     elif result == "A": sa, sb = 0.0, 1.0
@@ -477,13 +477,18 @@ def main():
     ]
 
     # Elo inicial sobre histórico
+    ELO_REGRESSION = 0.35
     elo_ratings = {t: 1500.0 for t in teams}
+    last_season = None
     for h, a, hg, ag in history_tuples:
         if h not in elo_ratings: elo_ratings[h] = 1500.0
         if a not in elo_ratings: elo_ratings[a] = 1500.0
         res = "H" if hg > ag else ("A" if ag > hg else "D")
         elo_ratings[h], elo_ratings[a] = update_elo_scalar(
             elo_ratings[h], elo_ratings[a], res)
+    # Regressão à média antes de iniciar a temporada 2026
+    for t in elo_ratings:
+        elo_ratings[t] = elo_ratings[t] + ELO_REGRESSION * (1500 - elo_ratings[t])
 
     # Construir TeamHistory pré-populado (cópia barata depois)
     hist_init = TeamHistory(maxlen=10)
