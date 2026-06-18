@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 import os
 os.environ["PYTHONWARNINGS"] = "ignore"
 from collections import deque
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, as_completed
 import multiprocessing as mp
 
 MODEL_PATH         = r"C:\PREDICTOR\REPO\modelos\match_model.pkl"
@@ -295,7 +295,13 @@ def _run_sim(sim_id):
         ph  = np.interp(raw_h, iso_x, iso_h)
         pd_ = np.interp(raw_d, iso_x, iso_d)
         pa  = np.interp(raw_a, iso_x, iso_a)
-        tot = ph + pd_ + pa; ph /= tot; pd_ /= tot; pa /= tot
+        tot = ph + pd_ + pa
+        tot = np.where(tot < 1e-9, 1.0, tot)
+        ph /= tot; pd_ /= tot; pa /= tot
+        # Garantir sem NaN antes do meta-learner
+        ph  = np.nan_to_num(ph,  nan=0.45)
+        pd_ = np.nan_to_num(pd_, nan=0.25)
+        pa  = np.nan_to_num(pa,  nan=0.30)
 
         # Meta-learner stacking
         meta = meta_clf.predict_proba(np.column_stack([ph, pd_, pa]))
@@ -512,14 +518,30 @@ def main():
     print(f"\nRodando {N_SIMS:,} simulações ({N_JOBS} workers — loky)...")
     t0 = time.time()
 
-    chunk = max(1, N_SIMS // (N_JOBS * 4))
+    results = [None] * N_SIMS
+    done    = 0
+    report  = max(1, N_SIMS // 40)   # imprime a cada 2.5%
+
     with ProcessPoolExecutor(max_workers=N_JOBS,
                              initializer=_worker_init,
                              initargs=(ctx,)) as pool:
-        results = list(pool.map(_run_sim, range(N_SIMS), chunksize=chunk))
+        futs = {pool.submit(_run_sim, i): i for i in range(N_SIMS)}
+        for fut in as_completed(futs):
+            results[futs[fut]] = fut.result()
+            done += 1
+            if done % report == 0 or done == N_SIMS:
+                elapsed_so_far = time.time() - t0
+                rate  = done / elapsed_so_far
+                eta_s = (N_SIMS - done) / rate if rate > 0 else 0
+                pct   = done / N_SIMS * 100
+                bar   = int(pct / 5)
+                print(f"\r   [{'█'*bar}{'░'*(20-bar)}] {done:>6,}/{N_SIMS:,} "
+                      f"({pct:5.1f}%)  {rate:.0f} sim/s  ETA {eta_s/60:.1f}min  ",
+                      end="", flush=True)
 
     elapsed = time.time() - t0
-    print(f"   Concluído em {elapsed/60:.1f} min ({elapsed/N_SIMS:.3f}s/sim)")
+    print(f"\r   Concluído: {N_SIMS:,} sims em {elapsed/60:.1f} min "
+          f"({N_SIMS/elapsed:.0f} sim/s)                    ")
 
     # ── Agregar ──
     print("\nAgregando resultados...")
