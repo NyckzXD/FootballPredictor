@@ -1,3 +1,4 @@
+streamlit
 requests
 pandas
 numpy
@@ -5,16 +6,8 @@ scikit-learn
 xgboost
 catboost
 lightgbm
-optuna
-beautifulsoup4
-selenium
-lxml
-tqdm
+joblib
+scipy
 matplotlib
 seaborn
-joblib
 python-dotenv
-cloudscraper
-scipy
-torch
-undetected-chromedriver
