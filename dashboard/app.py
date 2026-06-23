@@ -384,7 +384,7 @@ with tab1:
         with c1:
             st.metric("🥇 Favorito ao Título", top["time"], f"{top['titulo_pct']:.1f}%")
         with c2:
-            rebaixa = df_sim[df_sim["rebaixamento_pct"] > 50].iloc[0] if len(df_sim[df_sim["rebaixamento_pct"] > 50]) > 0 else df_sim.iloc[-1]
+            rebaixa = df_sim.loc[df_sim["rebaixamento_pct"].idxmax()]
             st.metric("⬇️ Maior risco rebaixamento", rebaixa["time"], f"{rebaixa['rebaixamento_pct']:.1f}%")
         with c3:
             st.metric("🏟️ Times simulados", len(df_sim))
