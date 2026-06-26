@@ -1146,8 +1146,16 @@ with tab5:
                 f"</div>"
                 f"<span style='font-family:JetBrains Mono,monospace;font-size:13px;font-weight:600;"
                 f"color:#f0f4f8;width:72px;text-align:right;'>€{mv_row['market_value']:.1f}M</span>"
-                f"<span style='font-family:JetBrains Mono,monospace;font-size:11px;color:#3d4d5e;"
-                f"width:46px;text-align:right;'>{int(mv_row.get('squad_size', 0))} jog</span>"
+                f"<span style='display:flex;align-items:center;justify-content:flex-end;gap:4px;"
+                f"width:52px;color:#3d4d5e;'>"
+                f"<svg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' "
+                f"stroke='#3d4d5e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'>"
+                f"<circle cx='12' cy='8' r='4'/>"
+                f"<path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/>"
+                f"</svg>"
+                f"<span style='font-family:JetBrains Mono,monospace;font-size:11px;'>"
+                f"{int(mv_row.get('squad_size', 0))}</span>"
+                f"</span>"
                 f"</div>",
                 unsafe_allow_html=True,
             )
