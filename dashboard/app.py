@@ -8,7 +8,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-BASE          = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE          = r"C:\PREDICTOR\REPO"
 SCRAPING      = os.path.join(BASE, "scraping")
 DATA_RAW      = os.path.join(SCRAPING, "data", "raw")
 DATA_PROC     = os.path.join(SCRAPING, "data", "processed")
@@ -30,6 +30,58 @@ ODDS_LIVE_PATH     = os.path.join(DATA_EXT,  "odds_live.csv")
 BACKTESTING_PATH   = os.path.join(DATA_EXT,  "backtesting_results.csv")
 
 # ── Config ────────────────────────────────────────────────────────────────────
+import base64
+
+def _img_to_b64(path):
+    try:
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except Exception:
+        return None
+
+# Logo/favicon paths — resolve relative to this file for portability
+_HERE       = os.path.dirname(os.path.abspath(__file__))
+LOGO_PATH   = os.path.join(_HERE, "predictor_logo.png")
+_logo_b64   = _img_to_b64(LOGO_PATH)
+_favicon_b64 = _logo_b64  # same image
+
+# Team logo URLs (Transfermarkt CDN — reliable, no auth required)
+TEAM_LOGOS = {
+    "SE Palmeiras":               "https://tmssl.akamaized.net/images/wappen/head/1023.png",
+    "CR Flamengo":                "https://tmssl.akamaized.net/images/wappen/head/614.png",
+    "São Paulo FC":               "https://tmssl.akamaized.net/images/wappen/head/585.png",
+    "SC Corinthians Paulista":    "https://tmssl.akamaized.net/images/wappen/head/199.png",
+    "CA Mineiro":                 "https://tmssl.akamaized.net/images/wappen/head/330.png",
+    "Fluminense FC":              "https://tmssl.akamaized.net/images/wappen/head/2462.png",
+    "Botafogo FR":                "https://tmssl.akamaized.net/images/wappen/head/537.png",
+    "CA Paranaense":              "https://tmssl.akamaized.net/images/wappen/head/679.png",
+    "Grêmio FBPA":                "https://tmssl.akamaized.net/images/wappen/head/210.png",
+    "SC Internacional":           "https://tmssl.akamaized.net/images/wappen/head/6600.png",
+    "CR Vasco da Gama":           "https://tmssl.akamaized.net/images/wappen/head/978.png",
+    "Cruzeiro EC":                "https://tmssl.akamaized.net/images/wappen/head/609.png",
+    "Santos FC":                  "https://tmssl.akamaized.net/images/wappen/head/221.png",
+    "RB Bragantino":              "https://tmssl.akamaized.net/images/wappen/head/8793.png",
+    "EC Bahia":                   "https://tmssl.akamaized.net/images/wappen/head/10010.png",
+    "Mirassol FC":                "https://tmssl.akamaized.net/images/wappen/head/3876.png",
+    "Clube do Remo":              "https://tmssl.akamaized.net/images/wappen/head/10997.png",
+    "EC Vitória":                 "https://tmssl.akamaized.net/images/wappen/head/2125.png",
+    "Chapecoense AF":             "https://tmssl.akamaized.net/images/wappen/head/17776.png",
+    "Coritiba FBC":               "https://tmssl.akamaized.net/images/wappen/head/776.png",
+    # Atletico Mineiro alternate key
+    "Atlético Mineiro":           "https://tmssl.akamaized.net/images/wappen/head/330.png",
+}
+
+def team_logo_html(team_name, size=24):
+    url = TEAM_LOGOS.get(team_name, "")
+    if not url:
+        return ""
+    return (
+        f'<img src="{url}" width="{size}" height="{size}" '
+        f'style="object-fit:contain;border-radius:3px;vertical-align:middle;'
+        f'margin-right:8px;" '
+        f'onerror="this.style.display=\'none\'" />'
+    )
+
 st.set_page_config(
     page_title="PREDICTOR — Brasileirão 2026",
     page_icon="⚽",
@@ -212,6 +264,12 @@ hr { border-color: var(--border) !important; }
 </style>
 """, unsafe_allow_html=True)
 
+# ── Favicon & Logo dinâmicos ──────────────────────────────────────────────────
+if _favicon_b64:
+    st.markdown(
+        '<link rel="shortcut icon" href="data:image/jpeg;base64,' + _favicon_b64 + '" />',
+        unsafe_allow_html=True,
+    )
 
 # ── Loaders ───────────────────────────────────────────────────────────────────
 @st.cache_resource
@@ -351,17 +409,26 @@ def predict_match(home, away, features_df, model_data,
 
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.markdown("""
-<div style='padding: 24px 0 8px 0;'>
-  <span style='font-family:Bebas Neue,sans-serif;font-size:42px;letter-spacing:4px;'>
-    ⚽ PREDICTOR
-  </span>
-  <span style='font-family:JetBrains Mono,monospace;font-size:13px;color:#8b949e;
-               margin-left:16px;background:#1c2333;padding:4px 10px;border-radius:5px;'>
-    BRASILEIRÃO 2026 · v3.0
-  </span>
-</div>
-""", unsafe_allow_html=True)
+_logo_tag = (
+    '<img src="data:image/jpeg;base64,' + _logo_b64 + '" '
+    'width="52" height="52" style="object-fit:contain;vertical-align:middle;'
+    'margin-right:14px;border-radius:8px;" />'
+) if _logo_b64 else ""
+
+st.markdown(
+    "<div style='padding: 24px 0 8px 0;display:flex;align-items:center;'>"
+    + _logo_tag +
+    "<div>"
+    "<span style='font-family:Bebas Neue,sans-serif;font-size:42px;letter-spacing:4px;'>"
+    "PREDICTOR"
+    "</span>"
+    "<span style='font-family:JetBrains Mono,monospace;font-size:13px;color:#8b949e;"
+    "margin-left:16px;background:#1c2333;padding:4px 10px;border-radius:5px;'>"
+    "BRASILEIRÃO 2026 · v3.0"
+    "</span>"
+    "</div></div>",
+    unsafe_allow_html=True,
+)
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "🏆 Simulação", "🎯 Prever Partida", "📊 Value Bets",
@@ -384,7 +451,7 @@ with tab1:
         with c1:
             st.metric("🥇 Favorito ao Título", top["time"], f"{top['titulo_pct']:.1f}%")
         with c2:
-            rebaixa = df_sim.loc[df_sim["rebaixamento_pct"].idxmax()]
+            rebaixa = df_sim[df_sim["rebaixamento_pct"] > 50].iloc[0] if len(df_sim[df_sim["rebaixamento_pct"] > 50]) > 0 else df_sim.iloc[-1]
             st.metric("⬇️ Maior risco rebaixamento", rebaixa["time"], f"{rebaixa['rebaixamento_pct']:.1f}%")
         with c3:
             st.metric("🏟️ Times simulados", len(df_sim))
@@ -395,32 +462,35 @@ with tab1:
 
         for i, row in df_sim.reset_index(drop=True).iterrows():
             pos = i + 1
-            if pos <= 5:    pos_class, pos_color = "pos-liberta", "#2979ff"
-            elif pos <= 11: pos_class, pos_color = "pos-sul",     "#ffd600"
-            elif pos <= 16: pos_class, pos_color = "pos-normal",  "#8b949e"
+            if pos <= 6:    pos_class, pos_color = "pos-liberta", "#2979ff"
+            elif pos <= 12: pos_class, pos_color = "pos-sul",     "#ffd600"
+            elif pos <= 17: pos_class, pos_color = "pos-normal",  "#8b949e"
             else:           pos_class, pos_color = "pos-rebaixa", "#ff1744"
 
             titulo_bar  = min(row["titulo_pct"] * 2, 100)
             liberta_bar = min(row["libertadores_pct"], 100)
             rebaixa_bar = min(row["rebaixamento_pct"], 100)
 
-            st.markdown(f"""
-            <div class='standings-row'>
-              <span class='pos-badge {pos_class}'>{pos}</span>
-              <span style='flex:1;font-weight:600;font-size:15px;'>{row['time']}</span>
-              <span class='mono' style='width:60px;text-align:right;color:#e6edf3;'>{row['pts_esperados']:.1f} pts</span>
-              <div style='width:200px;margin-left:20px;'>
-                <div style='display:flex;justify-content:space-between;font-size:10px;color:#8b949e;margin-bottom:2px;'>
-                  <span>🏆 {row['titulo_pct']:.1f}%</span>
-                  <span>🌎 {row['libertadores_pct']:.1f}%</span>
-                  <span>⬇️ {row['rebaixamento_pct']:.1f}%</span>
-                </div>
-                <div class='prob-bar-wrap'>
-                  <div class='prob-bar' style='width:{liberta_bar}%;background:{pos_color};'></div>
-                </div>
-              </div>
-            </div>
-            """, unsafe_allow_html=True)
+            logo_html = team_logo_html(row["time"], size=28)
+            st.markdown(
+                "<div class='standings-row'>"
+                "<span class='pos-badge " + pos_class + "'>" + str(pos) + "</span>"
+                + logo_html +
+                "<span style='flex:1;font-weight:600;font-size:15px;'>" + row["time"] + "</span>"
+                "<span class='mono' style='width:60px;text-align:right;color:#e6edf3;'>" + f"{row['pts_esperados']:.1f}" + " pts</span>"
+                "<div style='width:200px;margin-left:20px;'>"
+                "<div style='display:flex;justify-content:space-between;font-size:10px;color:#8b949e;margin-bottom:2px;'>"
+                "<span>🏆 " + f"{row['titulo_pct']:.1f}" + "%</span>"
+                "<span>🌎 " + f"{row['libertadores_pct']:.1f}" + "%</span>"
+                "<span>⬇️ " + f"{row['rebaixamento_pct']:.1f}" + "%</span>"
+                "</div>"
+                "<div class='prob-bar-wrap'>"
+                "<div class='prob-bar' style='width:" + str(int(liberta_bar)) + "%;background:" + pos_color + ";'></div>"
+                "</div>"
+                "</div>"
+                "</div>",
+                unsafe_allow_html=True,
+            )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -761,6 +831,35 @@ with tab5:
         )
         st.plotly_chart(fig, use_container_width=True)
 
+        # ── Tabela com logos ──────────────────────────────────────────────────
+        st.markdown("#### Ranking detalhado")
+        max_val = df_mv["market_value"].max()
+
+        for rank_i, (_, mv_row) in enumerate(df_mv.iterrows(), start=1):
+            logo_h = team_logo_html(mv_row["team"], size=26)
+            bar_w  = int(mv_row["market_value"] / max_val * 100)
+            bar_color = "#2979ff" if rank_i <= 6 else "#ffd600" if rank_i <= 12 else "#8b949e"
+
+            st.markdown(
+                "<div style='display:flex;align-items:center;padding:8px 14px;"
+                "background:#0d1117;border:1px solid #1c2333;border-radius:8px;margin-bottom:4px;gap:10px;'>"
+                "<span style='font-family:Bebas Neue,sans-serif;font-size:16px;color:#8b949e;width:26px;text-align:center;'>"
+                + str(rank_i) + "</span>"
+                + logo_h +
+                "<span style='flex:1;font-weight:600;font-size:14px;'>" + mv_row["team"] + "</span>"
+                "<div style='width:160px;'>"
+                "<div style='background:#1c2333;border-radius:3px;height:5px;overflow:hidden;'>"
+                "<div style='width:" + str(bar_w) + "%;height:100%;background:" + bar_color + ";border-radius:3px;'></div>"
+                "</div>"
+                "</div>"
+                "<span style='font-family:JetBrains Mono,monospace;font-size:13px;font-weight:600;"
+                "color:#e6edf3;width:70px;text-align:right;'>€" + f"{mv_row['market_value']:.1f}" + "M</span>"
+                "<span style='font-family:JetBrains Mono,monospace;font-size:11px;color:#8b949e;"
+                "width:50px;text-align:right;'>" + str(int(mv_row.get("squad_size", 0))) + " jog</span>"
+                "</div>",
+                unsafe_allow_html=True,
+            )
+
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
@@ -768,7 +867,7 @@ st.markdown("""
             font-family:JetBrains Mono,monospace;font-size:12px;color:#8b949e;'>
   © 2026 PREDICTOR · Todos os direitos reservados · Desenvolvido por <b style='color:#e6edf3;'>Nycolas F. Oliveira</b>
   <br><span style='font-size:10px;color:#555577;margin-top:4px;display:block;'>
-    Modelo LightGBM · Acurácia 62.17% · Monte Carlo 10.000 simulações
+    Modelo LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
   </span>
 </div>
 """, unsafe_allow_html=True)
