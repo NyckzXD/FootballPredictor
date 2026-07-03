@@ -126,7 +126,7 @@ st.markdown("""
     --orange:      #FF8C00;
 }
 
-html, body, [class*="css"], .stApp {
+html, body, [class*="css"] {
     background-color: var(--bg) !important;
     color: var(--text) !important;
     font-family: 'General Sans', sans-serif !important;
@@ -370,8 +370,7 @@ div[data-testid="stMetricDelta"] {
     font-family: 'General Sans', sans-serif !important;
 }
 
-/* ── Custom metric card ── */
-.kpi-card {
+.metric-card {
     background: var(--card);
     border: 1px solid var(--border-lo);
     border-radius: 16px;
@@ -404,7 +403,9 @@ div[data-testid="stMetricDelta"] {
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
 }
 .kpi-value {
     font-family: 'General Sans', sans-serif;
@@ -420,7 +421,6 @@ div[data-testid="stMetricDelta"] {
     margin-top: 4px;
 }
 
-/* ── Value bet card ── */
 .vbet-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -558,8 +558,6 @@ div[data-testid="stMetricDelta"] {
     color: var(--orange);
     border-color: rgba(255,140,0,0.35);
 }
-
-/* ── Prob bar ── */
 .prob-bar-wrap {
     background: #E8E8E8;
     border-radius: 6px;
@@ -591,15 +589,11 @@ div[data-testid="stMetricDelta"] {
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 10px 14px;
-    min-width: 90px;
-}
-.info-pill .label {
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--muted);
+    border-radius: 8px;
     margin-bottom: 4px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    font-size: 14px;
 }
 .info-pill .value {
     font-family: 'General Sans', sans-serif;
@@ -608,6 +602,10 @@ div[data-testid="stMetricDelta"] {
     color: var(--text);
     line-height: 1;
 }
+.pos-liberta  { color: var(--blue); }
+.pos-sul      { color: var(--yellow); }
+.pos-rebaixa  { color: var(--red); }
+.pos-normal   { color: var(--muted); }
 
 /* ── Mono util ── */
 .mono { font-family: 'General Sans', sans-serif; font-size: 13px; }
@@ -619,6 +617,10 @@ div[data-testid="stMetricDelta"] {
     font-size: 18px;
     letter-spacing: 0.3px;
     color: var(--text);
+}
+div[data-testid="stMetricValue"] {
+    font-family: 'Bebas Neue', sans-serif !important;
+    font-size: 28px !important;
 }
 
 /* ── Button (CBF style) ── */
@@ -643,15 +645,12 @@ div[data-testid="stMetricDelta"] {
 }
 .stButton > button:active { transform: translateY(0) !important; }
 
-/* ── Inputs ── */
-.stSelectbox > div > div,
-.stMultiSelect > div > div {
+.stSelectbox > div, .stMultiSelect > div {
     background: var(--card) !important;
     border-color: var(--border) !important;
     border-radius: 6px !important;
     color: var(--text) !important;
 }
-.stNumberInput > div > div { background: var(--card) !important; }
 
 /* ── Expander ── */
 .streamlit-expanderHeader {
@@ -901,6 +900,7 @@ with tab1:
     if df_sim.empty:
         st.warning("Rode o season_simulator.py para gerar a simulação.")
     else:
+        c1, c2, c3, c4 = st.columns(4)
         top = df_sim.iloc[0]
         rebaixa = df_sim.sort_values("rebaixamento_pct", ascending=False).iloc[0]
 
@@ -1011,10 +1011,10 @@ with tab2:
 
     col1, col2 = st.columns(2)
     with col1:
-        home = st.selectbox("Mandante", all_teams, key="pred_home")
+        home = st.selectbox("🏠 Mandante", all_teams, key="pred_home")
     with col2:
         away_opts = [t for t in all_teams if t != home]
-        away = st.selectbox("Visitante", away_opts, key="pred_away")
+        away = st.selectbox("✈️ Visitante", away_opts, key="pred_away")
 
     # Matchup header
     home_logo = team_logo_html(home, size=36)
@@ -1044,7 +1044,7 @@ with tab2:
         with oc3: oa = st.number_input("Odd Visitante",min_value=1.01, value=3.50, step=0.05)
         use_odds = st.checkbox("Usar odds na predição", value=False)
 
-    if st.button("PREVER PARTIDA", use_container_width=True):
+    if st.button("⚡ PREVER", use_container_width=True):
         result = predict_match(
             home, away, features_df, model_data,
             odd_h=oh if use_odds else None,
@@ -1061,14 +1061,9 @@ with tab2:
 
             st.markdown("<br>", unsafe_allow_html=True)
             m1, m2, m3 = st.columns(3)
-            with m1: st.metric(f"{home}", f"{ph:.1%}")
-            with m2: st.metric("Empate", f"{pd_:.1%}")
-            with m3: st.metric(f"{away}", f"{pa:.1%}")
-
-            # Confidence bar widths
-            bar_h = int(ph * 100)
-            bar_d = int(pd_ * 100)
-            bar_a = int(pa * 100)
+            with m1: st.metric(f"🏠 {home}", f"{ph:.1%}")
+            with m2: st.metric("🤝 Empate", f"{pd_:.1%}")
+            with m3: st.metric(f"✈️ {away}", f"{pa:.1%}")
 
             st.markdown(f"""
             <div style="background:#FFFFFF;border:1px solid #E0E0E0;border-left:4px solid {pred_color};
@@ -1134,9 +1129,9 @@ with tab3:
 
     col_btn1, col_btn2, col_space = st.columns([1, 1, 4])
     with col_btn1:
-        refresh = st.button("Atualizar Odds", use_container_width=True)
+        refresh = st.button("🔄 Atualizar Odds", use_container_width=True)
     with col_btn2:
-        recalc  = st.button("Recalcular Value", use_container_width=True)
+        recalc  = st.button("⚡ Recalcular Value", use_container_width=True)
 
     if refresh or recalc:
         try:
@@ -1147,23 +1142,25 @@ with tab3:
                     fetch_odds()
                 df_vb = run_value_bets()
             st.cache_data.clear()
-            st.success(f"{len(df_vb)} value bets encontrados!")
+            st.success(f"✅ {len(df_vb)} value bets encontrados!")
         except Exception as e:
             st.error(f"Erro: {e}")
 
+    # Carregar value bets salvos
     try:
         df_vb = pd.read_csv(VALUE_BETS_PATH)
     except:
         df_vb = pd.DataFrame()
 
     if df_vb.empty:
-        st.info("Nenhum value bet disponível. Clique em Atualizar Odds para buscar.")
+        st.info("Nenhum value bet disponível. Clique em **Atualizar Odds** para buscar.")
     else:
+        # Métricas resumo
         m1, m2, m3, m4 = st.columns(4)
-        with m1: st.metric("Value Bets", len(df_vb))
-        with m2: st.metric("Edge Médio", f"+{df_vb['edge_pct'].mean():.1f}%")
-        with m3: st.metric("Melhor Edge", f"+{df_vb['edge_pct'].max():.1f}%")
-        with m4: st.metric("Kelly Médio", f"{df_vb['kelly_pct'].mean():.2f}%")
+        with m1: st.metric("🎯 Value Bets", len(df_vb))
+        with m2: st.metric("📊 Edge Médio", f"+{df_vb['edge_pct'].mean():.1f}%")
+        with m3: st.metric("💎 Melhor Edge", f"+{df_vb['edge_pct'].max():.1f}%")
+        with m4: st.metric("🏦 Kelly Médio", f"{df_vb['kelly_pct'].mean():.2f}%")
 
         st.markdown("<br>", unsafe_allow_html=True)
 
@@ -1173,27 +1170,25 @@ with tab3:
             elif edge >= 25: card_class, badge_class = "high", "high"
             else:            card_class, badge_class = "",      ""
 
-            stars  = "★" * min(int(edge / 15) + 1, 5)
+            stars  = "⭐" * min(int(edge / 15) + 1, 5)
             ph_w   = int(r["prob_h"] * 100)
             pd_w   = int(r["prob_d"] * 100)
             pa_w   = int(r["prob_a"] * 100)
 
-            home_team    = r["home_team"]
-            away_team    = r["away_team"]
-            aposta       = r["aposta"]
-            date_str     = r["date"]
-            time_str     = r["time_utc"]
-            odd_str      = f"{r['odd_bet365']:.2f}"
-            prob_m_str   = f"{r['prob_modelo']:.1%}"
-            prob_mkt_str = f"{r['prob_mercado']:.1%}"
-            edge_str     = f"{r['edge_pct']:.1f}"
-            kelly_str    = f"{r['kelly_pct']:.2f}"
-            ph_str       = f"{r['prob_h']:.0%}"
-            pd_str       = f"{r['prob_d']:.0%}"
-            pa_str       = f"{r['prob_a']:.0%}"
-
-            home_logo_html = team_logo_html(home_team, size=24)
-            away_logo_html = team_logo_html(away_team, size=24)
+            # Variáveis pré-formatadas para evitar conflito de aspas no HTML
+            home_team   = r["home_team"]
+            away_team   = r["away_team"]
+            aposta      = r["aposta"]
+            date_str    = r["date"]
+            time_str    = r["time_utc"]
+            odd_str     = f"{r['odd_bet365']:.2f}"
+            prob_m_str  = f"{r['prob_modelo']:.1%}"
+            prob_mkt_str= f"{r['prob_mercado']:.1%}"
+            edge_str    = f"{r['edge_pct']:.1f}"
+            kelly_str   = f"{r['kelly_pct']:.2f}"
+            ph_str      = f"{r['prob_h']:.0%}"
+            pd_str      = f"{r['prob_d']:.0%}"
+            pa_str      = f"{r['prob_a']:.0%}"
 
             html_card = (
                 f'<div class="vbet-card {card_class}">'
@@ -1260,7 +1255,8 @@ with tab3:
             )
             st.markdown(html_card, unsafe_allow_html=True)
 
-        with st.expander("Ver tabela completa"):
+        # Tabela compacta
+        with st.expander("📋 Ver tabela completa"):
             cols_show = ["date", "home_team", "away_team", "aposta",
                          "prob_modelo", "odd_bet365", "value", "edge_pct", "kelly_pct"]
             st.dataframe(
@@ -1282,20 +1278,22 @@ with tab4:
         if len(bets) == 0:
             st.warning("Nenhuma aposta no backtesting. Rode backtesting.py.")
         else:
+            # KPIs
             roi_f    = (df_bt["bankroll_flat"].iloc[-1]  - 1000) / 1000 * 100
             roi_k    = (df_bt["bankroll_kelly"].iloc[-1] - 1000) / 1000 * 100
             hit_rate = bets["won"].mean()
             yld_f    = bets["pl_flat"].sum() / bets["stake_flat"].sum() * 100
 
             k1, k2, k3, k4, k5 = st.columns(5)
-            with k1: st.metric("Total Apostas",    len(bets))
-            with k2: st.metric("Hit Rate",   f"{hit_rate:.1%}")
-            with k3: st.metric("ROI Flat",   f"{roi_f:+.1f}%")
-            with k4: st.metric("ROI Kelly",  f"{roi_k:+.1f}%")
-            with k5: st.metric("Yield",      f"{yld_f:+.1f}%")
+            with k1: st.metric("📊 Apostas",    len(bets))
+            with k2: st.metric("✅ Hit Rate",   f"{hit_rate:.1%}")
+            with k3: st.metric("💰 ROI Flat",   f"{roi_f:+.1f}%")
+            with k4: st.metric("🚀 ROI Kelly",  f"{roi_k:+.1f}%")
+            with k5: st.metric("📈 Yield",      f"{yld_f:+.1f}%")
 
             st.markdown("<br>", unsafe_allow_html=True)
 
+            # Evolução bankroll
             import plotly.graph_objects as go
             fig = go.Figure()
             fig.add_trace(go.Scatter(
@@ -1319,6 +1317,7 @@ with tab4:
             )
             st.plotly_chart(fig, use_container_width=True)
 
+            # P&L por aposta
             fig2 = go.Figure()
             colors_pl = ["#168821" if v >= 0 else "#E52E2E" for v in bets["pl_flat"]]
             fig2.add_trace(go.Bar(
@@ -1340,7 +1339,8 @@ with tab4:
             )
             st.plotly_chart(fig2, use_container_width=True)
 
-            with st.expander("Ver todas as apostas"):
+            # Tabela de apostas
+            with st.expander("📋 Ver todas as apostas"):
                 cols_bt = ["date", "home_team", "away_team", "bet_on",
                            "result", "won", "odd", "prob_model",
                            "value", "pl_flat", "bankroll_flat"]
@@ -1366,13 +1366,14 @@ with tab5:
         st.warning("market_values.csv não encontrado.")
     else:
         df_mv = df_mv.sort_values("market_value", ascending=False)
-        total    = df_mv["market_value"].sum()
+
+        total = df_mv["market_value"].sum()
         top_team = df_mv.iloc[0]
 
         c1, c2, c3 = st.columns(3)
-        with c1: st.metric("Time mais valioso", top_team["team"], f"€{top_team['market_value']:.1f}M")
-        with c2: st.metric("Total da liga", f"€{total:.1f}M")
-        with c3: st.metric("Média por time", f"€{total/len(df_mv):.1f}M")
+        with c1: st.metric("💎 Time mais valioso", top_team["team"], f"€{top_team['market_value']:.1f}M")
+        with c2: st.metric("💰 Total da liga", f"€{total:.1f}M")
+        with c3: st.metric("📊 Média por time", f"€{total/len(df_mv):.1f}M")
 
         st.markdown("<br>", unsafe_allow_html=True)
 
@@ -1391,7 +1392,6 @@ with tab5:
             xaxis=dict(color="#666666", gridcolor="#EEEEEE"),
             height=520, margin=dict(l=0, r=0, t=20, b=0),
         )
-        fig.update_traces(marker_line_width=0)
         st.plotly_chart(fig, use_container_width=True)
 
         st.markdown("<div style='font-family:General Sans,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#666666;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
