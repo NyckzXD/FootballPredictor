@@ -8,26 +8,43 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-BASE          = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SCRAPING      = os.path.join(BASE, "scraping")
-DATA_RAW      = os.path.join(SCRAPING, "data", "raw")
-DATA_PROC     = os.path.join(SCRAPING, "data", "processed")
-DATA_EXT      = os.path.join(SCRAPING, "data", "external")
-MODELOS       = os.path.join(BASE, "modelos")
+# Resolve caminhos de forma relativa — funciona no Windows (local) e no Linux (Streamlit Cloud)
+APP_DIR   = os.path.dirname(os.path.abspath(__file__))   # pasta do app.py (ex.: .../dashboard)
+REPO_ROOT = os.path.dirname(APP_DIR)                      # raiz do repositório (um nível acima)
 
-sys.path.append(SCRAPING)
-sys.path.append(MODELOS)
+# Diretórios candidatos: cobre tanto a estrutura em subpastas quanto tudo na raiz (flat)
+_SEARCH_DIRS = [
+    APP_DIR,
+    REPO_ROOT,
+    os.path.join(REPO_ROOT, "scraping", "data", "raw"),
+    os.path.join(REPO_ROOT, "scraping", "data", "processed"),
+    os.path.join(REPO_ROOT, "scraping", "data", "external"),
+    os.path.join(REPO_ROOT, "modelos"),
+]
 
-MODEL_PATH         = os.path.join(MODELOS, "match_model.pkl")
-POISSON_PATH       = os.path.join(MODELOS, "poisson_model.pkl")
-FEATURES_PATH      = os.path.join(DATA_PROC, "features_odds.csv")
-MATCHES_PATH       = os.path.join(DATA_RAW,  "matches_final.csv")
-MATCHES_CSV        = os.path.join(DATA_RAW,  "matches.csv")
-MARKET_PATH        = os.path.join(DATA_EXT,  "market_values.csv")
-SIM_PATH           = os.path.join(DATA_PROC, "simulacao_2026.csv")
-VALUE_BETS_PATH    = os.path.join(DATA_EXT,  "value_bets.csv")
-ODDS_LIVE_PATH     = os.path.join(DATA_EXT,  "odds_live.csv")
-BACKTESTING_PATH   = os.path.join(DATA_EXT,  "backtesting_results.csv")
+def _find(filename):
+    """Retorna o primeiro caminho existente para o arquivo entre os diretórios candidatos."""
+    for d in _SEARCH_DIRS:
+        p = os.path.join(d, filename)
+        if os.path.exists(p):
+            return p
+    return os.path.join(REPO_ROOT, filename)  # fallback: deixa o erro explícito se faltar
+
+# Adiciona pastas de código ao sys.path (para imports de módulos, se houver)
+for _d in (REPO_ROOT, os.path.join(REPO_ROOT, "scraping"), os.path.join(REPO_ROOT, "modelos"), APP_DIR):
+    if os.path.isdir(_d):
+        sys.path.append(_d)
+
+MODEL_PATH         = _find("match_model.pkl")
+POISSON_PATH       = _find("poisson_model.pkl")
+FEATURES_PATH      = _find("features_odds.csv")
+MATCHES_PATH       = _find("matches_final.csv")
+MATCHES_CSV        = _find("matches.csv")
+MARKET_PATH        = _find("market_values.csv")
+SIM_PATH           = _find("simulacao_2026.csv")
+VALUE_BETS_PATH    = _find("value_bets.csv")
+ODDS_LIVE_PATH     = _find("odds_live.csv")
+BACKTESTING_PATH   = _find("backtesting_results.csv")
 
 # ── Config ────────────────────────────────────────────────────────────────────
 st.set_page_config(
