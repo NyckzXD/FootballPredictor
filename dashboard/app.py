@@ -8,7 +8,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-BASE          = r"C:\PREDICTOR\REPO"
+# dashboard/app.py → up one level = repo root (works locally and on Streamlit Cloud)
+BASE          = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRAPING      = os.path.join(BASE, "scraping")
 DATA_RAW      = os.path.join(SCRAPING, "data", "raw")
 DATA_PROC     = os.path.join(SCRAPING, "data", "processed")

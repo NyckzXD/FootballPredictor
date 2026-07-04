@@ -1,6 +1,9 @@
 # Ambiente virtual Python
 venv/
 env/
+.venv/
+
+# Variáveis de ambiente
 .env
 
 # Python cache
@@ -8,8 +11,9 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.pyw
 
-# Modelos treinados (se forem muito pesados, adicione)
+# Modelos pesados (não commitados — use modelos/ que já estão no repo)
 models/*.pkl
 models/*.h5
 
@@ -20,8 +24,10 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
-models
-trainmodels
 
-#DATALEAK
-odds_scrapper.py
+# Logs e temporários
+*.log
+*.tmp
+
+# Dados sensíveis / não versionados
+scraping/odds_scrapper.py
