@@ -1,4 +1,4 @@
-# ⚽ PREDICTOR — Brasileirão Série A
+#  PREDICTOR — Brasileirão Série A
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
