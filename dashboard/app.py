@@ -622,27 +622,11 @@ st.markdown("""
                    border-radius:20px;padding:3px 12px;
                    font-family:'JetBrains Mono',monospace;font-size:10px;
                    color:#C6C7C4;letter-spacing:1px;">v3.0</span>
-      <span style="background:rgba(142,173,142,0.12);border:1px solid rgba(142,173,142,0.25);
-                   border-radius:20px;padding:3px 12px;
-                   font-family:'JetBrains Mono',monospace;font-size:10px;
-                   color:#8EAD8E;display:flex;align-items:center;gap:5px;">
-        <span style="width:6px;height:6px;border-radius:50%;
-                     background:#8EAD8E;display:inline-block;animation:pulse 2s infinite;"></span>
-        AO VIVO
-  
-    </div>    </span>
-      <span style="font-family:'Inter',sans-serif;font-size:11px;
-                   color:#25A18E;letter-spacing:1px;">⚽ Análise Esportiva</span>
+    </div>
   </div>
-  <div style="height:2px;background:linear-gradient(90deg,#25A18E 0%,#00A5CF 50%,transparent 100%);
-              opacity:0.6;margin-bottom:4px;border-radius:2px;"></div>
+  <div style="height:1px;background:linear-gradient(90deg,#846A6A 0%,#A2999E 40%,transparent 100%);
+              opacity:0.5;margin-bottom:4px;border-radius:2px;"></div>
 </div>
-<style>
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.85); }
-}
-</style>
 """, unsafe_allow_html=True)
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
