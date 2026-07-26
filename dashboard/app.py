@@ -307,9 +307,9 @@ div[data-testid="stMetricDelta"] {
     margin-right: 14px;
     flex-shrink: 0;
 }
-.pos-liberta { color: var(--silver); }
-.pos-sul     { color: var(--yellow); }
-.pos-rebaixa { color: var(--red); }
+.pos-liberta { color: #4FC3F7; }
+.pos-sul     { color: #FFB74D; }
+.pos-rebaixa { color: #EF5350; }
 .pos-normal  { color: var(--muted-lo); }
 
 /* ── Badges ── */
@@ -675,27 +675,27 @@ with tab1:
         st.markdown("""
         <div style="display:flex;gap:20px;margin:16px 0 10px 0;flex-wrap:wrap;">
           <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#A2999E;"></span> Libertadores (1–5)
+            <span class="legend-dot" style="background:#4FC3F7;"></span> Libertadores (1–5)
           </span>
           <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#8EAD8E;"></span> Fase Qualificatória (6)
+            <span class="legend-dot" style="background:#66BB6A;"></span> Fase Qualificatória (6)
           </span>
           <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#C4A882;"></span> Sul-Americana (6–11)
+            <span class="legend-dot" style="background:#FFB74D;"></span> Sul-Americana (7–11)
           </span>
           <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#B87878;"></span> Rebaixamento (17–20)
+            <span class="legend-dot" style="background:#EF5350;"></span> Rebaixamento (17–20)
           </span>
         </div>
         """, unsafe_allow_html=True)
 
         for i, row in df_sim.reset_index(drop=True).iterrows():
             pos = i + 1
-            if pos <= 4:    pos_class, pos_color, zone_bg = "pos-liberta", "#A2999E", "rgba(162,153,158,0.08)"
-            elif pos == 5:  pos_class, pos_color, zone_bg = "pos-qualify", "#8EAD8E", "rgba(142,173,142,0.07)"
-            elif pos <= 11: pos_class, pos_color, zone_bg = "pos-sul",     "#C4A882", "rgba(196,168,130,0.06)"
+            if pos <= 4:    pos_class, pos_color, zone_bg = "pos-liberta", "#4FC3F7", "rgba(79,195,247,0.07)"
+            elif pos == 5:  pos_class, pos_color, zone_bg = "pos-qualify", "#66BB6A", "rgba(102,187,106,0.08)"
+            elif pos <= 11: pos_class, pos_color, zone_bg = "pos-sul",     "#FFB74D", "rgba(255,183,77,0.07)"
             elif pos <= 16: pos_class, pos_color, zone_bg = "pos-normal",  "#484F51", "transparent"
-            else:           pos_class, pos_color, zone_bg = "pos-rebaixa", "#B87878", "rgba(184,120,120,0.07)"
+            else:           pos_class, pos_color, zone_bg = "pos-rebaixa", "#EF5350", "rgba(239,83,80,0.08)"
 
             liberta_bar = min(row["libertadores_pct"], 100)
             logo_html   = team_logo_html(row["time"], size=26)
@@ -710,9 +710,9 @@ with tab1:
                 f"<div style='width:220px;margin-left:18px;'>"
                 f"<div style='display:flex;justify-content:space-between;font-size:9px;color:#C6C7C4;"
                 f"margin-bottom:5px;font-family:JetBrains Mono,monospace;letter-spacing:0.5px;'>"
-                f"<span style='color:#A2999E;'>Título {row['titulo_pct']:.1f}%</span>"
-                f"<span style='color:#C4A882;'>Liberta {row['libertadores_pct']:.1f}%</span>"
-                f"<span style='color:#B87878;'>Reb {row['rebaixamento_pct']:.1f}%</span>"
+                f"<span style='color:#4FC3F7;'>Título {row['titulo_pct']:.1f}%</span>"
+                f"<span style='color:#FFB74D;'>Liberta {row['libertadores_pct']:.1f}%</span>"
+                f"<span style='color:#EF5350;'>Reb {row['rebaixamento_pct']:.1f}%</span>"
                 f"</div>"
                 f"<div class='prob-bar-wrap'>"
                 f"<div class='prob-bar' style='width:{int(liberta_bar)}%;background:{pos_color};opacity:0.75;'></div>"
