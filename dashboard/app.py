@@ -58,7 +58,7 @@ TEAM_LOGOS = {
 def team_logo_html(team_name, size=28):
     url = TEAM_LOGOS.get(team_name, "")
     if not url:
-        return f'<div style="width:{size}px;height:{size}px;border-radius:50%;background:#003845;margin-right:8px;flex-shrink:0;"></div>'
+        return f'<div style="width:{size}px;height:{size}px;border-radius:50%;background:#2E3435;margin-right:8px;flex-shrink:0;"></div>'
     return (
         f'<img src="{url}" width="{size}" height="{size}" '
         f'style="object-fit:contain;border-radius:4px;vertical-align:middle;'
@@ -78,32 +78,31 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-    /* ── Nova Paleta ── */
-    --dark-teal:   #004E64;
-    --teal:        #006680;
-    --turquoise:   #00A5CF;
-    --aqua:        #9FFFCB;
-    --verdigris:   #25A18E;
-    --light-green: #7AE582;
+    /* ── Paleta Principal ── */
+    --platinum:    #EEF0F2;
+    --silver:      #C6C7C4;
+    --lilac:       #A2999E;
+    --smoky-rose:  #846A6A;
+    --gunmetal:    #353B3C;
 
     /* ── Semantic ── */
-    --bg:        #002B38;
-    --surface:   #003242;
-    --card:      #004058;
-    --card-alt:  #004E64;
-    --border:    #006680;
-    --border-lo: #003848;
-    --text:      #E8FFF8;
-    --muted:     #7DCFBA;
-    --muted-lo:  #25A18E;
+    --bg:        #1E2223;
+    --surface:   #272C2D;
+    --card:      #2E3435;
+    --card-alt:  #353B3C;
+    --border:    #484F51;
+    --border-lo: #343A3B;
+    --text:      #EEF0F2;
+    --muted:     #C6C7C4;
+    --muted-lo:  #A2999E;
 
     /* ── Status ── */
-    --green:     #7AE582;
-    --green-dim: #25A18E;
-    --red:       #FF6B6B;
-    --yellow:    #FFD166;
-    --blue:      #00A5CF;
-    --orange:    #FF9A3C;
+    --green:     #8EAD8E;
+    --green-dim: #6A8F6A;
+    --red:       #B87878;
+    --yellow:    #C4A882;
+    --blue:      #8FA8B8;
+    --orange:    #C49070;
 }
 
 html, body, [class*="css"], .stApp {
@@ -115,7 +114,7 @@ html, body, [class*="css"], .stApp {
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--verdigris); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--lilac); border-radius: 3px; }
 
 /* ── Headings ── */
 h1, h2, h3, h4 {
@@ -143,7 +142,7 @@ h1, h2, h3, h4 {
     display: inline-block;
     width: 5px;
     height: 28px;
-    background: linear-gradient(to bottom, var(--turquoise), var(--verdigris));
+    background: linear-gradient(to bottom, var(--lilac), var(--smoky-rose));
     border-radius: 3px;
 }
 
@@ -169,8 +168,8 @@ h1, h2, h3, h4 {
 }
 .stTabs [aria-selected="true"] {
     background: var(--card-alt) !important;
-    color: var(--aqua) !important;
-    box-shadow: 0 0 0 1px var(--border), inset 0 1px 0 rgba(159,255,203,0.08);
+    color: var(--platinum) !important;
+    box-shadow: 0 0 0 1px var(--border), inset 0 1px 0 rgba(238,240,242,0.06);
 }
 
 /* ── Metric card (native) ── */
@@ -186,9 +185,9 @@ div[data-testid="stMetric"]::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--verdigris), var(--turquoise));
-    opacity: 0.85;
+    height: 2px;
+    background: linear-gradient(90deg, var(--smoky-rose), var(--lilac));
+    opacity: 0.8;
 }
 div[data-testid="stMetricLabel"] > div {
     font-size: 10px !important;
@@ -221,13 +220,13 @@ div[data-testid="stMetricDelta"] {
     overflow: hidden;
     transition: border-color 0.2s, transform 0.2s;
 }
-.kpi-card:hover { border-color: var(--turquoise); transform: translateY(-2px); }
+.kpi-card:hover { border-color: var(--lilac); transform: translateY(-2px); }
 .kpi-card::after {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--verdigris), var(--turquoise));
+    height: 2px;
+    background: linear-gradient(90deg, var(--smoky-rose), var(--lilac));
     opacity: 0.7;
 }
 .kpi-label {
@@ -256,7 +255,7 @@ div[data-testid="stMetricDelta"] {
 .vbet-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--verdigris);
+    border-left: 4px solid var(--lilac);
     border-radius: 14px;
     padding: 20px 22px;
     margin-bottom: 14px;
@@ -268,19 +267,19 @@ div[data-testid="stMetricDelta"] {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(37,161,142,0.06) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(162,153,158,0.06) 0%, transparent 60%);
     pointer-events: none;
 }
 .vbet-card:hover {
-    border-color: var(--turquoise);
-    border-left-color: var(--aqua);
+    border-color: var(--lilac);
+    border-left-color: var(--platinum);
     transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(0,0,0,0.4);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.45);
 }
 .vbet-card.high  { border-left-color: var(--yellow); }
-.vbet-card.high::after { background: linear-gradient(135deg, rgba(255,209,102,0.05) 0%, transparent 60%); }
+.vbet-card.high::after { background: linear-gradient(135deg, rgba(196,168,130,0.07) 0%, transparent 60%); }
 .vbet-card.top   { border-left-color: var(--orange); }
-.vbet-card.top::after { background: linear-gradient(135deg, rgba(255,154,60,0.05) 0%, transparent 60%); }
+.vbet-card.top::after { background: linear-gradient(135deg, rgba(196,144,112,0.07) 0%, transparent 60%); }
 
 /* ── Standings row ── */
 .standings-row {
@@ -308,7 +307,7 @@ div[data-testid="stMetricDelta"] {
     margin-right: 14px;
     flex-shrink: 0;
 }
-.pos-liberta { color: var(--turquoise); }
+.pos-liberta { color: var(--silver); }
 .pos-sul     { color: var(--yellow); }
 .pos-rebaixa { color: var(--red); }
 .pos-normal  { color: var(--muted-lo); }
@@ -331,20 +330,20 @@ div[data-testid="stMetricDelta"] {
     font-weight: 700;
     padding: 5px 14px;
     border-radius: 20px;
-    background: rgba(122,229,130,0.13);
-    color: var(--light-green);
-    border: 1px solid rgba(122,229,130,0.28);
+    background: rgba(142,173,142,0.15);
+    color: var(--green);
+    border: 1px solid rgba(142,173,142,0.3);
     letter-spacing: 0.5px;
 }
 .edge-badge.high {
-    background: rgba(255,209,102,0.13);
+    background: rgba(196,168,130,0.15);
     color: var(--yellow);
-    border-color: rgba(255,209,102,0.28);
+    border-color: rgba(196,168,130,0.3);
 }
 .edge-badge.top {
-    background: rgba(255,154,60,0.13);
+    background: rgba(196,144,112,0.15);
     color: var(--orange);
-    border-color: rgba(255,154,60,0.28);
+    border-color: rgba(196,144,112,0.3);
 }
 
 /* ── Prob bar ── */
@@ -393,8 +392,8 @@ div[data-testid="stMetricDelta"] {
 
 /* ── Button ── */
 .stButton > button {
-    background: var(--verdigris) !important;
-    color: #E8FFF8 !important;
+    background: var(--smoky-rose) !important;
+    color: var(--platinum) !important;
     font-family: 'Inter', sans-serif !important;
     font-weight: 700 !important;
     font-size: 13px !important;
@@ -404,12 +403,12 @@ div[data-testid="stMetricDelta"] {
     border-radius: 10px !important;
     padding: 10px 24px !important;
     transition: all 0.2s ease !important;
-    box-shadow: 0 4px 14px rgba(37,161,142,0.35) !important;
+    box-shadow: 0 4px 14px rgba(132,106,106,0.4) !important;
 }
 .stButton > button:hover {
-    background: var(--turquoise) !important;
+    background: var(--lilac) !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(0,165,207,0.45) !important;
+    box-shadow: 0 6px 20px rgba(162,153,158,0.4) !important;
 }
 .stButton > button:active { transform: translateY(0) !important; }
 
@@ -603,37 +602,37 @@ def predict_match(home, away, features_df, model_data,
 st.markdown("""
 <div style="padding:32px 0 22px 0;">
   <div style="margin-bottom:18px;">
-    <div style="display:flex;align-items:baseline;gap:14px;">
+    <div style="display:flex;align-items:baseline;gap:16px;">
       <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:56px;
                   letter-spacing:3px;line-height:1;
-                  background:linear-gradient(135deg,#9FFFCB 0%,#00A5CF 55%,#25A18E 100%);
+                  background:linear-gradient(135deg,#EEF0F2 0%,#A2999E 55%,#846A6A 100%);
                   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
                   background-clip:text;">
         PREDICTOR
       </div>
       <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:4px;">
-        <span style="font-family:'Inter',sans-serif;font-weight:600;font-size:13px;
-                     color:#9FFFCB;letter-spacing:0.5px;">Brasileirão</span>
+        <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:13px;
+                     color:#C6C7C4;letter-spacing:0.5px;">Brasileirão</span>
         <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;
-                     color:#00A5CF;letter-spacing:1px;line-height:1;">2026</span>
+                     color:#A2999E;letter-spacing:1px;line-height:1;">2026</span>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
-      <span style="background:#003242;border:1px solid #006680;
+      <span style="background:#2E3435;border:1px solid #484F51;
                    border-radius:20px;padding:3px 12px;
                    font-family:'JetBrains Mono',monospace;font-size:10px;
-                   color:#7DCFBA;letter-spacing:1px;">v3.0</span>
-      <span style="background:rgba(122,229,130,0.12);border:1px solid rgba(122,229,130,0.25);
+                   color:#C6C7C4;letter-spacing:1px;">v3.0</span>
+      <span style="background:rgba(142,173,142,0.12);border:1px solid rgba(142,173,142,0.25);
                    border-radius:20px;padding:3px 12px;
                    font-family:'JetBrains Mono',monospace;font-size:10px;
-                   color:#7AE582;display:flex;align-items:center;gap:5px;">
+                   color:#8EAD8E;display:flex;align-items:center;gap:5px;">
         <span style="width:6px;height:6px;border-radius:50%;
-                     background:#7AE582;display:inline-block;animation:pulse 2s infinite;"></span>
+                     background:#8EAD8E;display:inline-block;animation:pulse 2s infinite;"></span>
         AO VIVO
-      </span>
+  
+    </div>    </span>
       <span style="font-family:'Inter',sans-serif;font-size:11px;
                    color:#25A18E;letter-spacing:1px;">⚽ Análise Esportiva</span>
-    </div>
   </div>
   <div style="height:2px;background:linear-gradient(90deg,#25A18E 0%,#00A5CF 50%,transparent 100%);
               opacity:0.6;margin-bottom:4px;border-radius:2px;"></div>
@@ -675,28 +674,28 @@ with tab1:
         # Legend
         st.markdown("""
         <div style="display:flex;gap:20px;margin:16px 0 10px 0;flex-wrap:wrap;">
-          <span style="font-size:11px;color:#7DCFBA;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#00A5CF;"></span> Libertadores (1–5)
+          <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
+            <span class="legend-dot" style="background:#A2999E;"></span> Libertadores (1–5)
           </span>
-          <span style="font-size:11px;color:#7DCFBA;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#7AE582;"></span> Fase Qualificatória (6)
+          <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
+            <span class="legend-dot" style="background:#8EAD8E;"></span> Fase Qualificatória (6)
           </span>
-          <span style="font-size:11px;color:#7DCFBA;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#FFD166;"></span> Sul-Americana (6–11)
+          <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
+            <span class="legend-dot" style="background:#C4A882;"></span> Sul-Americana (6–11)
           </span>
-          <span style="font-size:11px;color:#7DCFBA;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#FF6B6B;"></span> Rebaixamento (17–20)
+          <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
+            <span class="legend-dot" style="background:#B87878;"></span> Rebaixamento (17–20)
           </span>
         </div>
         """, unsafe_allow_html=True)
 
         for i, row in df_sim.reset_index(drop=True).iterrows():
             pos = i + 1
-            if pos <= 4:    pos_class, pos_color, zone_bg = "pos-liberta", "#00A5CF", "rgba(0,165,207,0.07)"
-            elif pos == 5:  pos_class, pos_color, zone_bg = "pos-qualify", "#7AE582", "rgba(122,229,130,0.06)"
-            elif pos <= 11: pos_class, pos_color, zone_bg = "pos-sul",     "#FFD166", "rgba(255,209,102,0.05)"
-            elif pos <= 16: pos_class, pos_color, zone_bg = "pos-normal",  "#25A18E", "transparent"
-            else:           pos_class, pos_color, zone_bg = "pos-rebaixa", "#FF6B6B", "rgba(255,107,107,0.06)"
+            if pos <= 4:    pos_class, pos_color, zone_bg = "pos-liberta", "#A2999E", "rgba(162,153,158,0.08)"
+            elif pos == 5:  pos_class, pos_color, zone_bg = "pos-qualify", "#8EAD8E", "rgba(142,173,142,0.07)"
+            elif pos <= 11: pos_class, pos_color, zone_bg = "pos-sul",     "#C4A882", "rgba(196,168,130,0.06)"
+            elif pos <= 16: pos_class, pos_color, zone_bg = "pos-normal",  "#484F51", "transparent"
+            else:           pos_class, pos_color, zone_bg = "pos-rebaixa", "#B87878", "rgba(184,120,120,0.07)"
 
             liberta_bar = min(row["libertadores_pct"], 100)
             logo_html   = team_logo_html(row["time"], size=26)
@@ -706,14 +705,14 @@ with tab1:
                 f"<span class='pos-badge {pos_class}'>{pos}</span>"
                 + logo_html +
                 f"<span style='flex:1;font-weight:600;font-size:14px;letter-spacing:0.3px;'>{row['time']}</span>"
-                f"<span class='mono' style='width:72px;text-align:right;color:#E8FFF8;font-size:13px;'>"
-                f"{row['pts_esperados']:.1f} <span style='color:#25A18E;font-size:10px;'>pts</span></span>"
+                f"<span class='mono' style='width:72px;text-align:right;color:#EEF0F2;font-size:13px;'>"
+                f"{row['pts_esperados']:.1f} <span style='color:#A2999E;font-size:10px;'>pts</span></span>"
                 f"<div style='width:220px;margin-left:18px;'>"
-                f"<div style='display:flex;justify-content:space-between;font-size:9px;color:#7DCFBA;"
+                f"<div style='display:flex;justify-content:space-between;font-size:9px;color:#C6C7C4;"
                 f"margin-bottom:5px;font-family:JetBrains Mono,monospace;letter-spacing:0.5px;'>"
-                f"<span style='color:#00A5CF;'>Título {row['titulo_pct']:.1f}%</span>"
-                f"<span style='color:#FFD166;'>Liberta {row['libertadores_pct']:.1f}%</span>"
-                f"<span style='color:#FF6B6B;'>Reb {row['rebaixamento_pct']:.1f}%</span>"
+                f"<span style='color:#A2999E;'>Título {row['titulo_pct']:.1f}%</span>"
+                f"<span style='color:#C4A882;'>Liberta {row['libertadores_pct']:.1f}%</span>"
+                f"<span style='color:#B87878;'>Reb {row['rebaixamento_pct']:.1f}%</span>"
                 f"</div>"
                 f"<div class='prob-bar-wrap'>"
                 f"<div class='prob-bar' style='width:{int(liberta_bar)}%;background:{pos_color};opacity:0.75;'></div>"
@@ -747,7 +746,7 @@ with tab2:
         f"<div style='display:flex;align-items:center;justify-content:center;gap:20px;"
         f"padding:20px;background:var(--card);border:1px solid var(--border);border-radius:14px;"
         f"margin:14px 0;position:relative;overflow:hidden;'>"
-        f"<div style='position:absolute;inset:0;background:linear-gradient(135deg,rgba(37,161,142,0.08) 0%,transparent 60%);pointer-events:none;'></div>"
+        f"<div style='position:absolute;inset:0;background:linear-gradient(135deg,rgba(162,153,158,0.07) 0%,transparent 60%);pointer-events:none;'></div>"
         f"<div style='display:flex;align-items:center;gap:10px;'>"
         + home_logo +
         f"<span style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:24px;letter-spacing:0.5px;'>{home}</span>"
@@ -780,7 +779,7 @@ with tab2:
             outcomes   = {"H": ph, "D": pd_, "A": pa}
             pred       = max(outcomes, key=outcomes.get)
             pred_label = {"H": f"{home} vence", "D": "Empate", "A": f"{away} vence"}[pred]
-            pred_color = {"H": "#00A5CF", "D": "#FFD166", "A": "#7AE582"}[pred]
+            pred_color = {"H": "#A2999E", "D": "#C4A882", "A": "#8EAD8E"}[pred]
             conf       = outcomes[pred]
 
             st.markdown("<br>", unsafe_allow_html=True)
@@ -797,7 +796,7 @@ with tab2:
             st.markdown(f"""
             <div style="background:var(--card);border:1px solid var(--border);border-left:4px solid {pred_color};
                         border-radius:14px;padding:24px 28px;margin-top:18px;">
-              <div style="font-size:9px;font-weight:700;color:#7DCFBA;
+              <div style="font-size:9px;font-weight:700;color:#C6C7C4;
                           letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;">
                 Previsão do Modelo
               </div>
@@ -806,21 +805,21 @@ with tab2:
                 {pred_label}
               </div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:12px;
-                          color:#7DCFBA;margin-top:6px;">
+                          color:#C6C7C4;margin-top:6px;">
                 Confiança: <span style="color:{pred_color};font-weight:600;">{conf:.1%}</span>
               </div>
               <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px;">
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#7DCFBA;width:72px;font-family:JetBrains Mono,monospace;">MAN {ph:.0%}</span>
-                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_h}%;background:#00A5CF;"></div></div>
+                  <span style="font-size:10px;color:#C6C7C4;width:72px;font-family:JetBrains Mono,monospace;">MAN {ph:.0%}</span>
+                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_h}%;background:#A2999E;"></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#7DCFBA;width:72px;font-family:JetBrains Mono,monospace;">EMP {pd_:.0%}</span>
-                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_d}%;background:#FFD166;"></div></div>
+                  <span style="font-size:10px;color:#C6C7C4;width:72px;font-family:JetBrains Mono,monospace;">EMP {pd_:.0%}</span>
+                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_d}%;background:#C4A882;"></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#7DCFBA;width:72px;font-family:JetBrains Mono,monospace;">VIS {pa:.0%}</span>
-                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_a}%;background:#7AE582;"></div></div>
+                  <span style="font-size:10px;color:#C6C7C4;width:72px;font-family:JetBrains Mono,monospace;">VIS {pa:.0%}</span>
+                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_a}%;background:#8EAD8E;"></div></div>
                 </div>
               </div>
             </div>
@@ -828,19 +827,19 @@ with tab2:
 
             if use_odds:
                 st.markdown("<br>", unsafe_allow_html=True)
-                st.markdown("<div style='font-size:10px;font-weight:700;color:#7DCFBA;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;'>Value vs odds inseridas</div>", unsafe_allow_html=True)
+                st.markdown("<div style='font-size:10px;font-weight:700;color:#C6C7C4;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;'>Value vs odds inseridas</div>", unsafe_allow_html=True)
                 for outcome, odd, label in [("H", oh, home), ("D", od, "Empate"), ("A", oa, away)]:
                     prob  = outcomes[outcome]
                     value = prob * odd
                     edge  = (value - 1) * 100
                     is_value = value >= 1.05
-                    color = "#7AE582" if is_value else "#25A18E"
+                    color = "#8EAD8E" if is_value else "#A2999E"
                     st.markdown(f"""
                     <div style="display:flex;justify-content:space-between;align-items:center;
-                                background:var(--surface);border:1px solid {'rgba(122,229,130,0.28)' if is_value else 'var(--border)'};
+                                background:var(--surface);border:1px solid {'rgba(142,173,142,0.3)' if is_value else 'var(--border)'};
                                 border-radius:10px;padding:12px 18px;margin-bottom:6px;">
                       <span style="font-weight:600;font-size:14px;">{label}</span>
-                      <span class="mono" style="color:#7DCFBA;">odd {odd:.2f}</span>
+                      <span class="mono" style="color:#C6C7C4;">odd {odd:.2f}</span>
                       <span style="color:{color};font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;">
                         {value:.3f} <span style="font-size:11px;">({edge:+.1f}%)</span>
                       </span>
@@ -934,13 +933,13 @@ with tab3:
                 f'<span class="team-name">{away_team}</span>'
                 '</div>'
                 '</div>'
-                f'<span class="mono" style="color:#25A18E;font-size:11px;">{date_str} · {time_str} UTC</span>'
+                f'<span class="mono" style="color:#A2999E;font-size:11px;">{date_str} · {time_str} UTC</span>'
                 '</div>'
                 # ── Stats row
                 '<div style="display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-bottom:16px;">'
                 '<div class="info-pill">'
                 '<div class="label">Apostar</div>'
-                f'<div class="value" style="font-size:14px;font-family:Inter,sans-serif;font-weight:700;color:#E8FFF8;">{aposta}</div>'
+                f'<div class="value" style="font-size:14px;font-family:Inter,sans-serif;font-weight:700;color:#EEF0F2;">{aposta}</div>'
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Odd Pinnacle</div>'
@@ -948,36 +947,36 @@ with tab3:
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Prob Modelo</div>'
-                f'<div class="value" style="color:#7AE582;">{prob_m_str}</div>'
+                f'<div class="value" style="color:#8EAD8E;">{prob_m_str}</div>'
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Prob Mercado</div>'
-                f'<div class="value" style="color:#7DCFBA;">{prob_mkt_str}</div>'
+                f'<div class="value" style="color:#C6C7C4;">{prob_mkt_str}</div>'
                 '</div>'
                 '<div style="display:flex;flex-direction:column;justify-content:center;gap:8px;margin-left:auto;">'
                 f'<span class="edge-badge {badge_class}">EDGE +{edge_str}% {stars}</span>'
-                f'<span style="font-size:11px;color:#7DCFBA;font-family:JetBrains Mono,monospace;">'
-                f'Kelly: <b style="color:#E8FFF8;">{kelly_str}%</b></span>'
+                f'<span style="font-size:11px;color:#C6C7C4;font-family:JetBrains Mono,monospace;">'
+                f'Kelly: <b style="color:#EEF0F2;">{kelly_str}%</b></span>'
                 '</div>'
                 '</div>'
                 # ── Prob distribution
                 '<div style="border-top:1px solid var(--border-lo);padding-top:12px;">'
-                '<div style="font-size:9px;font-weight:700;color:#7DCFBA;letter-spacing:1.5px;'
+                '<div style="font-size:9px;font-weight:700;color:#C6C7C4;letter-spacing:1.5px;'
                 'text-transform:uppercase;margin-bottom:8px;">Distribuição do Modelo</div>'
                 '<div style="display:flex;gap:8px;align-items:center;">'
-                '<span style="font-size:10px;color:#7DCFBA;width:28px;font-family:JetBrains Mono,monospace;">MAN</span>'
-                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{ph_w}%;background:#00A5CF;"></div></div>'
-                f'<span class="mono" style="font-size:11px;width:36px;color:#7DCFBA;">{ph_str}</span>'
+                '<span style="font-size:10px;color:#C6C7C4;width:28px;font-family:JetBrains Mono,monospace;">MAN</span>'
+                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{ph_w}%;background:#A2999E;"></div></div>'
+                f'<span class="mono" style="font-size:11px;width:36px;color:#C6C7C4;">{ph_str}</span>'
                 '</div>'
                 '<div style="display:flex;gap:8px;align-items:center;margin-top:5px;">'
-                '<span style="font-size:10px;color:#7DCFBA;width:28px;font-family:JetBrains Mono,monospace;">EMP</span>'
-                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pd_w}%;background:#FFD166;"></div></div>'
-                f'<span class="mono" style="font-size:11px;width:36px;color:#7DCFBA;">{pd_str}</span>'
+                '<span style="font-size:10px;color:#C6C7C4;width:28px;font-family:JetBrains Mono,monospace;">EMP</span>'
+                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pd_w}%;background:#C4A882;"></div></div>'
+                f'<span class="mono" style="font-size:11px;width:36px;color:#C6C7C4;">{pd_str}</span>'
                 '</div>'
                 '<div style="display:flex;gap:8px;align-items:center;margin-top:5px;">'
-                '<span style="font-size:10px;color:#7DCFBA;width:28px;font-family:JetBrains Mono,monospace;">VIS</span>'
-                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pa_w}%;background:#7AE582;"></div></div>'
-                f'<span class="mono" style="font-size:11px;width:36px;color:#7DCFBA;">{pa_str}</span>'
+                '<span style="font-size:10px;color:#C6C7C4;width:28px;font-family:JetBrains Mono,monospace;">VIS</span>'
+                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pa_w}%;background:#8EAD8E;"></div></div>'
+                f'<span class="mono" style="font-size:11px;width:36px;color:#C6C7C4;">{pa_str}</span>'
                 '</div>'
                 '</div>'
                 '</div>'
@@ -1024,41 +1023,41 @@ with tab4:
             fig = go.Figure()
             fig.add_trace(go.Scatter(
                 y=df_bt["bankroll_flat"], mode="lines",
-                name="Flat (2%)", line=dict(color="#00A5CF", width=2.5)))
+                name="Flat (2%)", line=dict(color="#A2999E", width=2.5)))
             fig.add_trace(go.Scatter(
                 y=df_bt["bankroll_kelly"], mode="lines",
-                name="Kelly (25%)", line=dict(color="#7AE582", width=2.5)))
+                name="Kelly (25%)", line=dict(color="#8EAD8E", width=2.5)))
             fig.add_hline(y=1000, line_dash="dash",
-                          line_color="#006680", annotation_text="Bankroll inicial",
-                          annotation_font_color="#7DCFBA")
+                          line_color="#484F51", annotation_text="Bankroll inicial",
+                          annotation_font_color="#C6C7C4")
             fig.update_layout(
-                paper_bgcolor="#002B38", plot_bgcolor="#003242",
-                font=dict(color="#E8FFF8", family="Inter"),
-                title=dict(text="Evolução do Bankroll", font=dict(family="Barlow Condensed", size=22, color="#E8FFF8")),
-                legend=dict(bgcolor="#003242", bordercolor="#006680", font=dict(size=12)),
-                xaxis=dict(gridcolor="#003848", color="#7DCFBA", showline=False),
-                yaxis=dict(gridcolor="#003848", color="#7DCFBA", showline=False),
+                paper_bgcolor="#1E2223", plot_bgcolor="#272C2D",
+                font=dict(color="#EEF0F2", family="Inter"),
+                title=dict(text="Evolução do Bankroll", font=dict(family="Barlow Condensed", size=22, color="#EEF0F2")),
+                legend=dict(bgcolor="#272C2D", bordercolor="#484F51", font=dict(size=12)),
+                xaxis=dict(gridcolor="#343A3B", color="#C6C7C4", showline=False),
+                yaxis=dict(gridcolor="#343A3B", color="#C6C7C4", showline=False),
                 height=360, margin=dict(l=0, r=0, t=44, b=0),
                 hovermode="x unified",
             )
             st.plotly_chart(fig, use_container_width=True)
 
             fig2 = go.Figure()
-            colors_pl = ["#7AE582" if v >= 0 else "#FF6B6B" for v in bets["pl_flat"]]
+            colors_pl = ["#8EAD8E" if v >= 0 else "#B87878" for v in bets["pl_flat"]]
             fig2.add_trace(go.Bar(
                 y=bets["pl_flat"], marker_color=colors_pl,
                 name="P&L por aposta", opacity=0.8, marker_line_width=0))
             fig2.add_trace(go.Scatter(
                 y=bets["pl_flat"].cumsum(), mode="lines",
-                name="P&L acumulado", line=dict(color="#9FFFCB", width=2.5)))
-            fig2.add_hline(y=0, line_dash="dash", line_color="#006680")
+                name="P&L acumulado", line=dict(color="#EEF0F2", width=2)))
+            fig2.add_hline(y=0, line_dash="dash", line_color="#484F51")
             fig2.update_layout(
-                paper_bgcolor="#002B38", plot_bgcolor="#003242",
-                font=dict(color="#E8FFF8", family="Inter"),
-                title=dict(text="P&L por Aposta (Flat)", font=dict(family="Barlow Condensed", size=22, color="#E8FFF8")),
-                legend=dict(bgcolor="#003242", bordercolor="#006680", font=dict(size=12)),
-                xaxis=dict(gridcolor="#003848", color="#7DCFBA", showline=False),
-                yaxis=dict(gridcolor="#003848", color="#7DCFBA", showline=False),
+                paper_bgcolor="#1E2223", plot_bgcolor="#272C2D",
+                font=dict(color="#EEF0F2", family="Inter"),
+                title=dict(text="P&L por Aposta (Flat)", font=dict(family="Barlow Condensed", size=22, color="#EEF0F2")),
+                legend=dict(bgcolor="#272C2D", bordercolor="#484F51", font=dict(size=12)),
+                xaxis=dict(gridcolor="#343A3B", color="#C6C7C4", showline=False),
+                yaxis=dict(gridcolor="#343A3B", color="#C6C7C4", showline=False),
                 height=300, margin=dict(l=0, r=0, t=44, b=0),
                 hovermode="x unified",
             )
@@ -1104,33 +1103,33 @@ with tab5:
         fig = px.bar(
             df_mv.head(20), x="market_value", y="team",
             orientation="h", color="market_value",
-            color_continuous_scale=["#003242", "#25A18E", "#00A5CF", "#9FFFCB"],
+            color_continuous_scale=["#272C2D", "#846A6A", "#A2999E", "#EEF0F2"],
             labels={"market_value": "Valor (€M)", "team": ""},
         )
         fig.update_layout(
-            paper_bgcolor="#002B38", plot_bgcolor="#003242",
-            font=dict(color="#E8FFF8", family="Inter"),
+            paper_bgcolor="#1E2223", plot_bgcolor="#272C2D",
+            font=dict(color="#EEF0F2", family="Inter"),
             coloraxis_showscale=False,
-            yaxis=dict(autorange="reversed", color="#7DCFBA", gridcolor="#003848"),
-            xaxis=dict(color="#7DCFBA", gridcolor="#003848"),
+            yaxis=dict(autorange="reversed", color="#C6C7C4", gridcolor="#343A3B"),
+            xaxis=dict(color="#C6C7C4", gridcolor="#343A3B"),
             height=520, margin=dict(l=0, r=0, t=20, b=0),
         )
         fig.update_traces(marker_line_width=0)
         st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown("<div style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#7DCFBA;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#C6C7C4;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
         max_val = df_mv["market_value"].max()
 
         for rank_i, (_, mv_row) in enumerate(df_mv.iterrows(), start=1):
             logo_h    = team_logo_html(mv_row["team"], size=26)
             bar_w     = int(mv_row["market_value"] / max_val * 100)
-            bar_color = "#00A5CF" if rank_i <= 6 else "#25A18E" if rank_i <= 12 else "#004E64"
+            bar_color = "#A2999E" if rank_i <= 6 else "#846A6A" if rank_i <= 12 else "#484F51"
 
             st.markdown(
                 f"<div style='display:flex;align-items:center;padding:10px 16px;"
                 f"background:var(--card);border:1px solid var(--border-lo);border-radius:10px;"
                 f"margin-bottom:4px;gap:10px;transition:all 0.15s;'>"
-                f"<span style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:16px;color:#25A18E;"
+                f"<span style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:16px;color:#A2999E;"
                 f"width:24px;text-align:center;flex-shrink:0;'>{rank_i}</span>"
                 + logo_h +
                 f"<span style='flex:1;font-weight:600;font-size:14px;'>{mv_row['team']}</span>"
@@ -1140,15 +1139,15 @@ with tab5:
                 f"</div>"
                 f"</div>"
                 f"<span style='font-family:JetBrains Mono,monospace;font-size:13px;font-weight:600;"
-                f"color:#E8FFF8;width:72px;text-align:right;'>€{mv_row['market_value']:.1f}M</span>"
+                f"color:#EEF0F2;width:72px;text-align:right;'>€{mv_row['market_value']:.1f}M</span>"
                 f"<span style='display:flex;align-items:center;justify-content:flex-end;gap:4px;"
-                f"width:52px;color:#25A18E;'>"
+                f"width:52px;color:#A2999E;'>"
                 f"<svg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' "
-                f"stroke='#25A18E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'>"
+                f"stroke='#A2999E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'>"
                 f"<circle cx='12' cy='8' r='4'/>"
                 f"<path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/>"
                 f"</svg>"
-                f"<span style='font-family:JetBrains Mono,monospace;font-size:11px;color:#7DCFBA;'>"
+                f"<span style='font-family:JetBrains Mono,monospace;font-size:11px;color:#C6C7C4;'>"
                 f"{int(mv_row.get('squad_size', 0))}</span>"
                 f"</span>"
                 f"</div>",
@@ -1159,16 +1158,16 @@ with tab5:
 st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
 <div style="text-align:center;padding:24px 0;
-            border-top:1px solid #003848;">
-  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#25A18E;
+            border-top:1px solid #343A3B;">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A2999E;
               letter-spacing:1px;">
     © 2026 PREDICTOR
-    <span style="margin:0 10px;color:#006680;">·</span>
+    <span style="margin:0 10px;color:#484F51;">·</span>
     Todos os direitos reservados
-    <span style="margin:0 10px;color:#006680;">·</span>
-    Desenvolvido por <span style="color:#7DCFBA;">Nycolas F. Oliveira</span>
+    <span style="margin:0 10px;color:#484F51;">·</span>
+    Desenvolvido por <span style="color:#C6C7C4;">Nycolas F. Oliveira</span>
   </div>
-  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#006680;
+  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#484F51;
               margin-top:6px;letter-spacing:1px;">
     LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
   </div>
