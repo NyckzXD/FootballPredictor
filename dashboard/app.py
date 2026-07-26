@@ -58,7 +58,7 @@ TEAM_LOGOS = {
 def team_logo_html(team_name, size=28):
     url = TEAM_LOGOS.get(team_name, "")
     if not url:
-        return f'<div style="width:{size}px;height:{size}px;border-radius:50%;background:#2E3435;margin-right:8px;flex-shrink:0;"></div>'
+        return f'<div style="width:{size}px;height:{size}px;border-radius:50%;background:#E0E0E0;margin-right:8px;flex-shrink:0;"></div>'
     return (
         f'<img src="{url}" width="{size}" height="{size}" '
         f'style="object-fit:contain;border-radius:4px;vertical-align:middle;'
@@ -75,137 +75,258 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-    /* ── Paleta Principal ── */
-    --platinum:    #EEF0F2;
-    --silver:      #C6C7C4;
-    --lilac:       #A2999E;
-    --smoky-rose:  #846A6A;
-    --gunmetal:    #353B3C;
+    /* ── Paleta CBF ── */
+    --cbf-blue:       #1351B4;
+    --cbf-blue-dark:  #071D41;
+    --cbf-blue-hover: #1A5FCC;
+    --cbf-yellow:     #FFCD00;
+    --cbf-yellow-lt:  #FFF5CC;
+    --cbf-green:      #168821;
+    --cbf-green-lt:   #E4F7E8;
 
     /* ── Semantic ── */
-    --bg:        #1E2223;
-    --surface:   #272C2D;
-    --card:      #2E3435;
-    --card-alt:  #353B3C;
-    --border:    #484F51;
-    --border-lo: #343A3B;
-    --text:      #EEF0F2;
-    --muted:     #C6C7C4;
-    --muted-lo:  #A2999E;
+    --bg:          #FFFFFF;
+    --surface:     #F5F5F5;
+    --card:        #FFFFFF;
+    --card-alt:    #FAFAFA;
+    --border:      #E0E0E0;
+    --border-lo:   #EEEEEE;
+    --text:        #333333;
+    --text-light:  #FFFFFF;
+    --muted:       #666666;
+    --muted-lo:    #999999;
 
     /* ── Status ── */
-    --green:     #8EAD8E;
-    --green-dim: #6A8F6A;
-    --red:       #B87878;
-    --yellow:    #C4A882;
-    --blue:      #8FA8B8;
-    --orange:    #C49070;
+    --green:       #168821;
+    --green-dim:   #2E7D32;
+    --red:         #E52E2E;
+    --yellow:      #FFCD00;
+    --blue:        #1351B4;
+    --orange:      #FF8C00;
 }
 
 html, body, [class*="css"], .stApp {
     background-color: var(--bg) !important;
     color: var(--text) !important;
-    font-family: 'Inter', sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+/* ── Hide default Streamlit header ── */
+header[data-testid="stHeader"] {
+    background: var(--cbf-blue) !important;
 }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--lilac); border-radius: 3px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #F0F0F0; }
+::-webkit-scrollbar-thumb { background: var(--cbf-blue); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cbf-blue-dark); }
 
 /* ── Headings ── */
 h1, h2, h3, h4 {
-    font-family: 'Barlow Condensed', sans-serif !important;
-    letter-spacing: 1.5px;
+    font-family: 'Open Sans', sans-serif !important;
+    letter-spacing: 0.5px;
     color: var(--text) !important;
 }
 
-/* ── Section title ── */
+/* ── Section title (CBF style) ── */
 .section-title {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--text);
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 22px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.section-title::before {
-    content: '';
-    display: inline-block;
-    width: 5px;
-    height: 28px;
-    background: linear-gradient(to bottom, var(--lilac), var(--smoky-rose));
-    border-radius: 3px;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--cbf-blue-dark);
+    padding-bottom: 14px;
+    border-bottom: 3px solid var(--cbf-yellow);
+    margin-bottom: 24px;
+    text-transform: uppercase;
 }
 
-/* ── Tabs ── */
+/* ── CBF Header ── */
+.cbf-header {
+    background: var(--cbf-blue);
+    margin: -1rem -4rem 0 -4rem;
+    padding: 0 4rem;
+    position: relative;
+    z-index: 100;
+}
+.cbf-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.cbf-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.cbf-logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.cbf-nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+.cbf-nav-item {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.2s;
+}
+.cbf-nav-item:hover { color: #FFFFFF; }
+.cbf-nav-item.active {
+    color: var(--cbf-yellow);
+    border-bottom: 2px solid var(--cbf-yellow);
+    padding-bottom: 2px;
+}
+
+/* ── CBF Sub-header ── */
+.cbf-subheader {
+    background: var(--cbf-blue-dark);
+    margin: 0 -4rem;
+    padding: 0 4rem;
+}
+.cbf-subheader-inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 10px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.cbf-sub-item {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    padding: 6px 0;
+    transition: color 0.2s;
+}
+.cbf-sub-item:hover { color: #FFFFFF; }
+
+/* ── Page title area ── */
+.cbf-page-title-area {
+    padding: 28px 0 20px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+}
+.cbf-badge {
+    display: inline-block;
+    background: var(--cbf-blue);
+    color: #FFFFFF;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.cbf-page-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 42px;
+    color: var(--cbf-blue-dark);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+/* ── Tabs (CBF sub-nav style) ── */
 .stTabs [data-baseweb="tab-list"] {
-    background: var(--surface);
-    border-radius: 12px;
-    padding: 5px 6px;
-    border: 1px solid var(--border);
-    gap: 3px;
+    background: var(--cbf-blue-dark);
+    border-radius: 0;
+    padding: 0 8px;
+    border: none;
+    gap: 0;
+    margin: 0 -1rem;
+    padding: 0 1rem;
 }
 .stTabs [data-baseweb="tab"] {
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 600;
+    font-family: 'Open Sans', sans-serif !important;
+    font-weight: 700;
     font-size: 12px;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
-    color: var(--muted) !important;
-    border-radius: 8px;
-    padding: 8px 18px;
+    color: rgba(255,255,255,0.7) !important;
+    border-radius: 0;
+    padding: 14px 22px;
     transition: all 0.2s ease;
     border: none !important;
+    border-bottom: 3px solid transparent !important;
+}
+.stTabs [data-baseweb="tab"]:hover {
+    color: #FFFFFF !important;
+    background: rgba(255,255,255,0.05) !important;
 }
 .stTabs [aria-selected="true"] {
-    background: var(--card-alt) !important;
-    color: var(--platinum) !important;
-    box-shadow: 0 0 0 1px var(--border), inset 0 1px 0 rgba(238,240,242,0.06);
+    background: transparent !important;
+    color: #FFFFFF !important;
+    border-bottom: 3px solid var(--cbf-yellow) !important;
+    box-shadow: none;
+}
+.stTabs [data-baseweb="tab-highlight"] {
+    display: none !important;
+}
+.stTabs [data-baseweb="tab-border"] {
+    display: none !important;
 }
 
 /* ── Metric card (native) ── */
 div[data-testid="stMetric"] {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px 20px;
+    border-radius: 8px;
+    padding: 18px 20px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 div[data-testid="stMetric"]::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--smoky-rose), var(--lilac));
-    opacity: 0.8;
+    height: 3px;
+    background: var(--cbf-blue);
 }
 div[data-testid="stMetricLabel"] > div {
-    font-size: 10px !important;
+    font-size: 11px !important;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     color: var(--muted) !important;
-    font-weight: 600;
+    font-weight: 700;
 }
 div[data-testid="stMetricValue"] {
     font-family: 'Barlow Condensed', sans-serif !important;
-    font-size: 32px !important;
+    font-size: 30px !important;
     font-weight: 700 !important;
-    color: var(--text) !important;
+    color: var(--cbf-blue-dark) !important;
     line-height: 1.1 !important;
 }
 div[data-testid="stMetricDelta"] {
     font-size: 12px !important;
-    font-weight: 600;
+    font-weight: 700;
     font-family: 'JetBrains Mono', monospace !important;
 }
 
@@ -213,21 +334,21 @@ div[data-testid="stMetricDelta"] {
 .kpi-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 8px;
     padding: 18px 20px;
     text-align: center;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: box-shadow 0.2s, transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
-.kpi-card:hover { border-color: var(--lilac); transform: translateY(-2px); }
+.kpi-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
 .kpi-card::after {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--smoky-rose), var(--lilac));
-    opacity: 0.7;
+    height: 3px;
+    background: var(--cbf-blue);
 }
 .kpi-label {
     font-size: 10px;
@@ -241,7 +362,7 @@ div[data-testid="stMetricDelta"] {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
     font-size: 36px;
-    color: var(--text);
+    color: var(--cbf-blue-dark);
     line-height: 1;
 }
 .kpi-sub {
@@ -255,72 +376,97 @@ div[data-testid="stMetricDelta"] {
 .vbet-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--lilac);
-    border-radius: 14px;
+    border-left: 4px solid var(--cbf-blue);
+    border-radius: 8px;
     padding: 20px 22px;
     margin-bottom: 14px;
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 .vbet-card::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(162,153,158,0.06) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(19,81,180,0.03) 0%, transparent 60%);
     pointer-events: none;
 }
 .vbet-card:hover {
-    border-color: var(--lilac);
-    border-left-color: var(--platinum);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(0,0,0,0.45);
 }
-.vbet-card.high  { border-left-color: var(--yellow); }
-.vbet-card.high::after { background: linear-gradient(135deg, rgba(196,168,130,0.07) 0%, transparent 60%); }
+.vbet-card.high  { border-left-color: var(--cbf-yellow); }
+.vbet-card.high::after { background: linear-gradient(135deg, rgba(255,205,0,0.05) 0%, transparent 60%); }
 .vbet-card.top   { border-left-color: var(--orange); }
-.vbet-card.top::after { background: linear-gradient(135deg, rgba(196,144,112,0.07) 0%, transparent 60%); }
+.vbet-card.top::after { background: linear-gradient(135deg, rgba(255,140,0,0.05) 0%, transparent 60%); }
 
-/* ── Standings row ── */
+/* ── Standings row (CBF table style) ── */
 .standings-row {
     display: flex;
     align-items: center;
-    padding: 11px 16px;
-    border-radius: 10px;
-    margin-bottom: 4px;
+    padding: 10px 16px;
+    border-radius: 0;
+    margin-bottom: 0;
     background: var(--card);
-    border: 1px solid var(--border-lo);
+    border-bottom: 1px solid var(--border-lo);
     font-size: 14px;
-    transition: all 0.15s ease;
+    transition: background 0.15s ease;
     cursor: default;
 }
 .standings-row:hover {
-    background: var(--card-alt);
-    border-color: var(--border);
+    background: #F0F4FF;
+}
+.standings-row:nth-child(even) {
+    background: var(--surface);
+}
+.standings-row:nth-child(even):hover {
+    background: #F0F4FF;
 }
 .pos-badge {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-    width: 28px;
-    text-align: center;
-    margin-right: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    margin-right: 12px;
     flex-shrink: 0;
+    color: #FFFFFF;
 }
-.pos-liberta { color: #4FC3F7; }
-.pos-sul     { color: #FFB74D; }
-.pos-rebaixa { color: #EF5350; }
-.pos-normal  { color: var(--muted-lo); }
+.pos-liberta { background: var(--cbf-blue); }
+.pos-qualify { background: var(--cbf-green); }
+.pos-sul     { background: var(--orange); }
+.pos-rebaixa { background: var(--red); }
+.pos-normal  { background: #CCCCCC; color: #666; }
+
+/* ── Standings table header ── */
+.standings-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    background: var(--cbf-blue-dark);
+    color: #FFFFFF;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 8px 8px 0 0;
+}
 
 /* ── Badges ── */
 .vs-badge {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--muted);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 3px 9px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--cbf-blue);
+    background: rgba(19,81,180,0.08);
+    border: 1px solid rgba(19,81,180,0.2);
+    padding: 4px 12px;
     border-radius: 20px;
     letter-spacing: 1px;
 }
@@ -330,25 +476,25 @@ div[data-testid="stMetricDelta"] {
     font-weight: 700;
     padding: 5px 14px;
     border-radius: 20px;
-    background: rgba(142,173,142,0.15);
+    background: rgba(22,136,33,0.1);
     color: var(--green);
-    border: 1px solid rgba(142,173,142,0.3);
+    border: 1px solid rgba(22,136,33,0.25);
     letter-spacing: 0.5px;
 }
 .edge-badge.high {
-    background: rgba(196,168,130,0.15);
-    color: var(--yellow);
-    border-color: rgba(196,168,130,0.3);
+    background: rgba(255,205,0,0.15);
+    color: #B8860B;
+    border-color: rgba(255,205,0,0.4);
 }
 .edge-badge.top {
-    background: rgba(196,144,112,0.15);
+    background: rgba(255,140,0,0.12);
     color: var(--orange);
-    border-color: rgba(196,144,112,0.3);
+    border-color: rgba(255,140,0,0.35);
 }
 
 /* ── Prob bar ── */
 .prob-bar-wrap {
-    background: var(--border-lo);
+    background: #E8E8E8;
     border-radius: 4px;
     height: 6px;
     overflow: hidden;
@@ -359,7 +505,7 @@ div[data-testid="stMetricDelta"] {
 .info-pill {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 10px 14px;
     min-width: 90px;
 }
@@ -384,31 +530,32 @@ div[data-testid="stMetricDelta"] {
 
 /* ── Team name ── */
 .team-name {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 700;
-    font-size: 20px;
-    letter-spacing: 0.5px;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+    color: var(--text);
 }
 
-/* ── Button ── */
+/* ── Button (CBF style) ── */
 .stButton > button {
-    background: var(--smoky-rose) !important;
-    color: var(--platinum) !important;
-    font-family: 'Inter', sans-serif !important;
+    background: var(--cbf-blue) !important;
+    color: #FFFFFF !important;
+    font-family: 'Open Sans', sans-serif !important;
     font-weight: 700 !important;
     font-size: 13px !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 0.8px !important;
     text-transform: uppercase !important;
     border: none !important;
-    border-radius: 10px !important;
+    border-radius: 6px !important;
     padding: 10px 24px !important;
     transition: all 0.2s ease !important;
-    box-shadow: 0 4px 14px rgba(132,106,106,0.4) !important;
+    box-shadow: 0 2px 8px rgba(19,81,180,0.3) !important;
 }
 .stButton > button:hover {
-    background: var(--lilac) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(162,153,158,0.4) !important;
+    background: var(--cbf-blue-hover) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 14px rgba(19,81,180,0.35) !important;
 }
 .stButton > button:active { transform: translateY(0) !important; }
 
@@ -417,47 +564,82 @@ div[data-testid="stMetricDelta"] {
 .stMultiSelect > div > div {
     background: var(--card) !important;
     border-color: var(--border) !important;
-    border-radius: 10px !important;
+    border-radius: 6px !important;
     color: var(--text) !important;
 }
 .stNumberInput > div > div { background: var(--card) !important; }
 
 /* ── Expander ── */
 .streamlit-expanderHeader {
-    background: var(--card) !important;
+    background: var(--surface) !important;
     border: 1px solid var(--border) !important;
-    border-radius: 10px !important;
+    border-radius: 6px !important;
     color: var(--muted) !important;
     font-weight: 600;
     font-size: 13px;
 }
 .streamlit-expanderContent {
-    background: var(--surface) !important;
+    background: var(--card) !important;
     border: 1px solid var(--border) !important;
     border-top: none !important;
-    border-radius: 0 0 10px 10px !important;
+    border-radius: 0 0 6px 6px !important;
 }
 
 /* ── Alert / info ── */
-.stAlert { border-radius: 10px !important; }
+.stAlert { border-radius: 6px !important; }
 
 /* ── Dataframe ── */
-.stDataFrame { border-radius: 12px !important; overflow: hidden; }
+.stDataFrame { border-radius: 8px !important; overflow: hidden; }
 
 /* ── Divider ── */
-hr { border: none !important; border-top: 1px solid var(--border-lo) !important; margin: 20px 0 !important; }
+hr { border: none !important; border-top: 1px solid var(--border) !important; margin: 20px 0 !important; }
 
 /* ── Plotly chart background ── */
-.js-plotly-plot { border-radius: 12px; overflow: hidden; }
+.js-plotly-plot { border-radius: 8px; overflow: hidden; }
 
 /* ── Legend dots for standings ── */
 .legend-dot {
     display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
+    width: 10px; height: 10px;
+    border-radius: 3px;
     margin-right: 5px;
     vertical-align: middle;
 }
+
+/* ── Competition pills (CBF style) ── */
+.comp-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+}
+.comp-pill {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--card);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.comp-pill:hover { border-color: var(--cbf-blue); color: var(--cbf-blue); }
+.comp-pill.active {
+    background: var(--cbf-blue);
+    color: #FFFFFF;
+    border-color: var(--cbf-blue);
+}
+
+/* ── Footer CBF ── */
+.cbf-footer {
+    background: var(--cbf-blue-dark);
+    margin: 40px -4rem 0 -4rem;
+    padding: 30px 4rem;
+    color: rgba(255,255,255,0.7);
+}
+.cbf-footer a { color: var(--cbf-yellow); text-decoration: none; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -600,32 +782,49 @@ def predict_match(home, away, features_df, model_data,
 
 # ── Header ────────────────────────────────────────────────────────────────────
 st.markdown("""
-<div style="padding:32px 0 22px 0;">
-  <div style="margin-bottom:18px;">
-    <div style="display:flex;align-items:baseline;gap:16px;">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:56px;
-                  letter-spacing:3px;line-height:1;
-                  background:linear-gradient(135deg,#EEF0F2 0%,#A2999E 55%,#846A6A 100%);
-                  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-                  background-clip:text;">
-        PREDICTOR
-      </div>
-      <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:4px;">
-        <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:13px;
-                     color:#C6C7C4;letter-spacing:0.5px;">Brasileirão</span>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;
-                     color:#A2999E;letter-spacing:1px;line-height:1;">2026</span>
-      </div>
+<div class="cbf-header">
+  <div class="cbf-header-inner">
+    <div class="cbf-logo-area">
+      <div style="width:44px;height:44px;background:var(--cbf-yellow);border-radius:8px;
+                  display:flex;align-items:center;justify-content:center;
+                  font-size:24px;font-weight:900;color:var(--cbf-blue-dark);">⚽</div>
+      <div class="cbf-logo-text">PREDICTOR</div>
     </div>
-    <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
-      <span style="background:#2E3435;border:1px solid #484F51;
-                   border-radius:20px;padding:3px 12px;
-                   font-family:'JetBrains Mono',monospace;font-size:10px;
-                   color:#C6C7C4;letter-spacing:1px;">v3.0</span>
+    <div class="cbf-nav">
+      <span class="cbf-nav-item active">FUTEBOL BRASILEIRO</span>
+      <span class="cbf-nav-item">ANÁLISES</span>
+      <span class="cbf-nav-item">ESTATÍSTICAS</span>
+      <span class="cbf-nav-item">VALUE BETS</span>
     </div>
   </div>
-  <div style="height:1px;background:linear-gradient(90deg,#846A6A 0%,#A2999E 40%,transparent 100%);
-              opacity:0.5;margin-bottom:4px;border-radius:2px;"></div>
+</div>
+
+<div class="cbf-subheader">
+  <div class="cbf-subheader-inner">
+    <span class="cbf-sub-item">TABELAS</span>
+    <span class="cbf-sub-item">PREVISÕES</span>
+    <span class="cbf-sub-item">TIMES</span>
+    <span class="cbf-sub-item">RANKING</span>
+    <span class="cbf-sub-item">JOGOS DE HOJE</span>
+  </div>
+</div>
+
+<div class="cbf-page-title-area">
+  <div class="cbf-badge">Brasileirão Série A</div>
+  <div class="cbf-page-title">CAMPEONATO BRASILEIRO 2026</div>
+  <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
+    <div class="comp-pills">
+      <span class="comp-pill active">Série A</span>
+      <span class="comp-pill">Série B</span>
+      <span class="comp-pill">Série C</span>
+      <span class="comp-pill">Copa do Brasil</span>
+    </div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+      <span style="font-size:13px;color:#666;font-weight:600;">Ano</span>
+      <span style="background:#F5F5F5;border:1px solid #E0E0E0;border-radius:6px;padding:6px 16px;
+                   font-size:14px;font-weight:700;color:#333;">2026</span>
+    </div>
+  </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -658,48 +857,59 @@ with tab1:
         # Legend
         st.markdown("""
         <div style="display:flex;gap:20px;margin:16px 0 10px 0;flex-wrap:wrap;">
-          <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#4FC3F7;"></span> Libertadores (1–5)
+          <span style="font-size:12px;color:#333;display:flex;align-items:center;gap:6px;font-weight:600;">
+            <span class="legend-dot" style="background:#1351B4;"></span> Libertadores (1–4)
           </span>
-          <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#66BB6A;"></span> Fase Qualificatória (6)
+          <span style="font-size:12px;color:#333;display:flex;align-items:center;gap:6px;font-weight:600;">
+            <span class="legend-dot" style="background:#168821;"></span> Fase Qualificatória (5–6)
           </span>
-          <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#FFB74D;"></span> Sul-Americana (7–11)
+          <span style="font-size:12px;color:#333;display:flex;align-items:center;gap:6px;font-weight:600;">
+            <span class="legend-dot" style="background:#FF8C00;"></span> Sul-Americana (7–11)
           </span>
-          <span style="font-size:11px;color:#C6C7C4;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#EF5350;"></span> Rebaixamento (17–20)
+          <span style="font-size:12px;color:#333;display:flex;align-items:center;gap:6px;font-weight:600;">
+            <span class="legend-dot" style="background:#E52E2E;"></span> Rebaixamento (17–20)
           </span>
         </div>
         """, unsafe_allow_html=True)
 
+        # Table header
+        st.markdown(
+            "<div class='standings-header'>"
+            "<span style='width:44px;text-align:center;'>POS</span>"
+            "<span style='flex:1;padding-left:40px;'>CLASSIFICAÇÃO</span>"
+            "<span style='width:60px;text-align:center;'>PTS</span>"
+            "<span style='width:200px;text-align:center;'>TÍTULO / LIBERTA / REB</span>"
+            "<span style='width:100px;text-align:center;'>PROB</span>"
+            "</div>",
+            unsafe_allow_html=True,
+        )
+
         for i, row in df_sim.reset_index(drop=True).iterrows():
             pos = i + 1
-            if pos <= 4:    pos_class, pos_color, zone_bg = "pos-liberta", "#4FC3F7", "rgba(79,195,247,0.07)"
-            elif pos == 5:  pos_class, pos_color, zone_bg = "pos-qualify", "#66BB6A", "rgba(102,187,106,0.08)"
-            elif pos <= 11: pos_class, pos_color, zone_bg = "pos-sul",     "#FFB74D", "rgba(255,183,77,0.07)"
-            elif pos <= 16: pos_class, pos_color, zone_bg = "pos-normal",  "#484F51", "transparent"
-            else:           pos_class, pos_color, zone_bg = "pos-rebaixa", "#EF5350", "rgba(239,83,80,0.08)"
+            if pos <= 4:    pos_class, pos_color = "pos-liberta", "#1351B4"
+            elif pos <= 6:  pos_class, pos_color = "pos-qualify", "#168821"
+            elif pos <= 11: pos_class, pos_color = "pos-sul",     "#FF8C00"
+            elif pos >= 17: pos_class, pos_color = "pos-rebaixa", "#E52E2E"
+            else:           pos_class, pos_color = "pos-normal",  "#CCCCCC"
 
+            logo_html = team_logo_html(row["time"], size=28)
+            pts = f"{row['pts_esperados']:.1f}"
             liberta_bar = min(row["libertadores_pct"], 100)
-            logo_html   = team_logo_html(row["time"], size=26)
-
+            
             st.markdown(
-                f"<div class='standings-row' style='background-color:{zone_bg};border-left:3px solid {pos_color if pos<=11 or pos>=17 else 'transparent'};'>"
-                f"<span class='pos-badge {pos_class}'>{pos}</span>"
-                + logo_html +
-                f"<span style='flex:1;font-weight:600;font-size:14px;letter-spacing:0.3px;'>{row['time']}</span>"
-                f"<span class='mono' style='width:72px;text-align:right;color:#EEF0F2;font-size:13px;'>"
-                f"{row['pts_esperados']:.1f} <span style='color:#A2999E;font-size:10px;'>pts</span></span>"
-                f"<div style='width:220px;margin-left:18px;'>"
-                f"<div style='display:flex;justify-content:space-between;font-size:9px;color:#C6C7C4;"
-                f"margin-bottom:5px;font-family:JetBrains Mono,monospace;letter-spacing:0.5px;'>"
-                f"<span style='color:#4FC3F7;'>Título {row['titulo_pct']:.1f}%</span>"
-                f"<span style='color:#FFB74D;'>Liberta {row['libertadores_pct']:.1f}%</span>"
-                f"<span style='color:#EF5350;'>Reb {row['rebaixamento_pct']:.1f}%</span>"
+                f"<div class='standings-row'>"
+                f"<div class='pos-badge {pos_class}'>{pos}</div>"
+                f"<div style='flex:1;display:flex;align-items:center;font-weight:700;'>{logo_html}{row['time']}</div>"
+                f"<div style='width:60px;text-align:center;font-family:JetBrains Mono,monospace;font-weight:700;'>{pts}</div>"
+                f"<div style='width:200px;display:flex;justify-content:center;gap:12px;font-size:12px;"
+                f"margin-bottom:5px;font-family:JetBrains Mono,monospace;letter-spacing:0.3px;'>"
+                f"<span style='color:#1351B4;font-weight:700;'>Tít {row['titulo_pct']:.1f}%</span>"
+                f"<span style='color:#FF8C00;font-weight:700;'>Lib {row['libertadores_pct']:.1f}%</span>"
+                f"<span style='color:#E52E2E;font-weight:700;'>Reb {row['rebaixamento_pct']:.1f}%</span>"
                 f"</div>"
+                f"<div style='width:100px;'>"
                 f"<div class='prob-bar-wrap'>"
-                f"<div class='prob-bar' style='width:{int(liberta_bar)}%;background:{pos_color};opacity:0.75;'></div>"
+                f"<div class='prob-bar' style='width:{int(liberta_bar)}%;background:{pos_color};'></div>"
                 f"</div>"
                 f"</div>"
                 f"</div>",
@@ -727,18 +937,18 @@ with tab2:
     home_logo = team_logo_html(home, size=36)
     away_logo = team_logo_html(away, size=36)
     st.markdown(
-        f"<div style='display:flex;align-items:center;justify-content:center;gap:20px;"
-        f"padding:20px;background:var(--card);border:1px solid var(--border);border-radius:14px;"
-        f"margin:14px 0;position:relative;overflow:hidden;'>"
-        f"<div style='position:absolute;inset:0;background:linear-gradient(135deg,rgba(162,153,158,0.07) 0%,transparent 60%);pointer-events:none;'></div>"
+        f"<div style='display:flex;align-items:center;justify-content:center;gap:24px;"
+        f"padding:24px;background:#FFFFFF;border:1px solid #E0E0E0;border-radius:8px;"
+        f"margin:14px 0;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.06);'>"
+        f"<div style='position:absolute;top:0;left:0;right:0;height:3px;background:#1351B4;'></div>"
         f"<div style='display:flex;align-items:center;gap:10px;'>"
         + home_logo +
-        f"<span style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:24px;letter-spacing:0.5px;'>{home}</span>"
+        f"<span style='font-family:Open Sans,sans-serif;font-weight:800;font-size:22px;color:#071D41;'>{home}</span>"
         f"</div>"
         f"<span class='vs-badge'>VS</span>"
         f"<div style='display:flex;align-items:center;gap:10px;'>"
         + away_logo +
-        f"<span style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:24px;letter-spacing:0.5px;'>{away}</span>"
+        f"<span style='font-family:Open Sans,sans-serif;font-weight:800;font-size:22px;color:#071D41;'>{away}</span>"
         f"</div>"
         f"</div>",
         unsafe_allow_html=True,
@@ -763,7 +973,7 @@ with tab2:
             outcomes   = {"H": ph, "D": pd_, "A": pa}
             pred       = max(outcomes, key=outcomes.get)
             pred_label = {"H": f"{home} vence", "D": "Empate", "A": f"{away} vence"}[pred]
-            pred_color = {"H": "#A2999E", "D": "#C4A882", "A": "#8EAD8E"}[pred]
+            pred_color = {"H": "#1351B4", "D": "#FFCD00", "A": "#168821"}[pred]
             conf       = outcomes[pred]
 
             st.markdown("<br>", unsafe_allow_html=True)
@@ -778,32 +988,32 @@ with tab2:
             bar_a = int(pa * 100)
 
             st.markdown(f"""
-            <div style="background:var(--card);border:1px solid var(--border);border-left:4px solid {pred_color};
-                        border-radius:14px;padding:24px 28px;margin-top:18px;">
-              <div style="font-size:9px;font-weight:700;color:#C6C7C4;
-                          letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;">
+            <div style="background:#FFFFFF;border:1px solid #E0E0E0;border-left:4px solid {pred_color};
+                        border-radius:8px;padding:24px 28px;margin-top:18px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+              <div style="font-size:10px;font-weight:700;color:#666;
+                          letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">
                 Previsão do Modelo
               </div>
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:36px;
-                          letter-spacing:1.5px;color:{pred_color};">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:36px;
+                          letter-spacing:1px;color:{pred_color};">
                 {pred_label}
               </div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:12px;
-                          color:#C6C7C4;margin-top:6px;">
-                Confiança: <span style="color:{pred_color};font-weight:600;">{conf:.1%}</span>
+                          color:#666;margin-top:6px;">
+                Confiança: <span style="color:{pred_color};font-weight:700;">{conf:.1%}</span>
               </div>
               <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px;">
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#C6C7C4;width:72px;font-family:JetBrains Mono,monospace;">MAN {ph:.0%}</span>
-                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_h}%;background:#A2999E;"></div></div>
+                  <span style="font-size:10px;color:#666;width:72px;font-family:JetBrains Mono,monospace;font-weight:600;">MAN {ph:.0%}</span>
+                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_h}%;background:#1351B4;"></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#C6C7C4;width:72px;font-family:JetBrains Mono,monospace;">EMP {pd_:.0%}</span>
-                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_d}%;background:#C4A882;"></div></div>
+                  <span style="font-size:10px;color:#666;width:72px;font-family:JetBrains Mono,monospace;font-weight:600;">EMP {pd_:.0%}</span>
+                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_d}%;background:#FFCD00;"></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#C6C7C4;width:72px;font-family:JetBrains Mono,monospace;">VIS {pa:.0%}</span>
-                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_a}%;background:#8EAD8E;"></div></div>
+                  <span style="font-size:10px;color:#666;width:72px;font-family:JetBrains Mono,monospace;font-weight:600;">VIS {pa:.0%}</span>
+                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_a}%;background:#168821;"></div></div>
                 </div>
               </div>
             </div>
@@ -811,19 +1021,19 @@ with tab2:
 
             if use_odds:
                 st.markdown("<br>", unsafe_allow_html=True)
-                st.markdown("<div style='font-size:10px;font-weight:700;color:#C6C7C4;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;'>Value vs odds inseridas</div>", unsafe_allow_html=True)
+                st.markdown("<div style='font-size:10px;font-weight:700;color:#666;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;'>Value vs odds inseridas</div>", unsafe_allow_html=True)
                 for outcome, odd, label in [("H", oh, home), ("D", od, "Empate"), ("A", oa, away)]:
                     prob  = outcomes[outcome]
                     value = prob * odd
                     edge  = (value - 1) * 100
                     is_value = value >= 1.05
-                    color = "#8EAD8E" if is_value else "#A2999E"
+                    color = "#168821" if is_value else "#666"
                     st.markdown(f"""
                     <div style="display:flex;justify-content:space-between;align-items:center;
-                                background:var(--surface);border:1px solid {'rgba(142,173,142,0.3)' if is_value else 'var(--border)'};
-                                border-radius:10px;padding:12px 18px;margin-bottom:6px;">
-                      <span style="font-weight:600;font-size:14px;">{label}</span>
-                      <span class="mono" style="color:#C6C7C4;">odd {odd:.2f}</span>
+                                background:#F5F5F5;border:1px solid {'rgba(22,136,33,0.3)' if is_value else '#E0E0E0'};
+                                border-radius:6px;padding:12px 18px;margin-bottom:6px;">
+                      <span style="font-weight:700;font-size:14px;color:#333;">{label}</span>
+                      <span class="mono" style="color:#666;">odd {odd:.2f}</span>
                       <span style="color:{color};font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;">
                         {value:.3f} <span style="font-size:11px;">({edge:+.1f}%)</span>
                       </span>
@@ -917,50 +1127,50 @@ with tab3:
                 f'<span class="team-name">{away_team}</span>'
                 '</div>'
                 '</div>'
-                f'<span class="mono" style="color:#A2999E;font-size:11px;">{date_str} · {time_str} UTC</span>'
+                f'<span class="mono" style="color:#666666;font-size:11px;">{date_str} · {time_str} UTC</span>'
                 '</div>'
                 # ── Stats row
                 '<div style="display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-bottom:16px;">'
                 '<div class="info-pill">'
                 '<div class="label">Apostar</div>'
-                f'<div class="value" style="font-size:14px;font-family:Inter,sans-serif;font-weight:700;color:#EEF0F2;">{aposta}</div>'
+                f'<div class="value" style="font-size:14px;font-family:Open Sans,sans-serif;font-weight:700;color:#333333;">{aposta}</div>'
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Odd Pinnacle</div>'
-                f'<div class="value" style="font-size:20px;">{odd_str}</div>'
+                f'<div class="value" style="font-size:20px;color:#333333;">{odd_str}</div>'
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Prob Modelo</div>'
-                f'<div class="value" style="color:#8EAD8E;">{prob_m_str}</div>'
+                f'<div class="value" style="color:#168821;">{prob_m_str}</div>'
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Prob Mercado</div>'
-                f'<div class="value" style="color:#C6C7C4;">{prob_mkt_str}</div>'
+                f'<div class="value" style="color:#666666;">{prob_mkt_str}</div>'
                 '</div>'
                 '<div style="display:flex;flex-direction:column;justify-content:center;gap:8px;margin-left:auto;">'
                 f'<span class="edge-badge {badge_class}">EDGE +{edge_str}% {stars}</span>'
-                f'<span style="font-size:11px;color:#C6C7C4;font-family:JetBrains Mono,monospace;">'
-                f'Kelly: <b style="color:#EEF0F2;">{kelly_str}%</b></span>'
+                f'<span style="font-size:11px;color:#666666;font-family:JetBrains Mono,monospace;">'
+                f'Kelly: <b style="color:#333333;">{kelly_str}%</b></span>'
                 '</div>'
                 '</div>'
                 # ── Prob distribution
                 '<div style="border-top:1px solid var(--border-lo);padding-top:12px;">'
-                '<div style="font-size:9px;font-weight:700;color:#C6C7C4;letter-spacing:1.5px;'
+                '<div style="font-size:9px;font-weight:700;color:#666666;letter-spacing:1.5px;'
                 'text-transform:uppercase;margin-bottom:8px;">Distribuição do Modelo</div>'
                 '<div style="display:flex;gap:8px;align-items:center;">'
-                '<span style="font-size:10px;color:#C6C7C4;width:28px;font-family:JetBrains Mono,monospace;">MAN</span>'
-                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{ph_w}%;background:#A2999E;"></div></div>'
-                f'<span class="mono" style="font-size:11px;width:36px;color:#C6C7C4;">{ph_str}</span>'
+                '<span style="font-size:10px;color:#666666;width:28px;font-family:JetBrains Mono,monospace;">MAN</span>'
+                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{ph_w}%;background:#1351B4;"></div></div>'
+                f'<span class="mono" style="font-size:11px;width:36px;color:#666666;">{ph_str}</span>'
                 '</div>'
                 '<div style="display:flex;gap:8px;align-items:center;margin-top:5px;">'
-                '<span style="font-size:10px;color:#C6C7C4;width:28px;font-family:JetBrains Mono,monospace;">EMP</span>'
-                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pd_w}%;background:#C4A882;"></div></div>'
-                f'<span class="mono" style="font-size:11px;width:36px;color:#C6C7C4;">{pd_str}</span>'
+                '<span style="font-size:10px;color:#666666;width:28px;font-family:JetBrains Mono,monospace;">EMP</span>'
+                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pd_w}%;background:#FFCD00;"></div></div>'
+                f'<span class="mono" style="font-size:11px;width:36px;color:#666666;">{pd_str}</span>'
                 '</div>'
                 '<div style="display:flex;gap:8px;align-items:center;margin-top:5px;">'
-                '<span style="font-size:10px;color:#C6C7C4;width:28px;font-family:JetBrains Mono,monospace;">VIS</span>'
-                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pa_w}%;background:#8EAD8E;"></div></div>'
-                f'<span class="mono" style="font-size:11px;width:36px;color:#C6C7C4;">{pa_str}</span>'
+                '<span style="font-size:10px;color:#666666;width:28px;font-family:JetBrains Mono,monospace;">VIS</span>'
+                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pa_w}%;background:#168821;"></div></div>'
+                f'<span class="mono" style="font-size:11px;width:36px;color:#666666;">{pa_str}</span>'
                 '</div>'
                 '</div>'
                 '</div>'
@@ -1007,41 +1217,41 @@ with tab4:
             fig = go.Figure()
             fig.add_trace(go.Scatter(
                 y=df_bt["bankroll_flat"], mode="lines",
-                name="Flat (2%)", line=dict(color="#A2999E", width=2.5)))
+                name="Flat (2%)", line=dict(color="#1351B4", width=2.5)))
             fig.add_trace(go.Scatter(
                 y=df_bt["bankroll_kelly"], mode="lines",
-                name="Kelly (25%)", line=dict(color="#8EAD8E", width=2.5)))
+                name="Kelly (25%)", line=dict(color="#168821", width=2.5)))
             fig.add_hline(y=1000, line_dash="dash",
-                          line_color="#484F51", annotation_text="Bankroll inicial",
-                          annotation_font_color="#C6C7C4")
+                          line_color="#666666", annotation_text="Bankroll inicial",
+                          annotation_font_color="#333333")
             fig.update_layout(
-                paper_bgcolor="#1E2223", plot_bgcolor="#272C2D",
-                font=dict(color="#EEF0F2", family="Inter"),
-                title=dict(text="Evolução do Bankroll", font=dict(family="Barlow Condensed", size=22, color="#EEF0F2")),
-                legend=dict(bgcolor="#272C2D", bordercolor="#484F51", font=dict(size=12)),
-                xaxis=dict(gridcolor="#343A3B", color="#C6C7C4", showline=False),
-                yaxis=dict(gridcolor="#343A3B", color="#C6C7C4", showline=False),
+                paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
+                font=dict(color="#333333", family="Open Sans"),
+                title=dict(text="Evolução do Bankroll", font=dict(family="Barlow Condensed", size=22, color="#071D41")),
+                legend=dict(bgcolor="#F5F5F5", bordercolor="#E0E0E0", font=dict(size=12)),
+                xaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
+                yaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
                 height=360, margin=dict(l=0, r=0, t=44, b=0),
                 hovermode="x unified",
             )
             st.plotly_chart(fig, use_container_width=True)
 
             fig2 = go.Figure()
-            colors_pl = ["#8EAD8E" if v >= 0 else "#B87878" for v in bets["pl_flat"]]
+            colors_pl = ["#168821" if v >= 0 else "#E52E2E" for v in bets["pl_flat"]]
             fig2.add_trace(go.Bar(
                 y=bets["pl_flat"], marker_color=colors_pl,
                 name="P&L por aposta", opacity=0.8, marker_line_width=0))
             fig2.add_trace(go.Scatter(
                 y=bets["pl_flat"].cumsum(), mode="lines",
-                name="P&L acumulado", line=dict(color="#EEF0F2", width=2)))
-            fig2.add_hline(y=0, line_dash="dash", line_color="#484F51")
+                name="P&L acumulado", line=dict(color="#1351B4", width=2)))
+            fig2.add_hline(y=0, line_dash="dash", line_color="#666666")
             fig2.update_layout(
-                paper_bgcolor="#1E2223", plot_bgcolor="#272C2D",
-                font=dict(color="#EEF0F2", family="Inter"),
-                title=dict(text="P&L por Aposta (Flat)", font=dict(family="Barlow Condensed", size=22, color="#EEF0F2")),
-                legend=dict(bgcolor="#272C2D", bordercolor="#484F51", font=dict(size=12)),
-                xaxis=dict(gridcolor="#343A3B", color="#C6C7C4", showline=False),
-                yaxis=dict(gridcolor="#343A3B", color="#C6C7C4", showline=False),
+                paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
+                font=dict(color="#333333", family="Open Sans"),
+                title=dict(text="P&L por Aposta (Flat)", font=dict(family="Barlow Condensed", size=22, color="#071D41")),
+                legend=dict(bgcolor="#F5F5F5", bordercolor="#E0E0E0", font=dict(size=12)),
+                xaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
+                yaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
                 height=300, margin=dict(l=0, r=0, t=44, b=0),
                 hovermode="x unified",
             )
@@ -1087,51 +1297,51 @@ with tab5:
         fig = px.bar(
             df_mv.head(20), x="market_value", y="team",
             orientation="h", color="market_value",
-            color_continuous_scale=["#272C2D", "#846A6A", "#A2999E", "#EEF0F2"],
+            color_continuous_scale=["#E0E0E0", "#1351B4", "#071D41"],
             labels={"market_value": "Valor (€M)", "team": ""},
         )
         fig.update_layout(
-            paper_bgcolor="#1E2223", plot_bgcolor="#272C2D",
-            font=dict(color="#EEF0F2", family="Inter"),
+            paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
+            font=dict(color="#333333", family="Open Sans"),
             coloraxis_showscale=False,
-            yaxis=dict(autorange="reversed", color="#C6C7C4", gridcolor="#343A3B"),
-            xaxis=dict(color="#C6C7C4", gridcolor="#343A3B"),
+            yaxis=dict(autorange="reversed", color="#666666", gridcolor="#EEEEEE"),
+            xaxis=dict(color="#666666", gridcolor="#EEEEEE"),
             height=520, margin=dict(l=0, r=0, t=20, b=0),
         )
         fig.update_traces(marker_line_width=0)
         st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown("<div style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#C6C7C4;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#666666;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
         max_val = df_mv["market_value"].max()
 
         for rank_i, (_, mv_row) in enumerate(df_mv.iterrows(), start=1):
             logo_h    = team_logo_html(mv_row["team"], size=26)
             bar_w     = int(mv_row["market_value"] / max_val * 100)
-            bar_color = "#A2999E" if rank_i <= 6 else "#846A6A" if rank_i <= 12 else "#484F51"
+            bar_color = "#1351B4" if rank_i <= 6 else "#1A5FCC" if rank_i <= 12 else "#071D41"
 
             st.markdown(
                 f"<div style='display:flex;align-items:center;padding:10px 16px;"
                 f"background:var(--card);border:1px solid var(--border-lo);border-radius:10px;"
                 f"margin-bottom:4px;gap:10px;transition:all 0.15s;'>"
-                f"<span style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:16px;color:#A2999E;"
+                f"<span style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:16px;color:#1351B4;"
                 f"width:24px;text-align:center;flex-shrink:0;'>{rank_i}</span>"
                 + logo_h +
-                f"<span style='flex:1;font-weight:600;font-size:14px;'>{mv_row['team']}</span>"
+                f"<span style='flex:1;font-weight:600;font-size:14px;color:#333333;'>{mv_row['team']}</span>"
                 f"<div style='width:160px;'>"
                 f"<div style='background:var(--border-lo);border-radius:4px;height:5px;overflow:hidden;'>"
                 f"<div style='width:{bar_w}%;height:100%;background:{bar_color};border-radius:4px;'></div>"
                 f"</div>"
                 f"</div>"
                 f"<span style='font-family:JetBrains Mono,monospace;font-size:13px;font-weight:600;"
-                f"color:#EEF0F2;width:72px;text-align:right;'>€{mv_row['market_value']:.1f}M</span>"
+                f"color:#333333;width:72px;text-align:right;'>€{mv_row['market_value']:.1f}M</span>"
                 f"<span style='display:flex;align-items:center;justify-content:flex-end;gap:4px;"
-                f"width:52px;color:#A2999E;'>"
+                f"width:52px;color:#666666;'>"
                 f"<svg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' "
-                f"stroke='#A2999E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'>"
+                f"stroke='#666666' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'>"
                 f"<circle cx='12' cy='8' r='4'/>"
                 f"<path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/>"
                 f"</svg>"
-                f"<span style='font-family:JetBrains Mono,monospace;font-size:11px;color:#C6C7C4;'>"
+                f"<span style='font-family:JetBrains Mono,monospace;font-size:11px;color:#666666;'>"
                 f"{int(mv_row.get('squad_size', 0))}</span>"
                 f"</span>"
                 f"</div>",
@@ -1141,19 +1351,20 @@ with tab5:
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
-<div style="text-align:center;padding:24px 0;
-            border-top:1px solid #343A3B;">
-  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A2999E;
-              letter-spacing:1px;">
-    © 2026 PREDICTOR
-    <span style="margin:0 10px;color:#484F51;">·</span>
-    Todos os direitos reservados
-    <span style="margin:0 10px;color:#484F51;">·</span>
-    Desenvolvido por <span style="color:#C6C7C4;">Nycolas F. Oliveira</span>
-  </div>
-  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#484F51;
-              margin-top:6px;letter-spacing:1px;">
-    LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
+<div class="cbf-footer">
+  <div style="text-align:center;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#FFFFFF;
+                letter-spacing:1px;">
+      © 2026 PREDICTOR
+      <span style="margin:0 10px;color:rgba(255,255,255,0.3);">·</span>
+      Todos os direitos reservados
+      <span style="margin:0 10px;color:rgba(255,255,255,0.3);">·</span>
+      Desenvolvido por <span style="color:var(--cbf-yellow);font-weight:700;">Nycolas F. Oliveira</span>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,0.7);
+                margin-top:6px;letter-spacing:1px;">
+      LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
+    </div>
   </div>
 </div>
 """, unsafe_allow_html=True)
