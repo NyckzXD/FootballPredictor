@@ -75,7 +75,7 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap');
 
 :root {
     /* ── Paleta CBF ── */
@@ -111,7 +111,7 @@ st.markdown("""
 html, body, [class*="css"], .stApp {
     background-color: var(--bg) !important;
     color: var(--text) !important;
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'General Sans', sans-serif !important;
 }
 
 /* ── Hide default Streamlit header ── */
@@ -127,14 +127,14 @@ header[data-testid="stHeader"] {
 
 /* ── Headings ── */
 h1, h2, h3, h4 {
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'General Sans', sans-serif !important;
     letter-spacing: 0.5px;
     color: var(--text) !important;
 }
 
 /* ── Section title (CBF style) ── */
 .section-title {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-size: 32px;
     font-weight: 800;
     letter-spacing: 1px;
@@ -167,7 +167,7 @@ h1, h2, h3, h4 {
     gap: 16px;
 }
 .cbf-logo-text {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-weight: 800;
     font-size: 28px;
     color: #FFFFFF;
@@ -180,7 +180,7 @@ h1, h2, h3, h4 {
     align-items: center;
 }
 .cbf-nav-item {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-size: 12px;
     font-weight: 700;
     color: rgba(255,255,255,0.85);
@@ -212,7 +212,7 @@ h1, h2, h3, h4 {
     margin: 0 auto;
 }
 .cbf-sub-item {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-size: 11px;
     font-weight: 700;
     color: rgba(255,255,255,0.7);
@@ -234,7 +234,7 @@ h1, h2, h3, h4 {
     display: inline-block;
     background: var(--cbf-blue);
     color: #FFFFFF;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -244,7 +244,7 @@ h1, h2, h3, h4 {
     margin-bottom: 10px;
 }
 .cbf-page-title {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-weight: 800;
     font-size: 42px;
     color: var(--cbf-blue-dark);
@@ -264,7 +264,7 @@ h1, h2, h3, h4 {
     padding: 0 1rem;
 }
 .stTabs [data-baseweb="tab"] {
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'General Sans', sans-serif !important;
     font-weight: 700;
     font-size: 12px;
     letter-spacing: 0.6px;
@@ -310,15 +310,18 @@ div[data-testid="stMetric"]::before {
     height: 3px;
     background: var(--cbf-blue);
 }
-div[data-testid="stMetricLabel"] > div {
+[data-testid="stMetricLabel"],
+[data-testid="stMetricLabel"] * {
     font-size: 11px !important;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--muted) !important;
-    font-weight: 700;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    color: #666666 !important;
+    font-weight: 700 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 div[data-testid="stMetricValue"] {
-    font-family: 'Barlow Condensed', sans-serif !important;
+    font-family: 'General Sans', sans-serif !important;
     font-size: 30px !important;
     font-weight: 700 !important;
     color: var(--cbf-blue-dark) !important;
@@ -327,7 +330,7 @@ div[data-testid="stMetricValue"] {
 div[data-testid="stMetricDelta"] {
     font-size: 12px !important;
     font-weight: 700;
-    font-family: 'JetBrains Mono', monospace !important;
+    font-family: 'General Sans', sans-serif !important;
 }
 
 /* ── Custom metric card ── */
@@ -359,14 +362,14 @@ div[data-testid="stMetricDelta"] {
     margin-bottom: 8px;
 }
 .kpi-value {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-weight: 700;
     font-size: 36px;
     color: var(--cbf-blue-dark);
     line-height: 1;
 }
 .kpi-sub {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'General Sans', sans-serif;
     font-size: 11px;
     color: var(--muted);
     margin-top: 4px;
@@ -424,7 +427,7 @@ div[data-testid="stMetricDelta"] {
     background: #F0F4FF;
 }
 .pos-badge {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-weight: 800;
     font-size: 14px;
     width: 32px;
@@ -450,7 +453,7 @@ div[data-testid="stMetricDelta"] {
     padding: 10px 16px;
     background: var(--cbf-blue-dark);
     color: #FFFFFF;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.5px;
@@ -460,7 +463,7 @@ div[data-testid="stMetricDelta"] {
 
 /* ── Badges ── */
 .vs-badge {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-size: 11px;
     font-weight: 800;
     color: var(--cbf-blue);
@@ -471,7 +474,7 @@ div[data-testid="stMetricDelta"] {
     letter-spacing: 1px;
 }
 .edge-badge {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'General Sans', sans-serif;
     font-size: 12px;
     font-weight: 700;
     padding: 5px 14px;
@@ -518,7 +521,7 @@ div[data-testid="stMetricDelta"] {
     margin-bottom: 4px;
 }
 .info-pill .value {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'General Sans', sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: var(--text);
@@ -526,11 +529,11 @@ div[data-testid="stMetricDelta"] {
 }
 
 /* ── Mono util ── */
-.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+.mono { font-family: 'General Sans', sans-serif; font-size: 13px; }
 
 /* ── Team name ── */
 .team-name {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-weight: 700;
     font-size: 18px;
     letter-spacing: 0.3px;
@@ -541,7 +544,7 @@ div[data-testid="stMetricDelta"] {
 .stButton > button {
     background: var(--cbf-blue) !important;
     color: #FFFFFF !important;
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'General Sans', sans-serif !important;
     font-weight: 700 !important;
     font-size: 13px !important;
     letter-spacing: 0.8px !important;
@@ -614,7 +617,7 @@ hr { border: none !important; border-top: 1px solid var(--border) !important; ma
     margin: 16px 0;
 }
 .comp-pill {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'General Sans', sans-serif;
     font-size: 12px;
     font-weight: 600;
     padding: 6px 16px;
@@ -787,27 +790,13 @@ st.markdown("""
     <div class="cbf-logo-area">
       <div style="width:44px;height:44px;background:var(--cbf-yellow);border-radius:8px;
                   display:flex;align-items:center;justify-content:center;
-                  font-size:24px;font-weight:900;color:var(--cbf-blue-dark);">⚽</div>
+                  font-size:24px;font-weight:900;color:var(--cbf-blue-dark);"></div>
       <div class="cbf-logo-text">PREDICTOR</div>
     </div>
-    <div class="cbf-nav">
-      <span class="cbf-nav-item active">FUTEBOL BRASILEIRO</span>
-      <span class="cbf-nav-item">ANÁLISES</span>
-      <span class="cbf-nav-item">ESTATÍSTICAS</span>
-      <span class="cbf-nav-item">VALUE BETS</span>
-    </div>
+
   </div>
 </div>
 
-<div class="cbf-subheader">
-  <div class="cbf-subheader-inner">
-    <span class="cbf-sub-item">TABELAS</span>
-    <span class="cbf-sub-item">PREVISÕES</span>
-    <span class="cbf-sub-item">TIMES</span>
-    <span class="cbf-sub-item">RANKING</span>
-    <span class="cbf-sub-item">JOGOS DE HOJE</span>
-  </div>
-</div>
 
 <div class="cbf-page-title-area">
   <div class="cbf-badge">Brasileirão Série A</div>
@@ -815,9 +804,6 @@ st.markdown("""
   <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
     <div class="comp-pills">
       <span class="comp-pill active">Série A</span>
-      <span class="comp-pill">Série B</span>
-      <span class="comp-pill">Série C</span>
-      <span class="comp-pill">Copa do Brasil</span>
     </div>
     <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
       <span style="font-size:13px;color:#666;font-weight:600;">Ano</span>
@@ -890,7 +876,7 @@ with tab1:
             elif pos <= 6:  pos_class, pos_color = "pos-qualify", "#168821"
             elif pos <= 11: pos_class, pos_color = "pos-sul",     "#FF8C00"
             elif pos >= 17: pos_class, pos_color = "pos-rebaixa", "#E52E2E"
-            else:           pos_class, pos_color = "pos-normal",  "#CCCCCC"
+            else:           pos_class, pos_color = "pos-normal",  "#CCCCCC" 
 
             logo_html = team_logo_html(row["time"], size=28)
             pts = f"{row['pts_esperados']:.1f}"
@@ -900,9 +886,9 @@ with tab1:
                 f"<div class='standings-row'>"
                 f"<div class='pos-badge {pos_class}'>{pos}</div>"
                 f"<div style='flex:1;display:flex;align-items:center;font-weight:700;'>{logo_html}{row['time']}</div>"
-                f"<div style='width:60px;text-align:center;font-family:JetBrains Mono,monospace;font-weight:700;'>{pts}</div>"
+                f"<div style='width:60px;text-align:center;font-family:General Sans,sans-serif;font-weight:700;'>{pts}</div>"
                 f"<div style='width:200px;display:flex;justify-content:center;gap:12px;font-size:12px;"
-                f"margin-bottom:5px;font-family:JetBrains Mono,monospace;letter-spacing:0.3px;'>"
+                f"margin-bottom:5px;font-family:General Sans,sans-serif;letter-spacing:0.3px;'>"
                 f"<span style='color:#1351B4;font-weight:700;'>Tít {row['titulo_pct']:.1f}%</span>"
                 f"<span style='color:#FF8C00;font-weight:700;'>Lib {row['libertadores_pct']:.1f}%</span>"
                 f"<span style='color:#E52E2E;font-weight:700;'>Reb {row['rebaixamento_pct']:.1f}%</span>"
@@ -943,12 +929,12 @@ with tab2:
         f"<div style='position:absolute;top:0;left:0;right:0;height:3px;background:#1351B4;'></div>"
         f"<div style='display:flex;align-items:center;gap:10px;'>"
         + home_logo +
-        f"<span style='font-family:Open Sans,sans-serif;font-weight:800;font-size:22px;color:#071D41;'>{home}</span>"
+        f"<span style='font-family:General Sans,sans-serif;font-weight:800;font-size:22px;color:#071D41;'>{home}</span>"
         f"</div>"
         f"<span class='vs-badge'>VS</span>"
         f"<div style='display:flex;align-items:center;gap:10px;'>"
         + away_logo +
-        f"<span style='font-family:Open Sans,sans-serif;font-weight:800;font-size:22px;color:#071D41;'>{away}</span>"
+        f"<span style='font-family:General Sans,sans-serif;font-weight:800;font-size:22px;color:#071D41;'>{away}</span>"
         f"</div>"
         f"</div>",
         unsafe_allow_html=True,
@@ -994,25 +980,25 @@ with tab2:
                           letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">
                 Previsão do Modelo
               </div>
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:36px;
+              <div style="font-family:'General Sans',sans-serif;font-weight:800;font-size:36px;
                           letter-spacing:1px;color:{pred_color};">
                 {pred_label}
               </div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:12px;
+              <div style="font-family:'General Sans',sans-serif;font-size:12px;
                           color:#666;margin-top:6px;">
                 Confiança: <span style="color:{pred_color};font-weight:700;">{conf:.1%}</span>
               </div>
               <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px;">
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#666;width:72px;font-family:JetBrains Mono,monospace;font-weight:600;">MAN {ph:.0%}</span>
+                  <span style="font-size:10px;color:#666;width:72px;font-family:General Sans,sans-serif;font-weight:600;">MAN {ph:.0%}</span>
                   <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_h}%;background:#1351B4;"></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#666;width:72px;font-family:JetBrains Mono,monospace;font-weight:600;">EMP {pd_:.0%}</span>
+                  <span style="font-size:10px;color:#666;width:72px;font-family:General Sans,sans-serif;font-weight:600;">EMP {pd_:.0%}</span>
                   <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_d}%;background:#FFCD00;"></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#666;width:72px;font-family:JetBrains Mono,monospace;font-weight:600;">VIS {pa:.0%}</span>
+                  <span style="font-size:10px;color:#666;width:72px;font-family:General Sans,sans-serif;font-weight:600;">VIS {pa:.0%}</span>
                   <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_a}%;background:#168821;"></div></div>
                 </div>
               </div>
@@ -1034,7 +1020,7 @@ with tab2:
                                 border-radius:6px;padding:12px 18px;margin-bottom:6px;">
                       <span style="font-weight:700;font-size:14px;color:#333;">{label}</span>
                       <span class="mono" style="color:#666;">odd {odd:.2f}</span>
-                      <span style="color:{color};font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;">
+                      <span style="color:{color};font-family:'General Sans',sans-serif;font-weight:700;font-size:14px;">
                         {value:.3f} <span style="font-size:11px;">({edge:+.1f}%)</span>
                       </span>
                     </div>
@@ -1133,7 +1119,7 @@ with tab3:
                 '<div style="display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-bottom:16px;">'
                 '<div class="info-pill">'
                 '<div class="label">Apostar</div>'
-                f'<div class="value" style="font-size:14px;font-family:Open Sans,sans-serif;font-weight:700;color:#333333;">{aposta}</div>'
+                f'<div class="value" style="font-size:14px;font-family:General Sans,sans-serif;font-weight:700;color:#333333;">{aposta}</div>'
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Odd Pinnacle</div>'
@@ -1149,7 +1135,7 @@ with tab3:
                 '</div>'
                 '<div style="display:flex;flex-direction:column;justify-content:center;gap:8px;margin-left:auto;">'
                 f'<span class="edge-badge {badge_class}">EDGE +{edge_str}% {stars}</span>'
-                f'<span style="font-size:11px;color:#666666;font-family:JetBrains Mono,monospace;">'
+                f'<span style="font-size:11px;color:#666666;font-family:General Sans,sans-serif;">'
                 f'Kelly: <b style="color:#333333;">{kelly_str}%</b></span>'
                 '</div>'
                 '</div>'
@@ -1158,17 +1144,17 @@ with tab3:
                 '<div style="font-size:9px;font-weight:700;color:#666666;letter-spacing:1.5px;'
                 'text-transform:uppercase;margin-bottom:8px;">Distribuição do Modelo</div>'
                 '<div style="display:flex;gap:8px;align-items:center;">'
-                '<span style="font-size:10px;color:#666666;width:28px;font-family:JetBrains Mono,monospace;">MAN</span>'
+                '<span style="font-size:10px;color:#666666;width:28px;font-family:General Sans,sans-serif;">MAN</span>'
                 f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{ph_w}%;background:#1351B4;"></div></div>'
                 f'<span class="mono" style="font-size:11px;width:36px;color:#666666;">{ph_str}</span>'
                 '</div>'
                 '<div style="display:flex;gap:8px;align-items:center;margin-top:5px;">'
-                '<span style="font-size:10px;color:#666666;width:28px;font-family:JetBrains Mono,monospace;">EMP</span>'
+                '<span style="font-size:10px;color:#666666;width:28px;font-family:General Sans,sans-serif;">EMP</span>'
                 f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pd_w}%;background:#FFCD00;"></div></div>'
                 f'<span class="mono" style="font-size:11px;width:36px;color:#666666;">{pd_str}</span>'
                 '</div>'
                 '<div style="display:flex;gap:8px;align-items:center;margin-top:5px;">'
-                '<span style="font-size:10px;color:#666666;width:28px;font-family:JetBrains Mono,monospace;">VIS</span>'
+                '<span style="font-size:10px;color:#666666;width:28px;font-family:General Sans,sans-serif;">VIS</span>'
                 f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pa_w}%;background:#168821;"></div></div>'
                 f'<span class="mono" style="font-size:11px;width:36px;color:#666666;">{pa_str}</span>'
                 '</div>'
@@ -1226,8 +1212,8 @@ with tab4:
                           annotation_font_color="#333333")
             fig.update_layout(
                 paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
-                font=dict(color="#333333", family="Open Sans"),
-                title=dict(text="Evolução do Bankroll", font=dict(family="Barlow Condensed", size=22, color="#071D41")),
+                font=dict(color="#333333", family="General Sans"),
+                title=dict(text="Evolução do Bankroll", font=dict(family="General Sans", size=22, color="#071D41")),
                 legend=dict(bgcolor="#F5F5F5", bordercolor="#E0E0E0", font=dict(size=12)),
                 xaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
                 yaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
@@ -1247,8 +1233,8 @@ with tab4:
             fig2.add_hline(y=0, line_dash="dash", line_color="#666666")
             fig2.update_layout(
                 paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
-                font=dict(color="#333333", family="Open Sans"),
-                title=dict(text="P&L por Aposta (Flat)", font=dict(family="Barlow Condensed", size=22, color="#071D41")),
+                font=dict(color="#333333", family="General Sans"),
+                title=dict(text="P&L por Aposta (Flat)", font=dict(family="General Sans", size=22, color="#071D41")),
                 legend=dict(bgcolor="#F5F5F5", bordercolor="#E0E0E0", font=dict(size=12)),
                 xaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
                 yaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
@@ -1302,7 +1288,7 @@ with tab5:
         )
         fig.update_layout(
             paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
-            font=dict(color="#333333", family="Open Sans"),
+            font=dict(color="#333333", family="General Sans"),
             coloraxis_showscale=False,
             yaxis=dict(autorange="reversed", color="#666666", gridcolor="#EEEEEE"),
             xaxis=dict(color="#666666", gridcolor="#EEEEEE"),
@@ -1311,7 +1297,7 @@ with tab5:
         fig.update_traces(marker_line_width=0)
         st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown("<div style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#666666;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-family:General Sans,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#666666;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
         max_val = df_mv["market_value"].max()
 
         for rank_i, (_, mv_row) in enumerate(df_mv.iterrows(), start=1):
@@ -1323,7 +1309,7 @@ with tab5:
                 f"<div style='display:flex;align-items:center;padding:10px 16px;"
                 f"background:var(--card);border:1px solid var(--border-lo);border-radius:10px;"
                 f"margin-bottom:4px;gap:10px;transition:all 0.15s;'>"
-                f"<span style='font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:16px;color:#1351B4;"
+                f"<span style='font-family:General Sans,sans-serif;font-weight:700;font-size:16px;color:#1351B4;"
                 f"width:24px;text-align:center;flex-shrink:0;'>{rank_i}</span>"
                 + logo_h +
                 f"<span style='flex:1;font-weight:600;font-size:14px;color:#333333;'>{mv_row['team']}</span>"
@@ -1332,7 +1318,7 @@ with tab5:
                 f"<div style='width:{bar_w}%;height:100%;background:{bar_color};border-radius:4px;'></div>"
                 f"</div>"
                 f"</div>"
-                f"<span style='font-family:JetBrains Mono,monospace;font-size:13px;font-weight:600;"
+                f"<span style='font-family:General Sans,sans-serif;font-size:13px;font-weight:600;"
                 f"color:#333333;width:72px;text-align:right;'>€{mv_row['market_value']:.1f}M</span>"
                 f"<span style='display:flex;align-items:center;justify-content:flex-end;gap:4px;"
                 f"width:52px;color:#666666;'>"
@@ -1341,7 +1327,7 @@ with tab5:
                 f"<circle cx='12' cy='8' r='4'/>"
                 f"<path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/>"
                 f"</svg>"
-                f"<span style='font-family:JetBrains Mono,monospace;font-size:11px;color:#666666;'>"
+                f"<span style='font-family:General Sans,sans-serif;font-size:11px;color:#666666;'>"
                 f"{int(mv_row.get('squad_size', 0))}</span>"
                 f"</span>"
                 f"</div>",
@@ -1353,7 +1339,7 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
 <div class="cbf-footer">
   <div style="text-align:center;">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#FFFFFF;
+    <div style="font-family:'General Sans',sans-serif;font-size:11px;color:#FFFFFF;
                 letter-spacing:1px;">
       © 2026 PREDICTOR
       <span style="margin:0 10px;color:rgba(255,255,255,0.3);">·</span>
@@ -1361,7 +1347,7 @@ st.markdown("""
       <span style="margin:0 10px;color:rgba(255,255,255,0.3);">·</span>
       Desenvolvido por <span style="color:var(--cbf-yellow);font-weight:700;">Nycolas F. Oliveira</span>
     </div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,0.7);
+    <div style="font-family:'General Sans',sans-serif;font-size:9px;color:rgba(255,255,255,0.7);
                 margin-top:6px;letter-spacing:1px;">
       LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
     </div>
