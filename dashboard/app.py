@@ -831,12 +831,11 @@ with tab1:
         st.warning("Rode o season_simulator.py para gerar a simulação.")
     else:
         top = df_sim.iloc[0]
-        rebaixa_df = df_sim[df_sim["rebaixamento_pct"] > 50]
-        rebaixa = rebaixa_df.iloc[0] if len(rebaixa_df) > 0 else df_sim.iloc[-1]
+        rebaixa = df_sim.sort_values("rebaixamento_pct", ascending=False).iloc[0]
 
         c1, c2, c3, c4 = st.columns(4)
         with c1: st.metric("Favorito ao Título", top["time"], f"{top['titulo_pct']:.1f}%")
-        with c2: st.metric("Maior risco rebaixamento", rebaixa["time"], f"{rebaixa['rebaixamento_pct']:.1f}%")
+        with c2: st.metric("Maior risco rebaixamento", rebaixa["time"], f"{rebaixa['rebaixamento_pct']:.1f}%", delta_color="inverse")
         with c3: st.metric("Times simulados", len(df_sim))
         with c4: st.metric("Simulações Monte Carlo", "10.000")
 
