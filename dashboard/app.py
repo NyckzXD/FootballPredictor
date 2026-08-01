@@ -441,16 +441,33 @@ div[data-testid="stMetricDelta"] {
     transition: background 0.2s ease, box-shadow 0.2s ease;
     cursor: default;
 }
-.standings-row:hover {
-    background: #EBF0FA;
-    box-shadow: inset 3px 0 0 var(--cbf-blue);
-}
 .standings-row:nth-child(even) {
     background: #FAFBFD;
 }
-.standings-row:nth-child(even):hover {
+.standings-row.zone-liberta:hover,
+.standings-row.zone-liberta:nth-child(even):hover {
     background: #EBF0FA;
-    box-shadow: inset 3px 0 0 var(--cbf-blue);
+    box-shadow: inset 4px 0 0 var(--cbf-blue);
+}
+.standings-row.zone-qualify:hover,
+.standings-row.zone-qualify:nth-child(even):hover {
+    background: #E8F5E9;
+    box-shadow: inset 4px 0 0 var(--cbf-green);
+}
+.standings-row.zone-sul:hover,
+.standings-row.zone-sul:nth-child(even):hover {
+    background: #FFF3E0;
+    box-shadow: inset 4px 0 0 var(--orange);
+}
+.standings-row.zone-rebaixa:hover,
+.standings-row.zone-rebaixa:nth-child(even):hover {
+    background: #FFEBEE;
+    box-shadow: inset 4px 0 0 var(--red);
+}
+.standings-row.zone-normal:hover,
+.standings-row.zone-normal:nth-child(even):hover {
+    background: #F0F0F0;
+    box-shadow: inset 4px 0 0 #CCCCCC;
 }
 .pos-badge {
     font-family: 'General Sans', sans-serif;
@@ -938,7 +955,7 @@ with tab1:
             liberta_bar = min(row["libertadores_pct"], 100)
             
             st.markdown(
-                f"<div class='standings-row'>"
+                f"<div class='standings-row zone-{pos_class.replace('pos-', '')}'>"
                 f"<div class='pos-badge {pos_class}'>{pos}</div>"
                 f"<div style='flex:1;display:flex;align-items:center;font-weight:700;'>{logo_html}{row['time']}</div>"
                 f"<div style='width:60px;text-align:center;font-family:General Sans,sans-serif;font-weight:700;'>{pts}</div>"
