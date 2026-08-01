@@ -135,13 +135,13 @@ h1, h2, h3, h4 {
 /* ── Section title (CBF style) ── */
 .section-title {
     font-family: 'General Sans', sans-serif;
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
     color: var(--cbf-blue-dark);
-    padding-bottom: 14px;
-    border-bottom: 3px solid var(--cbf-yellow);
-    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--cbf-yellow);
+    margin-bottom: 12px;
     text-transform: uppercase;
 }
 
@@ -157,7 +157,7 @@ h1, h2, h3, h4 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 0;
+    padding: 6px 0;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -169,7 +169,7 @@ h1, h2, h3, h4 {
 .cbf-logo-text {
     font-family: 'General Sans', sans-serif;
     font-weight: 800;
-    font-size: 28px;
+    font-size: 20px;
     color: #FFFFFF;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -226,9 +226,9 @@ h1, h2, h3, h4 {
 
 /* ── Page title area ── */
 .cbf-page-title-area {
-    padding: 28px 0 20px 0;
+    padding: 14px 0 10px 0;
     border-bottom: 1px solid var(--border);
-    margin-bottom: 24px;
+    margin-bottom: 8px;
 }
 .cbf-badge {
     display: inline-block;
@@ -246,44 +246,55 @@ h1, h2, h3, h4 {
 .cbf-page-title {
     font-family: 'General Sans', sans-serif;
     font-weight: 800;
-    font-size: 42px;
+    font-size: 36px;
     color: var(--cbf-blue-dark);
     letter-spacing: 1px;
     text-transform: uppercase;
     line-height: 1.1;
+    margin-bottom: 2px;
+}
+.cbf-page-subtitle {
+    font-family: 'General Sans', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+    margin-top: 2px;
 }
 
-/* ── Tabs (CBF sub-nav style) ── */
+/* ── Tabs (modern underline nav) ── */
 .stTabs [data-baseweb="tab-list"] {
-    background: var(--cbf-blue-dark);
+    background: transparent;
     border-radius: 0;
-    padding: 0 8px;
     border: none;
+    border-bottom: 2px solid var(--border);
     gap: 0;
-    margin: 0 -1rem;
-    padding: 0 1rem;
+    margin: 0;
+    padding: 0;
 }
 .stTabs [data-baseweb="tab"] {
     font-family: 'General Sans', sans-serif !important;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.6px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.7) !important;
+    color: var(--muted-lo) !important;
     border-radius: 0;
-    padding: 14px 22px;
+    padding: 12px 24px;
     transition: all 0.2s ease;
     border: none !important;
     border-bottom: 3px solid transparent !important;
+    margin-bottom: -2px;
 }
 .stTabs [data-baseweb="tab"]:hover {
-    color: #FFFFFF !important;
-    background: rgba(255,255,255,0.05) !important;
+    color: var(--cbf-blue) !important;
+    background: transparent !important;
 }
 .stTabs [aria-selected="true"] {
     background: transparent !important;
-    color: #FFFFFF !important;
-    border-bottom: 3px solid var(--cbf-yellow) !important;
+    color: var(--cbf-blue) !important;
+    font-weight: 700 !important;
+    border-bottom: 3px solid var(--cbf-blue) !important;
     box-shadow: none;
 }
 .stTabs [data-baseweb="tab-highlight"] {
@@ -296,19 +307,24 @@ h1, h2, h3, h4 {
 /* ── Metric card (native) ── */
 div[data-testid="stMetric"] {
     background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 18px 20px;
+    border: 1px solid var(--border-lo);
+    border-radius: 14px;
+    padding: 20px 22px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+div[data-testid="stMetric"]:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
 }
 div[data-testid="stMetric"]::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--cbf-blue);
+    height: 4px;
+    background: linear-gradient(90deg, var(--cbf-blue), var(--cbf-green));
 }
 [data-testid="stMetricLabel"],
 [data-testid="stMetricLabel"] * {
@@ -322,8 +338,8 @@ div[data-testid="stMetric"]::before {
 }
 div[data-testid="stMetricValue"] {
     font-family: 'General Sans', sans-serif !important;
-    font-size: 30px !important;
-    font-weight: 700 !important;
+    font-size: 36px !important;
+    font-weight: 800 !important;
     color: var(--cbf-blue-dark) !important;
     line-height: 1.1 !important;
 }
@@ -336,22 +352,30 @@ div[data-testid="stMetricDelta"] {
 /* ── Custom metric card ── */
 .kpi-card {
     background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 18px 20px;
+    border: 1px solid var(--border-lo);
+    border-radius: 16px;
+    padding: 22px 20px 18px;
     text-align: center;
     position: relative;
     overflow: hidden;
-    transition: box-shadow 0.2s, transform 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    transition: box-shadow 0.25s, transform 0.25s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
-.kpi-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.kpi-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.12); transform: translateY(-3px); }
 .kpi-card::after {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--cbf-blue);
+    height: 4px;
+}
+.kpi-card.accent-green::after { background: var(--green); }
+.kpi-card.accent-red::after { background: var(--red); }
+.kpi-card.accent-blue::after { background: var(--blue); }
+.kpi-card.accent-yellow::after { background: var(--yellow); }
+.kpi-icon {
+    font-size: 32px;
+    margin-bottom: 6px;
+    line-height: 1;
 }
 .kpi-label {
     font-size: 10px;
@@ -363,8 +387,8 @@ div[data-testid="stMetricDelta"] {
 }
 .kpi-value {
     font-family: 'General Sans', sans-serif;
-    font-weight: 700;
-    font-size: 36px;
+    font-weight: 800;
+    font-size: 40px;
     color: var(--cbf-blue-dark);
     line-height: 1;
 }
@@ -414,17 +438,19 @@ div[data-testid="stMetricDelta"] {
     background: var(--card);
     border-bottom: 1px solid var(--border-lo);
     font-size: 14px;
-    transition: background 0.15s ease;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
     cursor: default;
 }
 .standings-row:hover {
-    background: #F0F4FF;
+    background: #EBF0FA;
+    box-shadow: inset 3px 0 0 var(--cbf-blue);
 }
 .standings-row:nth-child(even) {
-    background: var(--surface);
+    background: #FAFBFD;
 }
 .standings-row:nth-child(even):hover {
-    background: #F0F4FF;
+    background: #EBF0FA;
+    box-shadow: inset 3px 0 0 var(--cbf-blue);
 }
 .pos-badge {
     font-family: 'General Sans', sans-serif;
@@ -498,11 +524,28 @@ div[data-testid="stMetricDelta"] {
 /* ── Prob bar ── */
 .prob-bar-wrap {
     background: #E8E8E8;
-    border-radius: 4px;
-    height: 6px;
+    border-radius: 6px;
+    height: 12px;
     overflow: hidden;
+    position: relative;
 }
-.prob-bar { height: 100%; border-radius: 4px; }
+.prob-bar {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.6s ease;
+    position: relative;
+}
+.prob-bar-label {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'General Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
 
 /* ── Info pill (mini stat in value bets) ── */
 .info-pill {
@@ -788,9 +831,9 @@ st.markdown("""
 <div class="cbf-header">
   <div class="cbf-header-inner">
     <div class="cbf-logo-area">
-      <div style="width:44px;height:44px;background:var(--cbf-yellow);border-radius:8px;
+      <div style="width:34px;height:34px;background:var(--cbf-yellow);border-radius:6px;
                   display:flex;align-items:center;justify-content:center;
-                  font-size:24px;font-weight:900;color:var(--cbf-blue-dark);"></div>
+                  font-size:18px;font-weight:900;color:var(--cbf-blue-dark);">⚽</div>
       <div class="cbf-logo-text">PREDICTOR</div>
     </div>
 
@@ -799,24 +842,14 @@ st.markdown("""
 
 
 <div class="cbf-page-title-area">
-  <div class="cbf-badge">Brasileirão Série A</div>
-  <div class="cbf-page-title">CAMPEONATO BRASILEIRO 2026</div>
-  <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
-    <div class="comp-pills">
-      <span class="comp-pill active">Série A</span>
-    </div>
-    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-      <span style="font-size:13px;color:#666;font-weight:600;">Ano</span>
-      <span style="background:#F5F5F5;border:1px solid #E0E0E0;border-radius:6px;padding:6px 16px;
-                   font-size:14px;font-weight:700;color:#333;">2026</span>
-    </div>
-  </div>
+  <div class="cbf-page-title">SIMULAÇAO CAMPEONATO BRASILEIRO</div>
+  <div class="cbf-page-subtitle">Temporada 2026 · Série A</div>
 </div>
 """, unsafe_allow_html=True)
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "SIMULAÇÃO", "PREVER PARTIDA", "VALUE BETS",
-    "BACKTESTING", "VALOR DE MERCADO"
+    "SIMULAÇÃO", "PREVISÕES", "VALUE BETS",
+    "BACKTESTING", "MERCADO"
 ])
 
 
@@ -824,7 +857,6 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 # TAB 1 — SIMULAÇÃO
 # ══════════════════════════════════════════════════════════════════════════════
 with tab1:
-    st.markdown("<div class='section-title'>TABELA BRASILEIRÃO 2026</div>", unsafe_allow_html=True)
     df_sim = load_sim()
 
     if df_sim.empty:
@@ -834,10 +866,34 @@ with tab1:
         rebaixa = df_sim.sort_values("rebaixamento_pct", ascending=False).iloc[0]
 
         c1, c2, c3, c4 = st.columns(4)
-        with c1: st.metric("Favorito ao Título", top["time"], f"{top['titulo_pct']:.1f}%")
-        with c2: st.metric("Maior risco rebaixamento", rebaixa["time"], f"{rebaixa['rebaixamento_pct']:.1f}%", delta_color="inverse")
-        with c3: st.metric("Times simulados", len(df_sim))
-        with c4: st.metric("Simulações Monte Carlo", "10.000")
+        with c1:
+            st.markdown(f"""
+            <div class="kpi-card accent-green">
+                <div class="kpi-label">Favorito ao Título</div>
+                <div class="kpi-value">{top['titulo_pct']:.1f}%</div>
+                <div class="kpi-sub">{top['time']}</div>
+            </div>""", unsafe_allow_html=True)
+        with c2:
+            st.markdown(f"""
+            <div class="kpi-card accent-red">
+                <div class="kpi-label">Maior Risco Rebaixamento</div>
+                <div class="kpi-value" style="color:var(--red);">{rebaixa['rebaixamento_pct']:.1f}%</div>
+                <div class="kpi-sub">{rebaixa['time']}</div>
+            </div>""", unsafe_allow_html=True)
+        with c3:
+            st.markdown(f"""
+            <div class="kpi-card accent-blue">
+                <div class="kpi-label">Times Simulados</div>
+                <div class="kpi-value">{len(df_sim)}</div>
+                <div class="kpi-sub">Série A</div>
+            </div>""", unsafe_allow_html=True)
+        with c4:
+            st.markdown(f"""
+            <div class="kpi-card accent-yellow">
+                <div class="kpi-label">Simulações Monte Carlo</div>
+                <div class="kpi-value">10K</div>
+                <div class="kpi-sub">Iterações</div>
+            </div>""", unsafe_allow_html=True)
 
         # Legend
         st.markdown("""
@@ -877,7 +933,7 @@ with tab1:
             elif pos >= 17: pos_class, pos_color = "pos-rebaixa", "#E52E2E"
             else:           pos_class, pos_color = "pos-normal",  "#CCCCCC" 
 
-            logo_html = team_logo_html(row["time"], size=28)
+            logo_html = team_logo_html(row["time"], size=32)
             pts = f"{row['pts_esperados']:.1f}"
             liberta_bar = min(row["libertadores_pct"], 100)
             
@@ -892,10 +948,13 @@ with tab1:
                 f"<span style='color:#FF8C00;font-weight:700;'>Lib {row['libertadores_pct']:.1f}%</span>"
                 f"<span style='color:#E52E2E;font-weight:700;'>Reb {row['rebaixamento_pct']:.1f}%</span>"
                 f"</div>"
-                f"<div style='width:100px;'>"
-                f"<div class='prob-bar-wrap'>"
-                f"<div class='prob-bar' style='width:{int(liberta_bar)}%;background:{pos_color};'></div>"
+                f"<div style='width:140px;display:flex;align-items:center;gap:8px;'>"
+                f"<div class='prob-bar-wrap' style='flex:1;'>"
+                f"<div class='prob-bar' style='width:{int(liberta_bar)}%;background:{pos_color};'>"
+                f"{'<span class=prob-bar-label>' + str(int(liberta_bar)) + '%</span>' if liberta_bar >= 20 else ''}"
                 f"</div>"
+                f"</div>"
+                f"<span style='font-family:General Sans,sans-serif;font-size:11px;font-weight:700;color:{pos_color};min-width:32px;text-align:right;'>{int(liberta_bar)}%</span>"
                 f"</div>"
                 f"</div>",
                 unsafe_allow_html=True,
@@ -906,7 +965,7 @@ with tab1:
 # TAB 2 — PREVER PARTIDA
 # ══════════════════════════════════════════════════════════════════════════════
 with tab2:
-    st.markdown("<div class='section-title'>PREVER PARTIDA</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'>Previsão de Partida</div>", unsafe_allow_html=True)
     features_df = load_features()
     model_data  = load_model()
     all_teams   = sorted(features_df["home_team"].unique().tolist())
@@ -1032,7 +1091,7 @@ with tab2:
 # TAB 3 — VALUE BETS
 # ══════════════════════════════════════════════════════════════════════════════
 with tab3:
-    st.markdown("<div class='section-title'>VALUE BETS — PRÓXIMA RODADA</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'>Value Bets — Próxima Rodada</div>", unsafe_allow_html=True)
 
     col_btn1, col_btn2, col_space = st.columns([1, 1, 4])
     with col_btn1:
@@ -1175,7 +1234,7 @@ with tab3:
 # TAB 4 — BACKTESTING
 # ══════════════════════════════════════════════════════════════════════════════
 with tab4:
-    st.markdown("<div class='section-title'>BACKTESTING — BRASILEIRÃO 2025/2026</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'>Backtesting — 2025/2026</div>", unsafe_allow_html=True)
 
     try:
         df_bt = pd.read_csv(BACKTESTING_PATH)
@@ -1261,7 +1320,7 @@ with tab4:
 # TAB 5 — VALOR DE MERCADO
 # ══════════════════════════════════════════════════════════════════════════════
 with tab5:
-    st.markdown("<div class='section-title'>VALOR DE MERCADO — BRASILEIRÃO 2026</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'>Valor de Mercado — 2026</div>", unsafe_allow_html=True)
     df_mv = load_market()
 
     if df_mv.empty:
