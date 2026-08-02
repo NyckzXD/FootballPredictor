@@ -851,7 +851,9 @@ st.markdown("""
       <div style="width:34px;height:34px;background:var(--cbf-yellow);border-radius:6px;
                   display:flex;align-items:center;justify-content:center;
                   font-size:18px;font-weight:900;color:var(--cbf-blue-dark);"></div>
-      <div class="cbf-logo-text">PREDICTOR</div>
+      <div class="predictor-logo">
+        <img src="C:\PREDICTOR\REPO\dashboard\predictorlogo.png">
+      </div>
     </div>
 
   </div>
