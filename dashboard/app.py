@@ -115,25 +115,7 @@ html, body, [class*="css"], .stApp {
     font-family: 'General Sans', sans-serif !important;
     overflow-x: hidden !important;
 }
-.stApp {
-    display: flex !important;
-    flex-direction: column !important;
-    min-height: 100vh !important;
-}
-.stApp > div[data-testid="stAppViewContainer"] {
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 1 !important;
-}
-.stApp > div[data-testid="stAppViewContainer"] > section[data-testid="stMain"] {
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 1 !important;
-}
 .stApp > div[data-testid="stAppViewContainer"] > section[data-testid="stMain"] > div[data-testid="stMainBlockContainer"] {
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 1 !important;
     padding-bottom: 0 !important;
 }
 
@@ -724,13 +706,14 @@ hr { border: none !important; border-top: 1px solid var(--border) !important; ma
 /* ── Footer CBF ── */
 .cbf-footer {
     background: var(--cbf-blue-dark);
-    margin-top: auto;
+    margin-top: 60px;
     padding: 30px 40px;
     color: rgba(255,255,255,0.7);
     margin-left: calc(-50vw + 50%) !important;
     margin-right: calc(-50vw + 50%) !important;
     padding-left: calc(50vw - 50% + 40px) !important;
     padding-right: calc(50vw - 50% + 40px) !important;
+    margin-bottom: 0 !important;
 }
 .cbf-footer a { color: var(--cbf-yellow); text-decoration: none; }
 </style>
