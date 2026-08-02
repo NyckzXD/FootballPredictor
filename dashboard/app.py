@@ -4,6 +4,7 @@ import numpy as np
 import joblib
 import sys
 import os
+import base64
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -149,7 +150,7 @@ h1, h2, h3, h4 {
 .cbf-header {
     background: var(--cbf-blue);
     margin: -1rem -4rem 0 -4rem;
-    padding: 0 4rem;
+    padding: 0 4rem 0 0;
     position: relative;
     z-index: 100;
 }
@@ -158,8 +159,6 @@ h1, h2, h3, h4 {
     align-items: center;
     justify-content: space-between;
     padding: 6px 0;
-    max-width: 1200px;
-    margin: 0 auto;
 }
 .cbf-logo-area {
     display: flex;
@@ -844,24 +843,22 @@ def predict_match(home, away, features_df, model_data,
 
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.markdown("""
+_logo_path = os.path.join(BASE, "dashboard", "predictorlogo.png")
+with open(_logo_path, "rb") as _f:
+    _logo_b64 = base64.b64encode(_f.read()).decode()
+
+st.markdown(f"""
 <div class="cbf-header">
   <div class="cbf-header-inner">
     <div class="cbf-logo-area">
-      <div style="width:34px;height:34px;background:var(--cbf-yellow);border-radius:6px;
-                  display:flex;align-items:center;justify-content:center;
-                  font-size:18px;font-weight:900;color:var(--cbf-blue-dark);"></div>
-      <div class="predictor-logo">
-        <img src="C:\PREDICTOR\REPO\dashboard\predictorlogo.png">
-      </div>
+      <img src="data:image/png;base64,{_logo_b64}" style="height:95px;object-fit:contain;" />
     </div>
-
   </div>
 </div>
 
 
 <div class="cbf-page-title-area">
-  <div class="cbf-page-title">SIMULAÇAO CAMPEONATO BRASILEIRO</div>
+  <div class="cbf-page-title">SIMULAÇÃO CAMPEONATO BRASILEIRO</div>
   <div class="cbf-page-subtitle">Temporada 2026 · Série A</div>
 </div>
 """, unsafe_allow_html=True)
@@ -889,7 +886,7 @@ with tab1:
             st.markdown(f"""
             <div class="kpi-card accent-green">
                 <div class="kpi-label">Favorito ao Título</div>
-                <div class="kpi-value">{top['titulo_pct']:.1f}%</div>
+                <div class="kpi-value" style="color:var(--green);">{top['titulo_pct']:.1f}%</div>
                 <div class="kpi-sub">{top['time']}</div>
             </div>""", unsafe_allow_html=True)
         with c2:
