@@ -942,7 +942,7 @@ with tab1:
             "<span style='flex:1;padding-left:40px;'>CLASSIFICAÇÃO</span>"
             "<span style='width:60px;text-align:center;'>PTS</span>"
             "<span style='width:200px;text-align:center;'>TÍTULO / LIBERTA / REB</span>"
-            "<span style='width:100px;text-align:center;'>PROB</span>"
+            "<span style='width:140px;text-align:center;'>PROB</span>"
             "</div>",
             unsafe_allow_html=True,
         )
