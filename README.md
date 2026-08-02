@@ -15,7 +15,6 @@ O PREDICTOR é um pipeline completo de machine learning aplicado à análise esp
 
 O modelo principal (`match_model_v2`) combina **LightGBM + XGBoost** com **stacking via meta-learner** e HPO automático (Optuna), calibrado isotonicamente para estimar probabilidades de resultado (Vitória Mandante / Empate / Vitória Visitante). A simulação da temporada é executada com **10.000 iterações de Monte Carlo**, paralelizadas em múltiplos processos, para estimativa probabilística da classificação final.
 
-Acesse em: https://brasileiraopredictor.streamlit.app/
 ---
 
 ## Arquitetura do Projeto
