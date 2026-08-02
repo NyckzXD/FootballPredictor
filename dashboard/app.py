@@ -113,6 +113,28 @@ html, body, [class*="css"], .stApp {
     background-color: var(--bg) !important;
     color: var(--text) !important;
     font-family: 'General Sans', sans-serif !important;
+    overflow-x: hidden !important;
+}
+.stApp {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+.stApp > div[data-testid="stAppViewContainer"] {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+}
+.stApp > div[data-testid="stAppViewContainer"] > section[data-testid="stMain"] {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+}
+.stApp > div[data-testid="stAppViewContainer"] > section[data-testid="stMain"] > div[data-testid="stMainBlockContainer"] {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    padding-bottom: 0 !important;
 }
 
 /* ── Hide default Streamlit header ── */
@@ -702,9 +724,13 @@ hr { border: none !important; border-top: 1px solid var(--border) !important; ma
 /* ── Footer CBF ── */
 .cbf-footer {
     background: var(--cbf-blue-dark);
-    margin: 40px -4rem 0 -4rem;
-    padding: 30px 4rem;
+    margin-top: auto;
+    padding: 30px 40px;
     color: rgba(255,255,255,0.7);
+    margin-left: calc(-50vw + 50%) !important;
+    margin-right: calc(-50vw + 50%) !important;
+    padding-left: calc(50vw - 50% + 40px) !important;
+    padding-right: calc(50vw - 50% + 40px) !important;
 }
 .cbf-footer a { color: var(--cbf-yellow); text-decoration: none; }
 </style>
@@ -1370,14 +1396,14 @@ with tab5:
             paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
             font=dict(color="#333333", family="General Sans"),
             coloraxis_showscale=False,
-            yaxis=dict(autorange="reversed", color="#666666", gridcolor="#EEEEEE"),
+            yaxis=dict(autorange="reversed", color="#333333", gridcolor="#EEEEEE", tickfont=dict(size=13, color="#333333")),
             xaxis=dict(color="#666666", gridcolor="#EEEEEE"),
-            height=520, margin=dict(l=0, r=0, t=20, b=0),
+            height=520, margin=dict(l=160, r=0, t=20, b=0),
         )
         fig.update_traces(marker_line_width=0)
         st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown("<div style='font-family:General Sans,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#666666;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-family:General Sans,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
         max_val = df_mv["market_value"].max()
 
         for rank_i, (_, mv_row) in enumerate(df_mv.iterrows(), start=1):
@@ -1415,7 +1441,6 @@ with tab5:
             )
 
 # ── Footer ────────────────────────────────────────────────────────────────────
-st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
 <div class="cbf-footer">
   <div style="text-align:center;">
@@ -1429,7 +1454,7 @@ st.markdown("""
     </div>
     <div style="font-family:'General Sans',sans-serif;font-size:9px;color:rgba(255,255,255,0.7);
                 margin-top:6px;letter-spacing:1px;">
-      LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
+      LightGBM · Acurácia 60.96% · Monte Carlo 10.000 simulações
     </div>
   </div>
 </div>
