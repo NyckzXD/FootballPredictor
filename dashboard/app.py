@@ -117,7 +117,7 @@ html, body, [class*="css"], .stApp {
 
 /* ── Hide default Streamlit header ── */
 header[data-testid="stHeader"] {
-    background: var(--cbf-blue) !important;
+    display: none !important;
 }
 
 /* ── Scrollbar ── */
@@ -149,16 +149,21 @@ h1, h2, h3, h4 {
 /* ── CBF Header ── */
 .cbf-header {
     background: var(--cbf-blue);
-    margin: -1rem -4rem 0 -4rem;
-    padding: 0 4rem 0 0;
-    position: relative;
-    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 999;
+    padding: 0;
 }
 .cbf-header-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 6px 0;
+    justify-content: flex-start;
+    padding: 4px 24px;
+}
+.cbf-header-spacer {
+    height: 105px;
 }
 .cbf-logo-area {
     display: flex;
@@ -855,6 +860,7 @@ st.markdown(f"""
     </div>
   </div>
 </div>
+<div class="cbf-header-spacer"></div>
 
 
 <div class="cbf-page-title-area">
