@@ -4,6 +4,7 @@ import numpy as np
 import joblib
 import sys
 import os
+import base64
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -30,18 +31,6 @@ ODDS_LIVE_PATH     = os.path.join(DATA_EXT,  "odds_live.csv")
 BACKTESTING_PATH   = os.path.join(DATA_EXT,  "backtesting_results.csv")
 
 # ── Config ────────────────────────────────────────────────────────────────────
-import base64
-
-def _img_to_b64(path):
-    try:
-        with open(path, "rb") as f:
-            return base64.b64encode(f.read()).decode()
-    except Exception:
-        return None
-
-_HERE       = os.path.dirname(os.path.abspath(__file__))
-LOGO_PATH   = os.path.join(_HERE, "predictor_logo.png")
-_logo_b64   = _img_to_b64(LOGO_PATH)
 
 TEAM_LOGOS = {
     "SE Palmeiras":               "https://tmssl.akamaized.net/images/wappen/head/1023.png",
@@ -70,7 +59,7 @@ TEAM_LOGOS = {
 def team_logo_html(team_name, size=28):
     url = TEAM_LOGOS.get(team_name, "")
     if not url:
-        return f'<div style="width:{size}px;height:{size}px;border-radius:50%;background:#1c2a3a;margin-right:8px;flex-shrink:0;"></div>'
+        return f'<div style="width:{size}px;height:{size}px;border-radius:50%;background:#E0E0E0;margin-right:8px;flex-shrink:0;"></div>'
     return (
         f'<img src="{url}" width="{size}" height="{size}" '
         f'style="object-fit:contain;border-radius:4px;vertical-align:middle;'
@@ -87,147 +76,310 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap');
 
 :root {
-    --green:    #00e676;
-    --green-dim:#00c853;
-    --red:      #ff1744;
-    --yellow:   #ffd600;
-    --blue:     #2979ff;
-    --orange:   #ff6d00;
-    --bg:       #020617;
-    --surface:  #0a0f1e;
-    --card:     #0d1526;
-    --card-alt: #111827;
-    --border:   #1e2d45;
-    --border-lo:#141f30;
-    --text:     #f0f4f8;
-    --muted:    #7a8a9e;
-    --muted-lo: #3d4d5e;
+    /* ── Paleta CBF ── */
+    --cbf-blue:       #1351B4;
+    --cbf-blue-dark:  #071D41;
+    --cbf-blue-hover: #1A5FCC;
+    --cbf-yellow:     #FFCD00;
+    --cbf-yellow-lt:  #FFF5CC;
+    --cbf-green:      #168821;
+    --cbf-green-lt:   #E4F7E8;
+
+    /* ── Semantic ── */
+    --bg:          #FFFFFF;
+    --surface:     #F5F5F5;
+    --card:        #FFFFFF;
+    --card-alt:    #FAFAFA;
+    --border:      #E0E0E0;
+    --border-lo:   #EEEEEE;
+    --text:        #333333;
+    --text-light:  #FFFFFF;
+    --muted:       #666666;
+    --muted-lo:    #999999;
+
+    /* ── Status ── */
+    --green:       #168821;
+    --green-dim:   #2E7D32;
+    --red:         #E52E2E;
+    --yellow:      #FFCD00;
+    --blue:        #1351B4;
+    --orange:      #FF8C00;
 }
 
 html, body, [class*="css"], .stApp {
     background-color: var(--bg) !important;
     color: var(--text) !important;
-    font-family: 'Inter', sans-serif !important;
+    font-family: 'General Sans', sans-serif !important;
+}
+
+/* ── Hide default Streamlit header ── */
+header[data-testid="stHeader"] {
+    display: none !important;
 }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #F0F0F0; }
+::-webkit-scrollbar-thumb { background: var(--cbf-blue); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cbf-blue-dark); }
 
 /* ── Headings ── */
 h1, h2, h3, h4 {
-    font-family: 'Bebas Neue', sans-serif !important;
-    letter-spacing: 2px;
+    font-family: 'General Sans', sans-serif !important;
+    letter-spacing: 0.5px;
     color: var(--text) !important;
 }
 
-/* ── Section title ── */
+/* ── Section title (CBF style) ── */
 .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
-    letter-spacing: 3px;
-    color: var(--text);
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.section-title::before {
-    content: '';
-    display: inline-block;
-    width: 4px;
-    height: 26px;
-    background: linear-gradient(to bottom, var(--green), var(--blue));
-    border-radius: 2px;
+    font-family: 'General Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--cbf-blue-dark);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--cbf-yellow);
+    margin-bottom: 12px;
+    text-transform: uppercase;
 }
 
-/* ── Tabs ── */
+/* ── CBF Header ── */
+.cbf-header {
+    background: var(--cbf-blue);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 999;
+    padding: 0;
+}
+.cbf-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 4px 24px;
+}
+.cbf-header-spacer {
+    height: 105px;
+}
+.cbf-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.cbf-logo-text {
+    font-family: 'General Sans', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.cbf-nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+.cbf-nav-item {
+    font-family: 'General Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.2s;
+}
+.cbf-nav-item:hover { color: #FFFFFF; }
+.cbf-nav-item.active {
+    color: var(--cbf-yellow);
+    border-bottom: 2px solid var(--cbf-yellow);
+    padding-bottom: 2px;
+}
+
+/* ── CBF Sub-header ── */
+.cbf-subheader {
+    background: var(--cbf-blue-dark);
+    margin: 0 -4rem;
+    padding: 0 4rem;
+}
+.cbf-subheader-inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 10px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.cbf-sub-item {
+    font-family: 'General Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    padding: 6px 0;
+    transition: color 0.2s;
+}
+.cbf-sub-item:hover { color: #FFFFFF; }
+
+/* ── Page title area ── */
+.cbf-page-title-area {
+    padding: 14px 0 10px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+}
+.cbf-badge {
+    display: inline-block;
+    background: var(--cbf-blue);
+    color: #FFFFFF;
+    font-family: 'General Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.cbf-page-title {
+    font-family: 'General Sans', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    color: var(--cbf-blue-dark);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 2px;
+}
+.cbf-page-subtitle {
+    font-family: 'General Sans', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+}
+
+/* ── Tabs (modern underline nav) ── */
 .stTabs [data-baseweb="tab-list"] {
-    background: var(--surface);
-    border-radius: 10px;
-    padding: 4px 6px;
-    border: 1px solid var(--border);
-    gap: 2px;
+    background: transparent;
+    border-radius: 0;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    gap: 0;
+    margin: 0;
+    padding: 0;
 }
 .stTabs [data-baseweb="tab"] {
-    font-family: 'Inter', sans-serif !important;
+    font-family: 'General Sans', sans-serif !important;
     font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 0.5px;
+    font-size: 13px;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
-    color: var(--muted) !important;
-    border-radius: 7px;
-    padding: 8px 18px;
+    color: var(--muted-lo) !important;
+    border-radius: 0;
+    padding: 12px 24px;
     transition: all 0.2s ease;
     border: none !important;
+    border-bottom: 3px solid transparent !important;
+    margin-bottom: -2px;
+}
+.stTabs [data-baseweb="tab"]:hover {
+    color: var(--cbf-blue) !important;
+    background: transparent !important;
 }
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #0f2040, #0a1628) !important;
-    color: var(--green) !important;
-    box-shadow: 0 0 0 1px var(--border), inset 0 1px 0 rgba(255,255,255,0.05);
+    background: transparent !important;
+    color: var(--cbf-blue) !important;
+    font-weight: 700 !important;
+    border-bottom: 3px solid var(--cbf-blue) !important;
+    box-shadow: none;
+}
+.stTabs [data-baseweb="tab-highlight"] {
+    display: none !important;
+}
+.stTabs [data-baseweb="tab-border"] {
+    display: none !important;
 }
 
 /* ── Metric card (native) ── */
 div[data-testid="stMetric"] {
     background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 20px;
+    border: 1px solid var(--border-lo);
+    border-radius: 14px;
+    padding: 20px 22px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+div[data-testid="stMetric"]:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
 }
 div[data-testid="stMetric"]::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--green), var(--blue));
-    opacity: 0.6;
+    height: 4px;
+    background: linear-gradient(90deg, var(--cbf-blue), var(--cbf-green));
 }
-div[data-testid="stMetricLabel"] > div {
-    font-size: 10px !important;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--muted) !important;
-    font-weight: 600;
+[data-testid="stMetricLabel"],
+[data-testid="stMetricLabel"] * {
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    color: #666666 !important;
+    font-weight: 700 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 div[data-testid="stMetricValue"] {
-    font-family: 'Bebas Neue', sans-serif !important;
-    font-size: 30px !important;
-    color: var(--text) !important;
+    font-family: 'General Sans', sans-serif !important;
+    font-size: 36px !important;
+    font-weight: 800 !important;
+    color: var(--cbf-blue-dark) !important;
     line-height: 1.1 !important;
 }
 div[data-testid="stMetricDelta"] {
     font-size: 12px !important;
-    font-weight: 600;
-    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 700;
+    font-family: 'General Sans', sans-serif !important;
 }
 
 /* ── Custom metric card ── */
 .kpi-card {
     background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 20px;
+    border: 1px solid var(--border-lo);
+    border-radius: 16px;
+    padding: 22px 20px 18px;
     text-align: center;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.2s;
+    transition: box-shadow 0.25s, transform 0.25s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
-.kpi-card:hover { border-color: var(--muted-lo); }
+.kpi-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.12); transform: translateY(-3px); }
 .kpi-card::after {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--green), var(--blue));
-    opacity: 0.5;
+    height: 4px;
+}
+.kpi-card.accent-green::after { background: var(--green); }
+.kpi-card.accent-red::after { background: var(--red); }
+.kpi-card.accent-blue::after { background: var(--blue); }
+.kpi-card.accent-yellow::after { background: var(--yellow); }
+.kpi-icon {
+    font-size: 32px;
+    margin-bottom: 6px;
+    line-height: 1;
 }
 .kpi-label {
     font-size: 10px;
@@ -238,13 +390,14 @@ div[data-testid="stMetricDelta"] {
     margin-bottom: 8px;
 }
 .kpi-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 34px;
-    color: var(--text);
+    font-family: 'General Sans', sans-serif;
+    font-weight: 800;
+    font-size: 40px;
+    color: var(--cbf-blue-dark);
     line-height: 1;
 }
 .kpi-sub {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'General Sans', sans-serif;
     font-size: 11px;
     color: var(--muted);
     margin-top: 4px;
@@ -254,107 +407,170 @@ div[data-testid="stMetricDelta"] {
 .vbet-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-left: 3px solid var(--green);
-    border-radius: 12px;
+    border-left: 4px solid var(--cbf-blue);
+    border-radius: 8px;
     padding: 20px 22px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 .vbet-card::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(0,230,118,0.02) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(19,81,180,0.03) 0%, transparent 60%);
     pointer-events: none;
 }
 .vbet-card:hover {
-    border-color: var(--muted-lo);
-    border-left-color: var(--yellow);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
 }
-.vbet-card.high  { border-left-color: var(--orange); }
-.vbet-card.high::after { background: linear-gradient(135deg, rgba(255,109,0,0.03) 0%, transparent 60%); }
-.vbet-card.top   { border-left-color: var(--red); }
-.vbet-card.top::after { background: linear-gradient(135deg, rgba(255,23,68,0.03) 0%, transparent 60%); }
+.vbet-card.high  { border-left-color: var(--cbf-yellow); }
+.vbet-card.high::after { background: linear-gradient(135deg, rgba(255,205,0,0.05) 0%, transparent 60%); }
+.vbet-card.top   { border-left-color: var(--orange); }
+.vbet-card.top::after { background: linear-gradient(135deg, rgba(255,140,0,0.05) 0%, transparent 60%); }
 
-/* ── Standings row ── */
+/* ── Standings row (CBF table style) ── */
 .standings-row {
     display: flex;
     align-items: center;
-    padding: 11px 16px;
-    border-radius: 10px;
-    margin-bottom: 3px;
+    padding: 10px 16px;
+    border-radius: 0;
+    margin-bottom: 0;
     background: var(--card);
-    border: 1px solid var(--border-lo);
+    border-bottom: 1px solid var(--border-lo);
     font-size: 14px;
-    transition: all 0.15s ease;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
     cursor: default;
 }
-.standings-row:hover {
-    background: var(--card-alt);
-    border-color: var(--border);
+.standings-row:nth-child(even) {
+    background: #FAFBFD;
+}
+.standings-row.zone-liberta:hover,
+.standings-row.zone-liberta:nth-child(even):hover {
+    background: #EBF0FA;
+    box-shadow: inset 4px 0 0 var(--cbf-blue);
+}
+.standings-row.zone-qualify:hover,
+.standings-row.zone-qualify:nth-child(even):hover {
+    background: #E8F5E9;
+    box-shadow: inset 4px 0 0 var(--cbf-green);
+}
+.standings-row.zone-sul:hover,
+.standings-row.zone-sul:nth-child(even):hover {
+    background: #FFF3E0;
+    box-shadow: inset 4px 0 0 var(--orange);
+}
+.standings-row.zone-rebaixa:hover,
+.standings-row.zone-rebaixa:nth-child(even):hover {
+    background: #FFEBEE;
+    box-shadow: inset 4px 0 0 var(--red);
+}
+.standings-row.zone-normal:hover,
+.standings-row.zone-normal:nth-child(even):hover {
+    background: #F0F0F0;
+    box-shadow: inset 4px 0 0 #CCCCCC;
 }
 .pos-badge {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 17px;
-    width: 28px;
-    text-align: center;
-    margin-right: 14px;
+    font-family: 'General Sans', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    margin-right: 12px;
     flex-shrink: 0;
+    color: #FFFFFF;
 }
-.pos-liberta { color: var(--blue); }
-.pos-sul     { color: var(--yellow); }
-.pos-rebaixa { color: var(--red); }
-.pos-normal  { color: var(--muted-lo); }
+.pos-liberta { background: var(--cbf-blue); }
+.pos-qualify { background: var(--cbf-green); }
+.pos-sul     { background: var(--orange); }
+.pos-rebaixa { background: var(--red); }
+.pos-normal  { background: #CCCCCC; color: #666; }
+
+/* ── Standings table header ── */
+.standings-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    background: var(--cbf-blue-dark);
+    color: #FFFFFF;
+    font-family: 'General Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 8px 8px 0 0;
+}
 
 /* ── Badges ── */
 .vs-badge {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--muted);
-    background: var(--border);
-    padding: 3px 8px;
-    border-radius: 4px;
+    font-family: 'General Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--cbf-blue);
+    background: rgba(19,81,180,0.08);
+    border: 1px solid rgba(19,81,180,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
     letter-spacing: 1px;
 }
 .edge-badge {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'General Sans', sans-serif;
     font-size: 12px;
     font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 6px;
-    background: rgba(0,230,118,0.1);
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: rgba(22,136,33,0.1);
     color: var(--green);
-    border: 1px solid rgba(0,230,118,0.2);
+    border: 1px solid rgba(22,136,33,0.25);
     letter-spacing: 0.5px;
 }
 .edge-badge.high {
-    background: rgba(255,109,0,0.1);
-    color: var(--orange);
-    border-color: rgba(255,109,0,0.25);
+    background: rgba(255,205,0,0.15);
+    color: #B8860B;
+    border-color: rgba(255,205,0,0.4);
 }
 .edge-badge.top {
-    background: rgba(255,23,68,0.1);
-    color: var(--red);
-    border-color: rgba(255,23,68,0.25);
+    background: rgba(255,140,0,0.12);
+    color: var(--orange);
+    border-color: rgba(255,140,0,0.35);
 }
 
 /* ── Prob bar ── */
 .prob-bar-wrap {
-    background: var(--border-lo);
-    border-radius: 3px;
-    height: 5px;
+    background: #E8E8E8;
+    border-radius: 6px;
+    height: 12px;
     overflow: hidden;
+    position: relative;
 }
-.prob-bar { height: 100%; border-radius: 3px; }
+.prob-bar {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.6s ease;
+    position: relative;
+}
+.prob-bar-label {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'General Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
 
 /* ── Info pill (mini stat in value bets) ── */
 .info-pill {
-    background: #0a1628;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 10px 14px;
@@ -369,7 +585,7 @@ div[data-testid="stMetricDelta"] {
     margin-bottom: 4px;
 }
 .info-pill .value {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'General Sans', sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: var(--text);
@@ -377,33 +593,36 @@ div[data-testid="stMetricDelta"] {
 }
 
 /* ── Mono util ── */
-.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+.mono { font-family: 'General Sans', sans-serif; font-size: 13px; }
 
 /* ── Team name ── */
 .team-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    letter-spacing: 1px;
+    font-family: 'General Sans', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+    color: var(--text);
 }
 
-/* ── Button ── */
+/* ── Button (CBF style) ── */
 .stButton > button {
-    background: linear-gradient(135deg, #00c853, #00e676) !important;
-    color: #001a0a !important;
-    font-family: 'Inter', sans-serif !important;
+    background: var(--cbf-blue) !important;
+    color: #FFFFFF !important;
+    font-family: 'General Sans', sans-serif !important;
     font-weight: 700 !important;
     font-size: 13px !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 0.8px !important;
     text-transform: uppercase !important;
     border: none !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
     padding: 10px 24px !important;
     transition: all 0.2s ease !important;
-    box-shadow: 0 4px 12px rgba(0,230,118,0.2) !important;
+    box-shadow: 0 2px 8px rgba(19,81,180,0.3) !important;
 }
 .stButton > button:hover {
+    background: var(--cbf-blue-hover) !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 6px 18px rgba(0,230,118,0.3) !important;
+    box-shadow: 0 4px 14px rgba(19,81,180,0.35) !important;
 }
 .stButton > button:active { transform: translateY(0) !important; }
 
@@ -412,56 +631,84 @@ div[data-testid="stMetricDelta"] {
 .stMultiSelect > div > div {
     background: var(--card) !important;
     border-color: var(--border) !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
     color: var(--text) !important;
 }
 .stNumberInput > div > div { background: var(--card) !important; }
 
 /* ── Expander ── */
 .streamlit-expanderHeader {
-    background: var(--card) !important;
+    background: var(--surface) !important;
     border: 1px solid var(--border) !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
     color: var(--muted) !important;
     font-weight: 600;
     font-size: 13px;
 }
 .streamlit-expanderContent {
-    background: var(--surface) !important;
+    background: var(--card) !important;
     border: 1px solid var(--border) !important;
     border-top: none !important;
-    border-radius: 0 0 8px 8px !important;
+    border-radius: 0 0 6px 6px !important;
 }
 
 /* ── Alert / info ── */
-.stAlert { border-radius: 8px !important; }
+.stAlert { border-radius: 6px !important; }
 
 /* ── Dataframe ── */
-.stDataFrame { border-radius: 10px !important; overflow: hidden; }
+.stDataFrame { border-radius: 8px !important; overflow: hidden; }
 
 /* ── Divider ── */
-hr { border: none !important; border-top: 1px solid var(--border-lo) !important; margin: 20px 0 !important; }
+hr { border: none !important; border-top: 1px solid var(--border) !important; margin: 20px 0 !important; }
 
 /* ── Plotly chart background ── */
-.js-plotly-plot { border-radius: 10px; overflow: hidden; }
+.js-plotly-plot { border-radius: 8px; overflow: hidden; }
 
 /* ── Legend dots for standings ── */
 .legend-dot {
     display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
+    width: 10px; height: 10px;
+    border-radius: 3px;
     margin-right: 5px;
     vertical-align: middle;
 }
+
+/* ── Competition pills (CBF style) ── */
+.comp-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+}
+.comp-pill {
+    font-family: 'General Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--card);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.comp-pill:hover { border-color: var(--cbf-blue); color: var(--cbf-blue); }
+.comp-pill.active {
+    background: var(--cbf-blue);
+    color: #FFFFFF;
+    border-color: var(--cbf-blue);
+}
+
+/* ── Footer CBF ── */
+.cbf-footer {
+    background: var(--cbf-blue-dark);
+    margin: 40px -4rem 0 -4rem;
+    padding: 30px 4rem;
+    color: rgba(255,255,255,0.7);
+}
+.cbf-footer a { color: var(--cbf-yellow); text-decoration: none; }
 </style>
 """, unsafe_allow_html=True)
-
-# ── Favicon (PNG) ────────────────────────────────────────────────────────────
-if _logo_b64:
-    st.markdown(
-        '<link rel="shortcut icon" href="data:image/png;base64,' + _logo_b64 + '" />',
-        unsafe_allow_html=True,
-    )
 
 # ── Loaders ───────────────────────────────────────────────────────────────────
 @st.cache_resource
@@ -601,60 +848,30 @@ def predict_match(home, away, features_df, model_data,
 
 
 # ── Header ────────────────────────────────────────────────────────────────────
-_logo_tag = (
-    '<img src="data:image/png;base64,' + _logo_b64 + '" '
-    'width="56" height="56" style="object-fit:contain;vertical-align:middle;'
-    'border-radius:10px;box-shadow:0 0 20px rgba(0,230,118,0.15);" />'
-) if _logo_b64 else (
-    '<div style="width:56px;height:56px;border-radius:10px;'
-    'background:linear-gradient(135deg,#0d2b1a,#00e676);'
-    'display:flex;align-items:center;justify-content:center;'
-    'font-family:Bebas Neue,sans-serif;font-size:22px;color:#001a0a;">P</div>'
-)
+_logo_path = os.path.join(BASE, "dashboard", "predictorlogo.png")
+with open(_logo_path, "rb") as _f:
+    _logo_b64 = base64.b64encode(_f.read()).decode()
 
 st.markdown(f"""
-<div style="padding:28px 0 20px 0;">
-  <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
-    {_logo_tag}
-    <div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;
-                  letter-spacing:5px;line-height:1;
-                  background:linear-gradient(135deg,#ffffff 40%,#00e676);
-                  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-                  background-clip:text;">
-        PREDICTOR
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;margin-top:5px;">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;
-                     color:#3d4d5e;letter-spacing:2px;text-transform:uppercase;">
-          Brasileirão 2026
-        </span>
-        <span style="background:#0a1628;border:1px solid #1e2d45;
-                     border-radius:4px;padding:2px 8px;
-                     font-family:'JetBrains Mono',monospace;font-size:10px;
-                     color:#00e676;letter-spacing:1px;">
-          v3.0
-        </span>
-        <span style="background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.15);
-                     border-radius:4px;padding:2px 8px;
-                     font-family:'JetBrains Mono',monospace;font-size:10px;
-                     color:#00e676;display:flex;align-items:center;gap:4px;">
-          <span style="width:5px;height:5px;border-radius:50%;
-                       background:#00e676;display:inline-block;
-                       box-shadow:0 0 6px #00e676;"></span>
-          LIVE
-        </span>
-      </div>
+<div class="cbf-header">
+  <div class="cbf-header-inner">
+    <div class="cbf-logo-area">
+      <img src="data:image/png;base64,{_logo_b64}" style="height:95px;object-fit:contain;" />
     </div>
   </div>
-  <div style="height:1px;background:linear-gradient(90deg,#00e676 0%,#2979ff 40%,transparent 100%);
-              opacity:0.3;margin-bottom:4px;"></div>
+</div>
+<div class="cbf-header-spacer"></div>
+
+
+<div class="cbf-page-title-area">
+  <div class="cbf-page-title">SIMULAÇÃO CAMPEONATO BRASILEIRO</div>
+  <div class="cbf-page-subtitle">Temporada 2026 · Série A</div>
 </div>
 """, unsafe_allow_html=True)
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "SIMULAÇÃO", "PREVER PARTIDA", "VALUE BETS",
-    "BACKTESTING", "VALOR DE MERCADO"
+    "SIMULAÇÃO", "PREVISÕES", "VALUE BETS",
+    "BACKTESTING", "MERCADO"
 ])
 
 
@@ -662,68 +879,104 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 # TAB 1 — SIMULAÇÃO
 # ══════════════════════════════════════════════════════════════════════════════
 with tab1:
-    st.markdown("<div class='section-title'>TABELA BRASILEIRÃO 2026</div>", unsafe_allow_html=True)
     df_sim = load_sim()
 
     if df_sim.empty:
         st.warning("Rode o season_simulator.py para gerar a simulação.")
     else:
         top = df_sim.iloc[0]
-        rebaixa_df = df_sim[df_sim["rebaixamento_pct"] > 50]
-        rebaixa = rebaixa_df.iloc[0] if len(rebaixa_df) > 0 else df_sim.iloc[-1]
+        rebaixa = df_sim.sort_values("rebaixamento_pct", ascending=False).iloc[0]
 
         c1, c2, c3, c4 = st.columns(4)
-        with c1: st.metric("Favorito ao Título", top["time"], f"{top['titulo_pct']:.1f}%")
-        with c2: st.metric("Maior risco rebaixamento", rebaixa["time"], f"{rebaixa['rebaixamento_pct']:.1f}%")
-        with c3: st.metric("Times simulados", len(df_sim))
-        with c4: st.metric("Simulações Monte Carlo", "10.000")
+        with c1:
+            st.markdown(f"""
+            <div class="kpi-card accent-green">
+                <div class="kpi-label">Favorito ao Título</div>
+                <div class="kpi-value" style="color:var(--green);">{top['titulo_pct']:.1f}%</div>
+                <div class="kpi-sub">{top['time']}</div>
+            </div>""", unsafe_allow_html=True)
+        with c2:
+            st.markdown(f"""
+            <div class="kpi-card accent-red">
+                <div class="kpi-label">Maior Risco Rebaixamento</div>
+                <div class="kpi-value" style="color:var(--red);">{rebaixa['rebaixamento_pct']:.1f}%</div>
+                <div class="kpi-sub">{rebaixa['time']}</div>
+            </div>""", unsafe_allow_html=True)
+        with c3:
+            st.markdown(f"""
+            <div class="kpi-card accent-blue">
+                <div class="kpi-label">Times Simulados</div>
+                <div class="kpi-value">{len(df_sim)}</div>
+                <div class="kpi-sub">Série A</div>
+            </div>""", unsafe_allow_html=True)
+        with c4:
+            st.markdown(f"""
+            <div class="kpi-card accent-yellow">
+                <div class="kpi-label">Simulações Monte Carlo</div>
+                <div class="kpi-value">10K</div>
+                <div class="kpi-sub">Iterações</div>
+            </div>""", unsafe_allow_html=True)
 
         # Legend
         st.markdown("""
         <div style="display:flex;gap:20px;margin:16px 0 10px 0;flex-wrap:wrap;">
-          <span style="font-size:11px;color:#7a8a9e;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#2979ff;"></span> Libertadores (1–5)
+          <span style="font-size:12px;color:#333;display:flex;align-items:center;gap:6px;font-weight:600;">
+            <span class="legend-dot" style="background:#1351B4;"></span> Libertadores (1–4)
           </span>
-          <span style="font-size:11px;color:#7a8a9e;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#00e676;"></span> Fase Qualificatória (6)
+          <span style="font-size:12px;color:#333;display:flex;align-items:center;gap:6px;font-weight:600;">
+            <span class="legend-dot" style="background:#168821;"></span> Fase Qualificatória (5–6)
           </span>
-          <span style="font-size:11px;color:#7a8a9e;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#ffd600;"></span> Sul-Americana (6–11)
+          <span style="font-size:12px;color:#333;display:flex;align-items:center;gap:6px;font-weight:600;">
+            <span class="legend-dot" style="background:#FF8C00;"></span> Sul-Americana (7–11)
           </span>
-          <span style="font-size:11px;color:#7a8a9e;display:flex;align-items:center;gap:5px;">
-            <span class="legend-dot" style="background:#ff1744;"></span> Rebaixamento (17–20)
+          <span style="font-size:12px;color:#333;display:flex;align-items:center;gap:6px;font-weight:600;">
+            <span class="legend-dot" style="background:#E52E2E;"></span> Rebaixamento (17–20)
           </span>
         </div>
         """, unsafe_allow_html=True)
 
+        # Table header
+        st.markdown(
+            "<div class='standings-header'>"
+            "<span style='width:44px;text-align:center;'>POS</span>"
+            "<span style='flex:1;padding-left:40px;'>CLASSIFICAÇÃO</span>"
+            "<span style='width:60px;text-align:center;'>PTS</span>"
+            "<span style='width:200px;text-align:center;'>TÍTULO / LIBERTA / REB</span>"
+            "<span style='width:140px;text-align:center;'>PROB</span>"
+            "</div>",
+            unsafe_allow_html=True,
+        )
+
         for i, row in df_sim.reset_index(drop=True).iterrows():
             pos = i + 1
-            if pos <= 4:    pos_class, pos_color, zone_bg = "pos-liberta", "#2979ff", "rgba(41,121,255,0.04)"
-            elif pos == 5:  pos_class, pos_color, zone_bg = "pos-qualify", "#00e676", "rgba(2, 24, 30)"
-            elif pos <= 11: pos_class, pos_color, zone_bg = "pos-sul",     "#ffd600", "rgba(255,214,0,0.03)"
-            elif pos <= 16: pos_class, pos_color, zone_bg = "pos-normal",  "#3d4d5e", "transparent"
-            else:           pos_class, pos_color, zone_bg = "pos-rebaixa", "#ff1744", "rgba(255,23,68,0.04)"
+            if pos <= 4:    pos_class, pos_color = "pos-liberta", "#1351B4"
+            elif pos <= 6:  pos_class, pos_color = "pos-qualify", "#168821"
+            elif pos <= 11: pos_class, pos_color = "pos-sul",     "#FF8C00"
+            elif pos >= 17: pos_class, pos_color = "pos-rebaixa", "#E52E2E"
+            else:           pos_class, pos_color = "pos-normal",  "#CCCCCC" 
 
+            logo_html = team_logo_html(row["time"], size=32)
+            pts = f"{row['pts_esperados']:.1f}"
             liberta_bar = min(row["libertadores_pct"], 100)
-            logo_html   = team_logo_html(row["time"], size=26)
-
+            
             st.markdown(
-                f"<div class='standings-row' style='background-color:{zone_bg};border-left:2px solid {pos_color if pos<=11 or pos>=17 else 'transparent'};'>"
-                f"<span class='pos-badge {pos_class}'>{pos}</span>"
-                + logo_html +
-                f"<span style='flex:1;font-weight:600;font-size:14px;letter-spacing:0.3px;'>{row['time']}</span>"
-                f"<span class='mono' style='width:72px;text-align:right;color:#f0f4f8;font-size:13px;'>"
-                f"{row['pts_esperados']:.1f} <span style='color:#3d4d5e;font-size:10px;'>pts</span></span>"
-                f"<div style='width:220px;margin-left:18px;'>"
-                f"<div style='display:flex;justify-content:space-between;font-size:9px;color:#3d4d5e;"
-                f"margin-bottom:4px;font-family:JetBrains Mono,monospace;letter-spacing:0.5px;'>"
-                f"<span style='color:#2979ff;'>Titulo {row['titulo_pct']:.1f}%</span>"
-                f"<span style='color:#ffd600;'>Libertadores {row['libertadores_pct']:.1f}%</span>"
-                f"<span style='color:#ff1744;'>Rebaixamento {row['rebaixamento_pct']:.1f}%</span>"
+                f"<div class='standings-row zone-{pos_class.replace('pos-', '')}'>"
+                f"<div class='pos-badge {pos_class}'>{pos}</div>"
+                f"<div style='flex:1;display:flex;align-items:center;font-weight:700;'>{logo_html}{row['time']}</div>"
+                f"<div style='width:60px;text-align:center;font-family:General Sans,sans-serif;font-weight:700;'>{pts}</div>"
+                f"<div style='width:200px;display:flex;justify-content:center;gap:12px;font-size:12px;"
+                f"margin-bottom:5px;font-family:General Sans,sans-serif;letter-spacing:0.3px;'>"
+                f"<span style='color:#1351B4;font-weight:700;'>Tít {row['titulo_pct']:.1f}%</span>"
+                f"<span style='color:#FF8C00;font-weight:700;'>Lib {row['libertadores_pct']:.1f}%</span>"
+                f"<span style='color:#E52E2E;font-weight:700;'>Reb {row['rebaixamento_pct']:.1f}%</span>"
                 f"</div>"
-                f"<div class='prob-bar-wrap'>"
-                f"<div class='prob-bar' style='width:{int(liberta_bar)}%;background:{pos_color};opacity:0.7;'></div>"
+                f"<div style='width:140px;display:flex;align-items:center;gap:8px;'>"
+                f"<div class='prob-bar-wrap' style='flex:1;'>"
+                f"<div class='prob-bar' style='width:{int(liberta_bar)}%;background:{pos_color};'>"
+                f"{'<span class=prob-bar-label>' + str(int(liberta_bar)) + '%</span>' if liberta_bar >= 20 else ''}"
                 f"</div>"
+                f"</div>"
+                f"<span style='font-family:General Sans,sans-serif;font-size:11px;font-weight:700;color:{pos_color};min-width:32px;text-align:right;'>{int(liberta_bar)}%</span>"
                 f"</div>"
                 f"</div>",
                 unsafe_allow_html=True,
@@ -734,7 +987,7 @@ with tab1:
 # TAB 2 — PREVER PARTIDA
 # ══════════════════════════════════════════════════════════════════════════════
 with tab2:
-    st.markdown("<div class='section-title'>PREVER PARTIDA</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'>Previsão de Partida</div>", unsafe_allow_html=True)
     features_df = load_features()
     model_data  = load_model()
     all_teams   = sorted(features_df["home_team"].unique().tolist())
@@ -750,17 +1003,18 @@ with tab2:
     home_logo = team_logo_html(home, size=36)
     away_logo = team_logo_html(away, size=36)
     st.markdown(
-        f"<div style='display:flex;align-items:center;justify-content:center;gap:16px;"
-        f"padding:16px;background:#0d1526;border:1px solid #1e2d45;border-radius:12px;"
-        f"margin:12px 0;'>"
-        f"<div style='display:flex;align-items:center;gap:8px;'>"
+        f"<div style='display:flex;align-items:center;justify-content:center;gap:24px;"
+        f"padding:24px;background:#FFFFFF;border:1px solid #E0E0E0;border-radius:8px;"
+        f"margin:14px 0;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.06);'>"
+        f"<div style='position:absolute;top:0;left:0;right:0;height:3px;background:#1351B4;'></div>"
+        f"<div style='display:flex;align-items:center;gap:10px;'>"
         + home_logo +
-        f"<span style='font-family:Bebas Neue,sans-serif;font-size:22px;letter-spacing:1px;'>{home}</span>"
+        f"<span style='font-family:General Sans,sans-serif;font-weight:800;font-size:22px;color:#071D41;'>{home}</span>"
         f"</div>"
         f"<span class='vs-badge'>VS</span>"
-        f"<div style='display:flex;align-items:center;gap:8px;'>"
+        f"<div style='display:flex;align-items:center;gap:10px;'>"
         + away_logo +
-        f"<span style='font-family:Bebas Neue,sans-serif;font-size:22px;letter-spacing:1px;'>{away}</span>"
+        f"<span style='font-family:General Sans,sans-serif;font-weight:800;font-size:22px;color:#071D41;'>{away}</span>"
         f"</div>"
         f"</div>",
         unsafe_allow_html=True,
@@ -785,7 +1039,7 @@ with tab2:
             outcomes   = {"H": ph, "D": pd_, "A": pa}
             pred       = max(outcomes, key=outcomes.get)
             pred_label = {"H": f"{home} vence", "D": "Empate", "A": f"{away} vence"}[pred]
-            pred_color = {"H": "#2979ff", "D": "#ffd600", "A": "#ff6d00"}[pred]
+            pred_color = {"H": "#1351B4", "D": "#FFCD00", "A": "#168821"}[pred]
             conf       = outcomes[pred]
 
             st.markdown("<br>", unsafe_allow_html=True)
@@ -800,32 +1054,32 @@ with tab2:
             bar_a = int(pa * 100)
 
             st.markdown(f"""
-            <div style="background:#0d1526;border:1px solid #1e2d45;border-left:3px solid {pred_color};
-                        border-radius:12px;padding:24px 28px;margin-top:18px;">
-              <div style="font-size:9px;font-weight:700;color:#3d4d5e;
-                          letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;">
+            <div style="background:#FFFFFF;border:1px solid #E0E0E0;border-left:4px solid {pred_color};
+                        border-radius:8px;padding:24px 28px;margin-top:18px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+              <div style="font-size:10px;font-weight:700;color:#666;
+                          letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">
                 Previsão do Modelo
               </div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;
-                          letter-spacing:2px;color:{pred_color};">
+              <div style="font-family:'General Sans',sans-serif;font-weight:800;font-size:36px;
+                          letter-spacing:1px;color:{pred_color};">
                 {pred_label}
               </div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:12px;
-                          color:#7a8a9e;margin-top:6px;">
-                Confiança: <span style="color:{pred_color};font-weight:600;">{conf:.1%}</span>
+              <div style="font-family:'General Sans',sans-serif;font-size:12px;
+                          color:#666;margin-top:6px;">
+                Confiança: <span style="color:{pred_color};font-weight:700;">{conf:.1%}</span>
               </div>
-              <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px;">
+              <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px;">
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#7a8a9e;width:72px;font-family:JetBrains Mono,monospace;">MAN {ph:.0%}</span>
-                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_h}%;background:#2979ff;"></div></div>
+                  <span style="font-size:10px;color:#666;width:72px;font-family:General Sans,sans-serif;font-weight:600;">MAN {ph:.0%}</span>
+                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_h}%;background:#1351B4;"></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#7a8a9e;width:72px;font-family:JetBrains Mono,monospace;">EMP {pd_:.0%}</span>
-                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_d}%;background:#ffd600;"></div></div>
+                  <span style="font-size:10px;color:#666;width:72px;font-family:General Sans,sans-serif;font-weight:600;">EMP {pd_:.0%}</span>
+                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_d}%;background:#FFCD00;"></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:10px;color:#7a8a9e;width:72px;font-family:JetBrains Mono,monospace;">VIS {pa:.0%}</span>
-                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_a}%;background:#ff6d00;"></div></div>
+                  <span style="font-size:10px;color:#666;width:72px;font-family:General Sans,sans-serif;font-weight:600;">VIS {pa:.0%}</span>
+                  <div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{bar_a}%;background:#168821;"></div></div>
                 </div>
               </div>
             </div>
@@ -833,20 +1087,20 @@ with tab2:
 
             if use_odds:
                 st.markdown("<br>", unsafe_allow_html=True)
-                st.markdown("<div style='font-size:10px;font-weight:700;color:#3d4d5e;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;'>Value vs odds inseridas</div>", unsafe_allow_html=True)
+                st.markdown("<div style='font-size:10px;font-weight:700;color:#666;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;'>Value vs odds inseridas</div>", unsafe_allow_html=True)
                 for outcome, odd, label in [("H", oh, home), ("D", od, "Empate"), ("A", oa, away)]:
                     prob  = outcomes[outcome]
                     value = prob * odd
                     edge  = (value - 1) * 100
                     is_value = value >= 1.05
-                    color = "#00e676" if is_value else "#3d4d5e"
+                    color = "#168821" if is_value else "#666"
                     st.markdown(f"""
                     <div style="display:flex;justify-content:space-between;align-items:center;
-                                background:#0a0f1e;border:1px solid {'rgba(0,230,118,0.2)' if is_value else '#1e2d45'};
-                                border-radius:8px;padding:12px 18px;margin-bottom:6px;">
-                      <span style="font-weight:600;font-size:14px;">{label}</span>
-                      <span class="mono" style="color:#7a8a9e;">odd {odd:.2f}</span>
-                      <span style="color:{color};font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;">
+                                background:#F5F5F5;border:1px solid {'rgba(22,136,33,0.3)' if is_value else '#E0E0E0'};
+                                border-radius:6px;padding:12px 18px;margin-bottom:6px;">
+                      <span style="font-weight:700;font-size:14px;color:#333;">{label}</span>
+                      <span class="mono" style="color:#666;">odd {odd:.2f}</span>
+                      <span style="color:{color};font-family:'General Sans',sans-serif;font-weight:700;font-size:14px;">
                         {value:.3f} <span style="font-size:11px;">({edge:+.1f}%)</span>
                       </span>
                     </div>
@@ -859,7 +1113,7 @@ with tab2:
 # TAB 3 — VALUE BETS
 # ══════════════════════════════════════════════════════════════════════════════
 with tab3:
-    st.markdown("<div class='section-title'>VALUE BETS — PRÓXIMA RODADA</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'>Value Bets — Próxima Rodada</div>", unsafe_allow_html=True)
 
     col_btn1, col_btn2, col_space = st.columns([1, 1, 4])
     with col_btn1:
@@ -939,50 +1193,50 @@ with tab3:
                 f'<span class="team-name">{away_team}</span>'
                 '</div>'
                 '</div>'
-                f'<span class="mono" style="color:#3d4d5e;font-size:11px;">{date_str} · {time_str} UTC</span>'
+                f'<span class="mono" style="color:#666666;font-size:11px;">{date_str} · {time_str} UTC</span>'
                 '</div>'
                 # ── Stats row
                 '<div style="display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-bottom:16px;">'
                 '<div class="info-pill">'
                 '<div class="label">Apostar</div>'
-                f'<div class="value" style="font-size:14px;font-family:Inter,sans-serif;font-weight:700;color:#f0f4f8;">{aposta}</div>'
+                f'<div class="value" style="font-size:14px;font-family:General Sans,sans-serif;font-weight:700;color:#333333;">{aposta}</div>'
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Odd Pinnacle</div>'
-                f'<div class="value" style="font-size:20px;">{odd_str}</div>'
+                f'<div class="value" style="font-size:20px;color:#333333;">{odd_str}</div>'
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Prob Modelo</div>'
-                f'<div class="value" style="color:#00e676;">{prob_m_str}</div>'
+                f'<div class="value" style="color:#168821;">{prob_m_str}</div>'
                 '</div>'
                 '<div class="info-pill">'
                 '<div class="label">Prob Mercado</div>'
-                f'<div class="value" style="color:#7a8a9e;">{prob_mkt_str}</div>'
+                f'<div class="value" style="color:#666666;">{prob_mkt_str}</div>'
                 '</div>'
                 '<div style="display:flex;flex-direction:column;justify-content:center;gap:8px;margin-left:auto;">'
                 f'<span class="edge-badge {badge_class}">EDGE +{edge_str}% {stars}</span>'
-                f'<span style="font-size:11px;color:#7a8a9e;font-family:JetBrains Mono,monospace;">'
-                f'Kelly: <b style="color:#f0f4f8;">{kelly_str}%</b></span>'
+                f'<span style="font-size:11px;color:#666666;font-family:General Sans,sans-serif;">'
+                f'Kelly: <b style="color:#333333;">{kelly_str}%</b></span>'
                 '</div>'
                 '</div>'
                 # ── Prob distribution
-                '<div style="border-top:1px solid #141f30;padding-top:12px;">'
-                '<div style="font-size:9px;font-weight:700;color:#3d4d5e;letter-spacing:1.5px;'
+                '<div style="border-top:1px solid var(--border-lo);padding-top:12px;">'
+                '<div style="font-size:9px;font-weight:700;color:#666666;letter-spacing:1.5px;'
                 'text-transform:uppercase;margin-bottom:8px;">Distribuição do Modelo</div>'
                 '<div style="display:flex;gap:8px;align-items:center;">'
-                '<span style="font-size:10px;color:#7a8a9e;width:28px;font-family:JetBrains Mono,monospace;">MAN</span>'
-                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{ph_w}%;background:#2979ff;"></div></div>'
-                f'<span class="mono" style="font-size:11px;width:36px;color:#7a8a9e;">{ph_str}</span>'
+                '<span style="font-size:10px;color:#666666;width:28px;font-family:General Sans,sans-serif;">MAN</span>'
+                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{ph_w}%;background:#1351B4;"></div></div>'
+                f'<span class="mono" style="font-size:11px;width:36px;color:#666666;">{ph_str}</span>'
                 '</div>'
                 '<div style="display:flex;gap:8px;align-items:center;margin-top:5px;">'
-                '<span style="font-size:10px;color:#7a8a9e;width:28px;font-family:JetBrains Mono,monospace;">EMP</span>'
-                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pd_w}%;background:#ffd600;"></div></div>'
-                f'<span class="mono" style="font-size:11px;width:36px;color:#7a8a9e;">{pd_str}</span>'
+                '<span style="font-size:10px;color:#666666;width:28px;font-family:General Sans,sans-serif;">EMP</span>'
+                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pd_w}%;background:#FFCD00;"></div></div>'
+                f'<span class="mono" style="font-size:11px;width:36px;color:#666666;">{pd_str}</span>'
                 '</div>'
                 '<div style="display:flex;gap:8px;align-items:center;margin-top:5px;">'
-                '<span style="font-size:10px;color:#7a8a9e;width:28px;font-family:JetBrains Mono,monospace;">VIS</span>'
-                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pa_w}%;background:#ff6d00;"></div></div>'
-                f'<span class="mono" style="font-size:11px;width:36px;color:#7a8a9e;">{pa_str}</span>'
+                '<span style="font-size:10px;color:#666666;width:28px;font-family:General Sans,sans-serif;">VIS</span>'
+                f'<div class="prob-bar-wrap" style="flex:1;"><div class="prob-bar" style="width:{pa_w}%;background:#168821;"></div></div>'
+                f'<span class="mono" style="font-size:11px;width:36px;color:#666666;">{pa_str}</span>'
                 '</div>'
                 '</div>'
                 '</div>'
@@ -1002,7 +1256,7 @@ with tab3:
 # TAB 4 — BACKTESTING
 # ══════════════════════════════════════════════════════════════════════════════
 with tab4:
-    st.markdown("<div class='section-title'>BACKTESTING — BRASILEIRÃO 2025/2026</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'>Backtesting — 2025/2026</div>", unsafe_allow_html=True)
 
     try:
         df_bt = pd.read_csv(BACKTESTING_PATH)
@@ -1029,41 +1283,41 @@ with tab4:
             fig = go.Figure()
             fig.add_trace(go.Scatter(
                 y=df_bt["bankroll_flat"], mode="lines",
-                name="Flat (2%)", line=dict(color="#4fc3f7", width=2)))
+                name="Flat (2%)", line=dict(color="#1351B4", width=2.5)))
             fig.add_trace(go.Scatter(
                 y=df_bt["bankroll_kelly"], mode="lines",
-                name="Kelly (25%)", line=dict(color="#00e676", width=2)))
+                name="Kelly (25%)", line=dict(color="#168821", width=2.5)))
             fig.add_hline(y=1000, line_dash="dash",
-                          line_color="#1e2d45", annotation_text="Bankroll inicial",
-                          annotation_font_color="#3d4d5e")
+                          line_color="#666666", annotation_text="Bankroll inicial",
+                          annotation_font_color="#333333")
             fig.update_layout(
-                paper_bgcolor="#020617", plot_bgcolor="#0d1526",
-                font=dict(color="#f0f4f8", family="Inter"),
-                title=dict(text="Evolução do Bankroll", font=dict(family="Bebas Neue", size=20, color="#f0f4f8")),
-                legend=dict(bgcolor="#0d1526", bordercolor="#1e2d45", font=dict(size=12)),
-                xaxis=dict(gridcolor="#141f30", color="#7a8a9e", showline=False),
-                yaxis=dict(gridcolor="#141f30", color="#7a8a9e", showline=False),
+                paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
+                font=dict(color="#333333", family="General Sans"),
+                title=dict(text="Evolução do Bankroll", font=dict(family="General Sans", size=22, color="#071D41")),
+                legend=dict(bgcolor="#F5F5F5", bordercolor="#E0E0E0", font=dict(size=12)),
+                xaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
+                yaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
                 height=360, margin=dict(l=0, r=0, t=44, b=0),
                 hovermode="x unified",
             )
             st.plotly_chart(fig, use_container_width=True)
 
             fig2 = go.Figure()
-            colors_pl = ["#00e676" if v >= 0 else "#ff1744" for v in bets["pl_flat"]]
+            colors_pl = ["#168821" if v >= 0 else "#E52E2E" for v in bets["pl_flat"]]
             fig2.add_trace(go.Bar(
                 y=bets["pl_flat"], marker_color=colors_pl,
-                name="P&L por aposta", opacity=0.75, marker_line_width=0))
+                name="P&L por aposta", opacity=0.8, marker_line_width=0))
             fig2.add_trace(go.Scatter(
                 y=bets["pl_flat"].cumsum(), mode="lines",
-                name="P&L acumulado", line=dict(color="#f0f4f8", width=2)))
-            fig2.add_hline(y=0, line_dash="dash", line_color="#1e2d45")
+                name="P&L acumulado", line=dict(color="#1351B4", width=2)))
+            fig2.add_hline(y=0, line_dash="dash", line_color="#666666")
             fig2.update_layout(
-                paper_bgcolor="#020617", plot_bgcolor="#0d1526",
-                font=dict(color="#f0f4f8", family="Inter"),
-                title=dict(text="P&L por Aposta (Flat)", font=dict(family="Bebas Neue", size=20, color="#f0f4f8")),
-                legend=dict(bgcolor="#0d1526", bordercolor="#1e2d45", font=dict(size=12)),
-                xaxis=dict(gridcolor="#141f30", color="#7a8a9e", showline=False),
-                yaxis=dict(gridcolor="#141f30", color="#7a8a9e", showline=False),
+                paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
+                font=dict(color="#333333", family="General Sans"),
+                title=dict(text="P&L por Aposta (Flat)", font=dict(family="General Sans", size=22, color="#071D41")),
+                legend=dict(bgcolor="#F5F5F5", bordercolor="#E0E0E0", font=dict(size=12)),
+                xaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
+                yaxis=dict(gridcolor="#EEEEEE", color="#666666", showline=False),
                 height=300, margin=dict(l=0, r=0, t=44, b=0),
                 hovermode="x unified",
             )
@@ -1088,7 +1342,7 @@ with tab4:
 # TAB 5 — VALOR DE MERCADO
 # ══════════════════════════════════════════════════════════════════════════════
 with tab5:
-    st.markdown("<div class='section-title'>VALOR DE MERCADO — BRASILEIRÃO 2026</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'>Valor de Mercado — 2026</div>", unsafe_allow_html=True)
     df_mv = load_market()
 
     if df_mv.empty:
@@ -1109,51 +1363,51 @@ with tab5:
         fig = px.bar(
             df_mv.head(20), x="market_value", y="team",
             orientation="h", color="market_value",
-            color_continuous_scale=["#0d1526", "#2979ff", "#00e676"],
+            color_continuous_scale=["#E0E0E0", "#1351B4", "#071D41"],
             labels={"market_value": "Valor (€M)", "team": ""},
         )
         fig.update_layout(
-            paper_bgcolor="#020617", plot_bgcolor="#0d1526",
-            font=dict(color="#f0f4f8", family="Inter"),
+            paper_bgcolor="#FFFFFF", plot_bgcolor="#F5F5F5",
+            font=dict(color="#333333", family="General Sans"),
             coloraxis_showscale=False,
-            yaxis=dict(autorange="reversed", color="#7a8a9e", gridcolor="#141f30"),
-            xaxis=dict(color="#7a8a9e", gridcolor="#141f30"),
+            yaxis=dict(autorange="reversed", color="#666666", gridcolor="#EEEEEE"),
+            xaxis=dict(color="#666666", gridcolor="#EEEEEE"),
             height=520, margin=dict(l=0, r=0, t=20, b=0),
         )
         fig.update_traces(marker_line_width=0)
         st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown("<div style='font-family:Bebas Neue,sans-serif;font-size:18px;letter-spacing:2px;color:#7a8a9e;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-family:General Sans,sans-serif;font-weight:700;font-size:20px;letter-spacing:2px;color:#666666;margin:8px 0 12px 0;'>RANKING DETALHADO</div>", unsafe_allow_html=True)
         max_val = df_mv["market_value"].max()
 
         for rank_i, (_, mv_row) in enumerate(df_mv.iterrows(), start=1):
             logo_h    = team_logo_html(mv_row["team"], size=26)
             bar_w     = int(mv_row["market_value"] / max_val * 100)
-            bar_color = "#2979ff" if rank_i <= 6 else "#ffd600" if rank_i <= 12 else "#3d4d5e"
+            bar_color = "#1351B4" if rank_i <= 6 else "#1A5FCC" if rank_i <= 12 else "#071D41"
 
             st.markdown(
                 f"<div style='display:flex;align-items:center;padding:10px 16px;"
-                f"background:#0d1526;border:1px solid #141f30;border-radius:10px;"
-                f"margin-bottom:3px;gap:10px;transition:all 0.15s;'>"
-                f"<span style='font-family:Bebas Neue,sans-serif;font-size:15px;color:#3d4d5e;"
+                f"background:var(--card);border:1px solid var(--border-lo);border-radius:10px;"
+                f"margin-bottom:4px;gap:10px;transition:all 0.15s;'>"
+                f"<span style='font-family:General Sans,sans-serif;font-weight:700;font-size:16px;color:#1351B4;"
                 f"width:24px;text-align:center;flex-shrink:0;'>{rank_i}</span>"
                 + logo_h +
-                f"<span style='flex:1;font-weight:600;font-size:14px;'>{mv_row['team']}</span>"
+                f"<span style='flex:1;font-weight:600;font-size:14px;color:#333333;'>{mv_row['team']}</span>"
                 f"<div style='width:160px;'>"
-                f"<div style='background:#141f30;border-radius:3px;height:4px;overflow:hidden;'>"
-                f"<div style='width:{bar_w}%;height:100%;background:{bar_color};border-radius:3px;'></div>"
+                f"<div style='background:var(--border-lo);border-radius:4px;height:5px;overflow:hidden;'>"
+                f"<div style='width:{bar_w}%;height:100%;background:{bar_color};border-radius:4px;'></div>"
                 f"</div>"
                 f"</div>"
-                f"<span style='font-family:JetBrains Mono,monospace;font-size:13px;font-weight:600;"
-                f"color:#f0f4f8;width:72px;text-align:right;'>€{mv_row['market_value']:.1f}M</span>"
+                f"<span style='font-family:General Sans,sans-serif;font-size:13px;font-weight:600;"
+                f"color:#333333;width:72px;text-align:right;'>€{mv_row['market_value']:.1f}M</span>"
                 f"<span style='display:flex;align-items:center;justify-content:flex-end;gap:4px;"
-                f"width:52px;color:#3d4d5e;'>"
+                f"width:52px;color:#666666;'>"
                 f"<svg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' "
-                f"stroke='#3d4d5e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'>"
+                f"stroke='#666666' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'>"
                 f"<circle cx='12' cy='8' r='4'/>"
                 f"<path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/>"
                 f"</svg>"
-                f"<span style='font-family:JetBrains Mono,monospace;font-size:11px;'>"
+                f"<span style='font-family:General Sans,sans-serif;font-size:11px;color:#666666;'>"
                 f"{int(mv_row.get('squad_size', 0))}</span>"
                 f"</span>"
                 f"</div>",
@@ -1163,19 +1417,20 @@ with tab5:
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
-<div style="text-align:center;padding:24px 0;
-            border-top:1px solid #141f30;">
-  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#3d4d5e;
-              letter-spacing:1px;">
-    © 2026 PREDICTOR
-    <span style="margin:0 10px;color:#1e2d45;">·</span>
-    Todos os direitos reservados
-    <span style="margin:0 10px;color:#1e2d45;">·</span>
-    Desenvolvido por <span style="color:#7a8a9e;">Nycolas F. Oliveira</span>
-  </div>
-  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#1e2d45;
-              margin-top:6px;letter-spacing:1px;">
-    LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
+<div class="cbf-footer">
+  <div style="text-align:center;">
+    <div style="font-family:'General Sans',sans-serif;font-size:11px;color:#FFFFFF;
+                letter-spacing:1px;">
+      © 2026 PREDICTOR
+      <span style="margin:0 10px;color:rgba(255,255,255,0.3);">·</span>
+      Todos os direitos reservados
+      <span style="margin:0 10px;color:rgba(255,255,255,0.3);">·</span>
+      Desenvolvido por <span style="color:var(--cbf-yellow);font-weight:700;">Nycolas F. Oliveira</span>
+    </div>
+    <div style="font-family:'General Sans',sans-serif;font-size:9px;color:rgba(255,255,255,0.7);
+                margin-top:6px;letter-spacing:1px;">
+      LightGBM · Acurácia 55.96% · Monte Carlo 10.000 simulações
+    </div>
   </div>
 </div>
 """, unsafe_allow_html=True)
