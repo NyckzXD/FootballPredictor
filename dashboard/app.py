@@ -1036,7 +1036,6 @@ with tab2:
         with oc3: oa = st.number_input("Odd Visitante",min_value=1.01, value=3.50, step=0.05)
         use_odds = st.checkbox("Usar odds na predição", value=False)
 
-aisdnbaiusdbnISADNioasdnoa  
     if st.button("PREVER PARTIDA", use_container_width=True):
         result = predict_match(
             home, away, features_df, model_data,
