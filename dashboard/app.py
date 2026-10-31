@@ -9,7 +9,10 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-BASE          = r"C:\PREDICTOR\REPO"
+# BASE é a raiz do repositório (pasta que contém dashboard/, modelos/, scraping/).
+# Derivado do local deste arquivo para funcionar tanto localmente quanto no deploy
+# (ex.: Streamlit Cloud em /mount/src/<repo>/).
+BASE          = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRAPING      = os.path.join(BASE, "scraping")
 DATA_RAW      = os.path.join(SCRAPING, "data", "raw")
 DATA_PROC     = os.path.join(SCRAPING, "data", "processed")
